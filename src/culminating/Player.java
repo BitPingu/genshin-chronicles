@@ -55,11 +55,11 @@ public class Player extends Character {
         for (int i=0; i<5; i++) {
             world.add(new ArrayList<>());
             for (int j=0; j<5; j++) {
-                world.get(i).add("\uD83D\uDFE9");
+                world.get(i).add("Grass");
             }
         }
-        world.get(0).set(2, "\uD83E\uDDDA");
-        world.get(0).set(3, "\uD83D\uDC79");
+        world.get(0).set(2, "Fairy");
+        world.get(0).set(3, "Ogre");
         row = 2;
         column = 2;
     }
@@ -70,15 +70,18 @@ public class Player extends Character {
      **************************/
     public String navigate() {
 
+        Random random = new Random();
+
         //Variables in navigate
         String currentPosition;
         char movement;
+        int spawn;
 
         while (true) {
 
             //Get current tile of player location, replace it with player
             currentPosition = world.get(row).get(column);
-            world.get(row).set(column, "\uD83E\uDDDD");
+            world.get(row).set(column, "Player");
 
             //Print map
             for (int i = row - 2; i < row + 3; i++) {
@@ -162,8 +165,8 @@ public class Player extends Character {
                         yPos--;
                     }
                     System.out.println("Where are you going? You can't leave the person!");
-                } else if (world.get(row).get(column).contains("\uD83E\uDDDA") ||
-                        world.get(row).get(column).contains("\uD83D\uDC79")) {
+                } else if (world.get(row).get(column).contains("Fairy") ||
+                        world.get(row).get(column).contains("Ogre")) {
                     break;
                 }
 
@@ -171,11 +174,19 @@ public class Player extends Character {
 
             //Initiate event depending on player position
             switch (world.get(row).get(column)) {
-                case "\uD83C\uDFDB":
+                case "Dungeon":
                     return "Dungeon";
 
-                case "\uD83C\uDFD8":
+                case "Village":
                     return "Village";
+            }
+
+            //Spawn characters
+            if (!tutorial) {
+                spawn = random.nextInt(2);
+                if (spawn == 0) {
+                    spawn();
+                }
             }
 
         }
@@ -201,16 +212,167 @@ public class Player extends Character {
 
         if (randGen <= 90) {
             //Tree
-            chunk = "\uD83C\uDF33";
+            chunk = "Tree";
         } else if (randGen <= 99) {
             //Dungeon
-            chunk = "\uD83C\uDFDB";
+            chunk = "Dungeon";
         } else {
             //Village
-            chunk = "\uD83C\uDFD8";
+            chunk = "Village";
         }
 
         return chunk;
+
+    }
+
+    public void spawn() {
+
+        Random entity = new Random();
+
+        int random, enemyRow = 0, enemyColumn = 0;
+        String enemy;
+
+        //Determine random entity
+        random = entity.nextInt(100)+1;
+
+        if (random <= 30) {
+            //Zombie
+            enemy = "Zombie";
+        } else if (random <= 40) {
+            //Goblin
+            enemy = "Goblin";
+        } else if (random <= 50) {
+            //Ogre
+            enemy = "Ogre";
+        } else if (random <= 60) {
+            //Ghost
+            enemy = "Ghost";
+        } else if (random <= 70) {
+            //Alien
+            enemy = "Alien";
+        } else if (random <= 80) {
+            //Octopus
+            enemy = "Octopus";
+        } else if (random <= 90) {
+            //Skeleton
+            enemy = "Skeleton";
+        } else {
+            //Boss
+            enemy = "Boss";
+        }
+
+        //Determine random spawn coordinates
+        random = entity.nextInt(24)+1;
+
+        switch (random) {
+            case 1:
+                enemyRow = row - 2;
+                enemyColumn = column - 2;
+                break;
+            case 2:
+                enemyRow = row - 2;
+                enemyColumn = column - 1;
+                break;
+            case 3:
+                enemyRow = row - 2;
+                enemyColumn = column;
+                break;
+            case 4:
+                enemyRow = row - 2;
+                enemyColumn = column + 1;
+                break;
+            case 5:
+                enemyRow = row - 2;
+                enemyColumn = column + 2;
+                break;
+            case 6:
+                enemyRow = row - 1;
+                enemyColumn = column - 2;
+                break;
+            case 7:
+                enemyRow = row - 1;
+                enemyColumn = column - 1;
+                break;
+            case 8:
+                enemyRow = row - 1;
+                enemyColumn = column;
+                break;
+            case 9:
+                enemyRow = row - 1;
+                enemyColumn = column + 1;
+                break;
+            case 10:
+                enemyRow = row - 1;
+                enemyColumn = column + 2;
+                break;
+            case 11:
+                enemyRow = row;
+                enemyColumn = column - 2;
+                break;
+            case 12:
+                enemyRow = row;
+                enemyColumn = column - 1;
+                break;
+            case 13:
+                enemyRow = row;
+                enemyColumn = column + 1;
+                break;
+            case 14:
+                enemyRow = row;
+                enemyColumn = column + 2;
+                break;
+            case 15:
+                enemyRow = row + 1;
+                enemyColumn = column - 2;
+                break;
+            case 16:
+                enemyRow = row + 1;
+                enemyColumn = column - 1;
+                break;
+            case 17:
+                enemyRow = row + 1;
+                enemyColumn = column;
+                break;
+            case 18:
+                enemyRow = row + 1;
+                enemyColumn = column + 1;
+                break;
+            case 19:
+                enemyRow = row + 1;
+                enemyColumn = column + 2;
+                break;
+            case 20:
+                enemyRow = row + 2;
+                enemyColumn = column - 2;
+                break;
+            case 21:
+                enemyRow = row + 2;
+                enemyColumn = column - 1;
+                break;
+            case 22:
+                enemyRow = row + 2;
+                enemyColumn = column;
+                break;
+            case 23:
+                enemyRow = row + 2;
+                enemyColumn = column + 1;
+                break;
+            case 24:
+                enemyRow = row + 2;
+                enemyColumn = column + 2;
+                break;
+        }
+
+
+        //Get current tile of enemy location, replace it with enemy
+        //currentPosition = world.get(row).get(column);
+        world.get(enemyRow).set(enemyColumn, enemy);
+
+        /*
+        //Replace enemy position with original tile
+        world.get(row).set(column, currentPosition);
+         */
+
 
     }
 
