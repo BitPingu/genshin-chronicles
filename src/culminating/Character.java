@@ -70,8 +70,8 @@ public class Character {
         tutorial = t;
     }
 
-    public void navigate() {
-
+    public String navigate() {
+        return null;
     }
 
 }
