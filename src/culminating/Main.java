@@ -23,6 +23,8 @@ public class Main {
         Thread.sleep(1000);
         System.out.println("???: Someone please help me!");
         Thread.sleep(1000);
+        System.out.println("(Press the asdw keys to move)");
+        Thread.sleep(1000);
         player.navigate();
         //***insert fight method here***
         player.setTutorial(false);
@@ -40,6 +42,7 @@ public class Main {
 
         System.out.println("! I shall call you " + "!");
         Thread.sleep(1000);
+        System.out.println("Here is a map...");
         //Robin introduces the player to the world, and the goal of the game
 
         while (true) {

@@ -11,7 +11,7 @@ public class Player extends Character {
     private ArrayList<ArrayList<String>> inventory;
 
     private int row, column, xPos, yPos, money;
-    private boolean controls, tutorial;
+    private boolean tutorial;
 
     //Constructor
     public Player() {
@@ -68,7 +68,7 @@ public class Player extends Character {
      * Method Name: navigate
      * Method Description: Allows the player to explore the world using the asdw keys.
      **************************/
-    public String navigate() {
+    public String navigate() throws InterruptedException {
 
         Random random = new Random();
 
@@ -83,18 +83,13 @@ public class Player extends Character {
             currentPosition = world.get(row).get(column);
             world.get(row).set(column, "Player");
 
-            //Print map
-            for (int i = row - 2; i < row + 3; i++) {
+            //Print player's field of vision
+            System.out.println();
+            for (int i = row-2; i<row + 3; i++) {
                 for (int j = column - 2; j < column + 3; j++) {
                     System.out.print(world.get(i).get(j) + "\t");
                 }
                 System.out.println();
-            }
-
-            //Print controls (only once)
-            if (!controls) {
-                System.out.println("(Press the asdw keys to move)");
-                controls = true;
             }
 
             //Movement user input
@@ -122,6 +117,14 @@ public class Player extends Character {
                     row--;
                     yPos++;
                     break;
+                case 'm':
+                    if (!tutorial) {
+                        //Use map
+                        world.get(row).set(column, "Player");
+                        map();
+                        world.get(row).set(column, currentPosition);
+                        break;
+                    }
             }
 
             //Generate world as player moves
@@ -165,6 +168,7 @@ public class Player extends Character {
                         yPos--;
                     }
                     System.out.println("Where are you going? You can't leave the person!");
+                    Thread.sleep(1000);
                 } else if (world.get(row).get(column).contains("Fairy") ||
                         world.get(row).get(column).contains("Ogre")) {
                     break;
@@ -549,6 +553,27 @@ public class Player extends Character {
 
         System.out.println("You encountered a " + "!");
         System.out.println("What will " + " do?");
+
+    }
+
+    /*************************
+     * Method Name: map
+     * Method Description: Display the entire world that has been explored
+     **************************/
+    public void map() {
+
+        char prompt;
+
+        //Print map
+        for (int i=0; i<world.size(); i++) {
+            for (int j=0; j<world.get(i).size(); j++) {
+                System.out.print(world.get(i).get(j) + "\t");
+            }
+            System.out.println();
+        }
+
+        System.out.println("Type 'm' to exit.");
+        prompt = keyInput.nextLine().charAt(0);
 
     }
 

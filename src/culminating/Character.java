@@ -70,7 +70,7 @@ public class Character {
         tutorial = t;
     }
 
-    public String navigate() {
+    public String navigate() throws InterruptedException {
         return null;
     }
 
