@@ -15,7 +15,7 @@ public class Culminating {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //Declaring local Variables
+        System.out.println("Joey smells");
     }
     
 }
