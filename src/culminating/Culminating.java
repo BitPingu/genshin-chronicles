@@ -1,7 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Program: Culminating
+ * Name: Jose Jesus II Abejo, Gavin (insert last name)
+ * Date: November 2nd, 2020
+ * Description: This is the final show down (do do do doooo)
  */
 package culminating;
 
