@@ -17,6 +17,9 @@ public class Culminating {
      */
     public static void main(String[] args) {
         //Declaring local Variables
+        int despacito = 0;
+        System.out.println(despacito);
+        
     }
     
 }
