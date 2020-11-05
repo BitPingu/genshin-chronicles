@@ -5,6 +5,7 @@ public class Character {
     //Fields
     protected int health, strength, defense, speed;
     protected String weapon, armor;
+    protected boolean tutorial;
 
     //Constructor
     public Character() {
@@ -36,6 +37,10 @@ public class Character {
         return armor;
     }
 
+    public boolean isTutorial() {
+        return tutorial;
+    }
+
     //Mutators
     public void setHealth(int h) {
         health = h;
@@ -61,7 +66,11 @@ public class Character {
         armor = a;
     }
 
-    public void navigate(int x, int y) {
+    public void setTutorial(boolean t) {
+        tutorial = t;
+    }
+
+    public void navigate() {
 
     }
 

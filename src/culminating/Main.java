@@ -14,77 +14,35 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static Scanner keyInput = new Scanner(System.in);
+    public static void main(String[] args) throws InterruptedException {
 
-    public static void main(String[] args) {
+        Character player = new Player();
 
-        ArrayList<ArrayList<String>> world = new ArrayList<>();
+        //Start of the game - waking up and saving person
+        System.out.println("You wake up on a grassy field to the sound of someone screaming.");
+        Thread.sleep(1000);
+        System.out.println("???: Someone please help me!");
+        Thread.sleep(1000);
+        player.navigate();
+        //***insert fight method here***
+        player.setTutorial(false);
 
-        for (int i=0; i<5; i++) {
-            world.add(new ArrayList<>());
-            for (int j=0; j<5; j++) {
-                world.get(i).add("Joey");
-            }
-        }
+        //First battle - no equipment only fists
+        System.out.println("???: Wait you know how to fight?");
+        Thread.sleep(1000);
+        System.out.println("???: Ok! I'm a healer, so I can help you when you're injured.");
+        Thread.sleep(1000);
 
-        int row = 2, column = 2;
-        String currentPosition;
+        //After first battle - meeting the waifu and setting the name
+        System.out.println("???: Thanks for saving me! My name is Robin. What is yours?");
+        Thread.sleep(1000);
+        System.out.println("???: What?! You don't remember your name? Then I should call you...");
 
-        while (true) {
+        System.out.println("! I shall call you " + "!");
+        Thread.sleep(1000);
+        //Robin introduces the player to the world, and the goal of the game
 
-            currentPosition = world.get(row).get(column);
-            world.get(row).set(column, "Player");
-
-            for (int i=row-2; i<row+3; i++) {
-                for (int j=column-2; j<column+3; j++) {
-                    System.out.print(world.get(i).get(j) + "\t");
-                }
-                System.out.println();
-            }
-
-            System.out.print("Movement: ");
-            String movement = keyInput.nextLine();
-
-            world.get(row).set(column, currentPosition);
-
-            switch (movement) {
-                case "a":
-                    column -= 1;
-                    break;
-                case "s":
-                    row += 1;
-                    break;
-                case "d":
-                    column += 1;
-                    break;
-                case "w":
-                    row -= 1;
-                    break;
-            }
-
-            if (column-1 == 0) {
-                column++;
-                for (int j=0; j<world.size(); j++) {
-                    world.get(j).add(0,"Grass");
-                }
-            } else if (row+2 == world.size()) {
-                world.add(new ArrayList<>());
-                for (int j=0; j<world.get(row).size(); j++) {
-                    world.get(row+2).add("Grass");
-                }
-            } else if (column+2 == world.get(row).size()) {
-                for (int j=0; j<world.size(); j++) {
-                    world.get(j).add("Grass");
-                }
-            } else if (row-1 == 0){
-                row++;
-                world.add(0, new ArrayList<>());
-                for (int j=0; j<world.get(row).size(); j++) {
-                    world.get(row-2).add("Grass");
-                }
-            }
-
-        }
+        player.navigate();
         
     }
     
