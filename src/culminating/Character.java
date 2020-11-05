@@ -74,4 +74,8 @@ public class Character {
         return null;
     }
 
+    public void addInventory(String item) {
+
+    }
+
 }

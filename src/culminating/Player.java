@@ -8,7 +8,7 @@ public class Player extends Character {
 
     private final Scanner keyInput = new Scanner(System.in);
     private final ArrayList<ArrayList<String>> world = new ArrayList<>();
-    private ArrayList<ArrayList<String>> inventory;
+    private final ArrayList<ArrayList<String>> inventory = new ArrayList<>();
 
     private int row, column, xPos, yPos, money;
     private boolean tutorial;
@@ -85,11 +85,11 @@ public class Player extends Character {
 
             //Print player's field of vision
             System.out.println();
-            for (int i = row-2; i<row + 3; i++) {
+            for (int i=row-2; i<row + 3; i++) {
                 for (int j = column - 2; j < column + 3; j++) {
-                    System.out.print(world.get(i).get(j) + "\t");
+                    System.out.print(world.get(i).get(j) + "\t\t");
                 }
-                System.out.println();
+                System.out.println("\n");
             }
 
             //Movement user input
@@ -117,6 +117,12 @@ public class Player extends Character {
                     row--;
                     yPos++;
                     break;
+                case 'i':
+                    if (!tutorial) {
+                        //Use inventory
+                        checkInventory();
+                    }
+                    break;
                 case 'm':
                     if (!tutorial) {
                         //Use map
@@ -130,22 +136,22 @@ public class Player extends Character {
             //Generate world as player moves
             if (column - 1 == 0) {
                 column++;
-                for (int j = 0; j < world.size(); j++) {
+                for (int j=0; j<world.size(); j++) {
                     world.get(j).add(0, chunk());
                 }
-            } else if (row + 2 == world.size()) {
+            } else if (row + 1 == world.size()-1) {
                 world.add(new ArrayList<>());
-                for (int j = 0; j < world.get(row).size(); j++) {
+                for (int j=0; j<world.get(row).size(); j++) {
                     world.get(row + 2).add(chunk());
                 }
-            } else if (column + 2 == world.get(row).size()) {
-                for (int j = 0; j < world.size(); j++) {
+            } else if (column + 1 == world.get(row).size()-1) {
+                for (int j=0; j<world.size(); j++) {
                     world.get(j).add(chunk());
                 }
             } else if (row - 1 == 0) {
                 row++;
                 world.add(0, new ArrayList<>());
-                for (int j = 0; j < world.get(row).size(); j++) {
+                for (int j=0; j<world.get(row).size(); j++) {
                     world.get(row - 2).add(chunk());
                 }
             }
@@ -171,7 +177,7 @@ public class Player extends Character {
                     Thread.sleep(1000);
                 } else if (world.get(row).get(column).contains("Fairy") ||
                         world.get(row).get(column).contains("Ogre")) {
-                    break;
+                    return null;
                 }
 
             }
@@ -186,10 +192,58 @@ public class Player extends Character {
 
                 case "Zombie":
                     return "Zombie";
+
+                case "Wood":
+                    System.out.println("You collected some wood.");
+                    Thread.sleep(1000);
+                    addInventory("Wood");
+                    break;
+
+                case "Stone":
+                    System.out.println("You collected some stone.");
+                    Thread.sleep(1000);
+                    addInventory("Stone");
+                    break;
+
+                case "Apple":
+                    System.out.println("You collected some apples.");
+                    Thread.sleep(1000);
+                    addInventory("Apple");
+                    break;
+
+                case "Ore":
+                    System.out.println("You collected some ore.");
+                    Thread.sleep(1000);
+                    addInventory("Ore");
+                    break;
+
+                case "Mushroom":
+                    System.out.println("You collected some mushrooms.");
+                    Thread.sleep(1000);
+                    addInventory("Mushroom");
+                    break;
+
+                case "Critter":
+                    System.out.println("You caught some critters.");
+                    Thread.sleep(1000);
+                    addInventory("Critter");
+                    break;
+
+                case "Berries":
+                    System.out.println("You collected some berries.");
+                    Thread.sleep(1000);
+                    addInventory("Berries");
+                    break;
+
+                case "Chest":
+                    System.out.println("You opened a chest.");
+                    Thread.sleep(1000);
+                    break;
+
             }
 
-            //Spawn enemies and/or items
-            if (!tutorial) {
+            //Spawn enemies and/or items when moving
+            if (!tutorial && (movement == 'a' || movement == 's' || movement == 'd' || movement == 'w')) {
                 spawn = random.nextInt(2);
                 if (spawn == 0) {
                     spawnEnemy();
@@ -201,8 +255,6 @@ public class Player extends Character {
             }
 
         }
-
-        return null;
 
     }
 
@@ -567,13 +619,53 @@ public class Player extends Character {
         //Print map
         for (int i=0; i<world.size(); i++) {
             for (int j=0; j<world.get(i).size(); j++) {
-                System.out.print(world.get(i).get(j) + "\t");
+                System.out.print(world.get(i).get(j) + "\t\t");
             }
-            System.out.println();
+            System.out.println("\n");
         }
 
         System.out.println("Type 'm' to exit.");
         prompt = keyInput.nextLine().charAt(0);
+
+    }
+
+    /*************************
+     * Method Name: checkInventory
+     * Method Description: Display the player's inventory
+     **************************/
+    public void checkInventory() {
+
+        char prompt;
+
+        //Print inventory
+        for (int i=0; i<inventory.size(); i++) {
+            System.out.println(inventory.get(i).get(0) + ": " + inventory.get(i).size());
+        }
+
+        System.out.println("Type 'i' to exit.");
+        prompt = keyInput.nextLine().charAt(0);
+
+    }
+
+    /*************************
+     * Method Name: inventory
+     * Method Description: Adds a new item to the player's inventory
+     **************************/
+    public void addInventory(String item) {
+
+        boolean newItem = true;
+
+        for (int i=0; i<inventory.size(); i++) {
+            if (inventory.get(i).contains(item)) {
+                inventory.get(i).add(item);
+                newItem = false;
+            }
+        }
+
+        if (newItem) {
+            inventory.add(new ArrayList<>());
+            inventory.get(inventory.size()-1).add(item);
+        }
 
     }
 
