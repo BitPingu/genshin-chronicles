@@ -2,6 +2,8 @@ package culminating;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
 
 /***********************************************
  * Project: The Legend of Genshin: Beginning of the World
@@ -10,10 +12,10 @@ import java.util.Scanner;
  * Date: November 3, 2020
  * Description: An open world rpg game, inspired by: The Legend of Zelda:
  * Breath of the Wild, Genshin Impact, Xenoblade Chronicles, and Minecraft.
+ * The final count down (do do do doooo)
  **********************************************/
-
-public class Main {
-
+public class Main{
+    
     public static Scanner keyInput = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -29,6 +31,7 @@ public class Main {
 
         int row = 2, column = 2;
         String currentPosition;
+        
 
         while (true) {
 
@@ -86,6 +89,7 @@ public class Main {
 
         }
         
-    }
-    
-}
+    }//end of main
+}//end of class
+
+
