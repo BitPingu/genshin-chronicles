@@ -56,6 +56,10 @@ public class Main {
                     village();
                     break;
 
+                case "Zombie":
+                    //Go fight Zombie
+                    break;
+
             }
 
         }

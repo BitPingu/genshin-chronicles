@@ -179,13 +179,20 @@ public class Player extends Character {
 
                 case "Village":
                     return "Village";
+
+                case "Zombie":
+                    return "Zombie";
             }
 
-            //Spawn characters
+            //Spawn enemies and/or items
             if (!tutorial) {
                 spawn = random.nextInt(2);
                 if (spawn == 0) {
-                    spawn();
+                    spawnEnemy();
+                }
+                spawn = random.nextInt(2);
+                if (spawn == 0) {
+                    spawnItem();
                 }
             }
 
@@ -225,14 +232,18 @@ public class Player extends Character {
 
     }
 
-    public void spawn() {
+    /*************************
+     * Method Name: spawnEnemy
+     * Method Description: Spawns a random enemy in the player's field of vision
+     **************************/
+    public void spawnEnemy() {
 
         Random entity = new Random();
 
         int random, enemyRow = 0, enemyColumn = 0;
         String enemy;
 
-        //Determine random entity
+        //Determine random enemy
         random = entity.nextInt(100)+1;
 
         if (random <= 30) {
@@ -373,6 +384,171 @@ public class Player extends Character {
         world.get(row).set(column, currentPosition);
          */
 
+    }
+
+    /*************************
+     * Method Name: spawnItem
+     * Method Description: Spawns a random item in the player's field of vision (and if lucky a chest)
+     **************************/
+    public void spawnItem() {
+
+        Random entity = new Random();
+
+        int random, itemRow = 0, itemColumn = 0;
+        String item;
+
+        //Determine random enemy
+        random = entity.nextInt(100)+1;
+
+        if (random <= 30) {
+            //Wood
+            item = "Wood";
+        } else if (random <= 40) {
+            //Stone
+            item = "Stone";
+        } else if (random <= 50) {
+            //Apple
+            item = "Apple";
+        } else if (random <= 60) {
+            //Ore
+            item = "Ore";
+        } else if (random <= 70) {
+            //Mushroom
+            item = "Mushroom";
+        } else if (random <= 80) {
+            //Critter
+            item = "Critter";
+        } else if (random <= 90) {
+            //Berries
+            item = "Berries";
+        } else {
+            //Chest
+            item = "Chest";
+        }
+
+        //Determine random spawn coordinates
+        random = entity.nextInt(24)+1;
+
+        switch (random) {
+            case 1:
+                itemRow = row - 2;
+                itemColumn = column - 2;
+                break;
+            case 2:
+                itemRow = row - 2;
+                itemColumn = column - 1;
+                break;
+            case 3:
+                itemRow = row - 2;
+                itemColumn = column;
+                break;
+            case 4:
+                itemRow = row - 2;
+                itemColumn = column + 1;
+                break;
+            case 5:
+                itemRow = row - 2;
+                itemColumn = column + 2;
+                break;
+            case 6:
+                itemRow = row - 1;
+                itemColumn = column - 2;
+                break;
+            case 7:
+                itemRow = row - 1;
+                itemColumn = column - 1;
+                break;
+            case 8:
+                itemRow = row - 1;
+                itemColumn = column;
+                break;
+            case 9:
+                itemRow = row - 1;
+                itemColumn = column + 1;
+                break;
+            case 10:
+                itemRow = row - 1;
+                itemColumn = column + 2;
+                break;
+            case 11:
+                itemRow = row;
+                itemColumn = column - 2;
+                break;
+            case 12:
+                itemRow = row;
+                itemColumn = column - 1;
+                break;
+            case 13:
+                itemRow = row;
+                itemColumn = column + 1;
+                break;
+            case 14:
+                itemRow = row;
+                itemColumn = column + 2;
+                break;
+            case 15:
+                itemRow = row + 1;
+                itemColumn = column - 2;
+                break;
+            case 16:
+                itemRow = row + 1;
+                itemColumn = column - 1;
+                break;
+            case 17:
+                itemRow = row + 1;
+                itemColumn = column;
+                break;
+            case 18:
+                itemRow = row + 1;
+                itemColumn = column + 1;
+                break;
+            case 19:
+                itemRow = row + 1;
+                itemColumn = column + 2;
+                break;
+            case 20:
+                itemRow = row + 2;
+                itemColumn = column - 2;
+                break;
+            case 21:
+                itemRow = row + 2;
+                itemColumn = column - 1;
+                break;
+            case 22:
+                itemRow = row + 2;
+                itemColumn = column;
+                break;
+            case 23:
+                itemRow = row + 2;
+                itemColumn = column + 1;
+                break;
+            case 24:
+                itemRow = row + 2;
+                itemColumn = column + 2;
+                break;
+        }
+
+
+        //Get current tile of enemy location, replace it with enemy
+        //currentPosition = world.get(row).get(column);
+        world.get(itemRow).set(itemColumn, item);
+
+        /*
+        //Replace enemy position with original tile
+        world.get(row).set(column, currentPosition);
+         */
+
+    }
+
+
+    /*************************
+     * Method Name: fight
+     * Method Description: Invoked when player initiates an enemy
+     **************************/
+    public void fight() {
+
+        System.out.println("You encountered a " + "!");
+        System.out.println("What will " + " do?");
 
     }
 
