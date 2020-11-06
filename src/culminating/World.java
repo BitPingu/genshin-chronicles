@@ -15,13 +15,21 @@ public class World {
 
     //Mutators
 
-    public void load() {
+    /*************************
+     * Method Name: initWorld
+     * Method Description: Initializes the world through a 5x5 grid and sets player starting position.
+     **************************/
+    public void initWorld() {
         for (int i=0; i<5; i++) {
-            worldGen.add(new ArrayList<>());
+            world.add(new ArrayList<>());
             for (int j=0; j<5; j++) {
-                worldGen.get(i).add("Joey");
+                world.get(i).add("Grass");
             }
         }
+        world.get(0).set(2, "Fairy");
+        world.get(0).set(3, "Ogre");
+        row = 2;
+        column = 2;
     }
 
 }

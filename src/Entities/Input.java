@@ -1,11 +1,9 @@
-package culminating;
+package Entities;
 
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
-/**
- *
- * @author joey_
- */
+
+
 public class Input implements KeyListener
 {
     private boolean[] pressed;

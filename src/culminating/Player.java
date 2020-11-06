@@ -75,7 +75,7 @@ public class Player extends Character {
 
         //Variables in navigate
         String currentPosition;
-        char movement;
+        String movement;
         int spawn;
 
         while (true) {
@@ -96,35 +96,35 @@ public class Player extends Character {
             //Movement user input
             System.out.println(xPos + " " + yPos);
             System.out.print("Movement: ");
-            movement = keyInput.nextLine().charAt(0);
+            movement = keyInput.nextLine().toLowerCase();
 
             //Replace player position with original tile
             world.get(row).set(column, currentPosition);
 
             switch (movement) {
-                case 'a':
+                case "a":
                     column--;
                     xPos--;
                     break;
-                case 's':
+                case "s":
                     row++;
                     yPos--;
                     break;
-                case 'd':
+                case "d":
                     column++;
                     xPos++;
                     break;
-                case 'w':
+                case "w":
                     row--;
                     yPos++;
                     break;
-                case 'i':
+                case "i":
                     if (!tutorial) {
                         //Use inventory
                         checkInventory();
                     }
                     break;
-                case 'm':
+                case "m":
                     if (!tutorial) {
                         //Use map
                         world.get(row).set(column, "Player");
@@ -132,6 +132,7 @@ public class Player extends Character {
                         world.get(row).set(column, currentPosition);
                         break;
                     }
+                default:
             }
 
             //Generate world as player moves
@@ -159,16 +160,16 @@ public class Player extends Character {
 
             //Prevent player from escaping during tutorial
             if (tutorial && (xPos < -2 || yPos < -2 || xPos > 2 || yPos > 2)) {
-                if (movement == 'a') {
+                if ("a".equals(movement)) {
                     column++;
                     xPos++;
-                } else if (movement == 's') {
+                } else if ("s".equals(movement)) {
                     row--;
                     yPos++;
-                } else if (movement == 'd') {
+                } else if ("d".equals(movement)) {
                     column--;
                     xPos--;
-                } else if (movement == 'w') {
+                } else if ("w".equals(movement)) {
                     row++;
                     yPos--;
                 }
@@ -237,7 +238,8 @@ public class Player extends Character {
             }
 
             //Spawn enemies and/or items when moving
-            if (!tutorial && (movement == 'a' || movement == 's' || movement == 'd' || movement == 'w')) {
+            if (!tutorial && ("a".equals(movement) || "s".equals(movement) 
+                    || "d".equals(movement) || "w".equals(movement))) {
                 spawn = random.nextInt(2);
                 if (spawn == 0) {
                     spawnEnemy();
@@ -255,6 +257,7 @@ public class Player extends Character {
     /*************************
      * Method Name: chunk
      * Method Description: Generates a random chunk in the world
+     * @return 
      **************************/
     public String chunk() {
 
