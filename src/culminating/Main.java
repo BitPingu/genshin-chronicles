@@ -16,7 +16,8 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException {
 
-        Character player = new Player();
+        Character player = new Player("???");
+        Character ogre = new Enemy("Ogre");
 
         //Start of the game - waking up and saving person
         System.out.println("You wake up on a grassy field to the sound of someone screaming.");
@@ -60,8 +61,9 @@ public class Main {
                     village();
                     break;
 
-                case "Zombie":
-                    //Go fight Zombie
+                case "Ogre":
+                    //Go fight Ogre
+                    player.fight(ogre);
                     break;
 
             }

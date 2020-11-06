@@ -3,13 +3,13 @@ package culminating;
 public class Character {
 
     //Fields
-    protected int health, strength, defense, speed;
-    protected String weapon, armor;
+    protected int health, strength, defense, speed, ep;
+    protected String name, weapon, armor;
     protected boolean tutorial;
 
     //Constructor
-    public Character() {
-
+    public Character(String n) {
+        name = n;
     }
 
     //Accessors
@@ -68,6 +68,14 @@ public class Character {
 
     public void setTutorial(boolean t) {
         tutorial = t;
+    }
+
+    /*************************
+     * Method Name: fight
+     * Method Description: Invoked when player initiates an enemy
+     **************************/
+    public void fight(Character entity) {
+
     }
 
     public String navigate() throws InterruptedException {

@@ -14,7 +14,8 @@ public class Player extends Character {
     private boolean tutorial;
 
     //Constructor
-    public Player() {
+    public Player(String noName) {
+        super(noName);
         tutorial = true;
         xPos = 0;
         yPos = 0;
@@ -156,30 +157,23 @@ public class Player extends Character {
                 }
             }
 
-            //Only happens during tutorial
-            if (tutorial) {
-                //Prevent player from escaping or save the Fairy
-                if (xPos < -2 || yPos < -2 || xPos > 2 || yPos > 2) {
-                    if (movement == 'a') {
-                        column++;
-                        xPos++;
-                    } else if (movement == 's') {
-                        row--;
-                        yPos++;
-                    } else if (movement == 'd') {
-                        column--;
-                        xPos--;
-                    } else if (movement == 'w') {
-                        row++;
-                        yPos--;
-                    }
-                    System.out.println("Where are you going? You can't leave the person!");
-                    Thread.sleep(1000);
-                } else if (world.get(row).get(column).contains("Fairy") ||
-                        world.get(row).get(column).contains("Ogre")) {
-                    return null;
+            //Prevent player from escaping during tutorial
+            if (tutorial && (xPos < -2 || yPos < -2 || xPos > 2 || yPos > 2)) {
+                if (movement == 'a') {
+                    column++;
+                    xPos++;
+                } else if (movement == 's') {
+                    row--;
+                    yPos++;
+                } else if (movement == 'd') {
+                    column--;
+                    xPos--;
+                } else if (movement == 'w') {
+                    row++;
+                    yPos--;
                 }
-
+                System.out.println("Where are you going? You can't leave the person!");
+                Thread.sleep(1000);
             }
 
             //Initiate event depending on player position
@@ -190,8 +184,8 @@ public class Player extends Character {
                 case "Village":
                     return "Village";
 
-                case "Zombie":
-                    return "Zombie";
+                case "Ogre":
+                    return "Ogre";
 
                 case "Wood":
                     System.out.println("You collected some wood.");
@@ -601,10 +595,28 @@ public class Player extends Character {
      * Method Name: fight
      * Method Description: Invoked when player initiates an enemy
      **************************/
-    public void fight() {
+    public void fight(Character entity) {
 
-        System.out.println("You encountered a " + "!");
-        System.out.println("What will " + " do?");
+        int prompt;
+
+        System.out.println("You encountered a " + entity.name + "!");
+        System.out.println("What will " + name + " do?");
+        System.out.println("1) Attack");
+        System.out.println("2) Special");
+        System.out.println("3) Run");
+        prompt = Integer.parseInt(keyInput.nextLine());
+
+        switch (prompt) {
+            case 1:
+                break;
+
+            case 2:
+                break;
+
+            case 3:
+                break;
+
+        }
 
     }
 
