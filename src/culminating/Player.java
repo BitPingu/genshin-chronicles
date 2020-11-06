@@ -9,13 +9,15 @@ public class Player extends Character {
     private final Scanner keyInput = new Scanner(System.in);
     private final ArrayList<ArrayList<String>> world = new ArrayList<>();
     private final ArrayList<ArrayList<String>> inventory = new ArrayList<>();
+    private Party healer;
 
     private int row, column, xPos, yPos, money;
     private boolean tutorial;
 
     //Constructor
-    public Player(String noName) {
-        super(noName);
+    public Player(String noName, int level) {
+        super(noName, level);
+        super.distributeStats();
         tutorial = true;
         xPos = 0;
         yPos = 0;
@@ -186,7 +188,33 @@ public class Player extends Character {
                     return "Village";
 
                 case "\uD83D\uDC79":
-                    return "Ogre";
+                    Character ogre = new Enemy("Ogre", 1);
+                    System.out.println("You encountered a " + ogre.name + "!");
+                    Thread.sleep(1000);
+                    if (tutorial) {
+                        //First battle - no equipment only fists
+                        System.out.println("???: Wait, you know how to fight?");
+                        Thread.sleep(1000);
+                        System.out.println("???: Ok! I'm a healer, so I can help you when you're injured.");
+                        Thread.sleep(1000);
+                        healer = new Party("Girl", 1);
+                    }
+                    for (int i=0;;i++) {
+                        if (fight(ogre) || healer.fight(ogre)) {
+                            System.out.println(name + " wins!");
+                            distributeStats();
+                            if (tutorial) {
+                                healer.setName("Robin");
+                                return "";
+                            } else {
+                                break;
+                            }
+                        }
+                        if (ogre.fight(this)) {
+                            System.out.println("Oh no you've died!");
+                            System.exit(0);
+                        }
+                    }
 
                 case "\uD83E\uDD62":
                     System.out.println("You collected some wood.");
@@ -601,11 +629,14 @@ public class Player extends Character {
      * Method Name: fight
      * Method Description: Invoked when player initiates an enemy
      **************************/
-    public void fight(Character entity) {
+    public boolean fight(Character entity) throws InterruptedException {
 
-        int prompt;
+        Random random = new Random();
 
-        System.out.println("You encountered a " + entity.name + "!");
+        int prompt, diceRoll, damage;
+
+        System.out.println("\n" + name + " HP: " + health + " | " + healer.name + " HP: " + healer.health + " | " +
+                entity.health + " HP: " + entity.health);
         System.out.println("What will " + name + " do?");
         System.out.println("1) Attack");
         System.out.println("2) Special");
@@ -614,15 +645,29 @@ public class Player extends Character {
 
         switch (prompt) {
             case 1:
+                diceRoll = random.nextInt(6) + 1;
+                damage = 0;
+                for (int i=0; i<diceRoll; i++) {
+                    if (entity.health == 0) {
+                        break;
+                    }
+                    entity.health--;
+                    damage++;
+                }
+                System.out.println("\n" + name + " deals " + damage + " damage!");
+                Thread.sleep(1000);
                 break;
 
             case 2:
                 break;
 
             case 3:
+                System.out.println("Got away safely!");
                 break;
 
         }
+
+        return entity.health == 0;
 
     }
 

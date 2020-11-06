@@ -1,11 +1,14 @@
 package culminating;
 
 import java.util.Random;
+import java.util.Scanner;
 
-public class Enemy extends Character {
+public class Party extends Character {
+
+    private final Scanner keyInput = new Scanner(System.in);
 
     //Constructor
-    public Enemy(String name, int level) {
+    public Party(String name, int level) {
         super(name, level);
         super.distributeStats();
     }
@@ -24,7 +27,13 @@ public class Enemy extends Character {
 
         int prompt, diceRoll, damage;
 
-        prompt = random.nextInt(2);
+        System.out.println("\n" + name + " HP: " + health + " | " + name + " HP: " + health + " | " +
+                entity.health + " HP: " + entity.health);
+        System.out.println("What will " + name + " do?");
+        System.out.println("1) Attack");
+        System.out.println("2) Special");
+        System.out.println("3) Run");
+        prompt = Integer.parseInt(keyInput.nextLine());
 
         switch (prompt) {
             case 1:
@@ -42,8 +51,10 @@ public class Enemy extends Character {
                 break;
 
             case 2:
-                System.out.println("\n" + name + " uses a special!");
-                Thread.sleep(1000);
+                break;
+
+            case 3:
+                System.out.println("Got away safely!");
                 break;
 
         }
@@ -51,7 +62,5 @@ public class Enemy extends Character {
         return entity.health == 0;
 
     }
-
-
 
 }

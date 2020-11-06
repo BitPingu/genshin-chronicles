@@ -3,16 +3,21 @@ package culminating;
 public class Character {
 
     //Fields
-    protected int health, strength, defense, speed, ep;
+    protected int level, health, strength, defense, speed, ep;
     protected String name, weapon, armor;
     protected boolean tutorial;
 
     //Constructor
-    public Character(String n) {
+    public Character(String n, int l) {
         name = n;
+        level = l;
     }
 
     //Accessors
+    public String setName() {
+        return name;
+    }
+
     public int getHealth() {
         return health;
     }
@@ -42,6 +47,9 @@ public class Character {
     }
 
     //Mutators
+    public void setName(String s) {
+        name = s;
+    }
     public void setHealth(int h) {
         health = h;
     }
@@ -74,8 +82,8 @@ public class Character {
      * Method Name: fight
      * Method Description: Invoked when player initiates an enemy
      **************************/
-    public void fight(Character entity) {
-
+    public boolean fight(Character entity) throws InterruptedException {
+        return false;
     }
 
     public String navigate() throws InterruptedException {
@@ -84,6 +92,13 @@ public class Character {
 
     public void addInventory(String item) {
 
+    }
+
+    public void distributeStats() {
+        health = 20;
+        strength = 10;
+        defense = 8;
+        speed = 8;
     }
 
 }
