@@ -44,7 +44,7 @@ public class Main {
         System.out.println("! I shall call you " + "!");
         Thread.sleep(1000);
         System.out.println("Here is a map...");
-        player.addInventory("Map");
+        player.addInventory("\uD83D\uDDFA Map");
         //Robin introduces the player to the world, and the goal of the game
 
         while (true) {

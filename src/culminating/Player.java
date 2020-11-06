@@ -127,11 +127,11 @@ public class Player extends Character {
                 case "m":
                     if (!tutorial) {
                         //Use map
-                        world.get(row).set(column, "Player");
+                        world.get(row).set(column, "\uD83E\uDDDD");
                         map();
                         world.get(row).set(column, currentPosition);
-                        break;
                     }
+                    break;
                 default:
             }
 
@@ -188,46 +188,46 @@ public class Player extends Character {
                 case "\uD83D\uDC79":
                     return "Ogre";
 
-                case "\uD83E\uDEB5":
+                case "\uD83E\uDD62":
                     System.out.println("You collected some wood.");
                     Thread.sleep(1000);
-                    addInventory("Wood");
+                    addInventory("\uD83E\uDD62 Wood");
                     break;
 
-                case "\uD83E\uDEA8":
+                case "\uD83E\uDD4C":
                     System.out.println("You collected some stone.");
                     Thread.sleep(1000);
-                    addInventory("Stone");
+                    addInventory("\uD83E\uDD4C Stone");
                     break;
 
                 case "\uD83C\uDF4E":
                     System.out.println("You collected some apples.");
                     Thread.sleep(1000);
-                    addInventory("Apple");
+                    addInventory("\uD83C\uDF4E Apple");
                     break;
 
                 case "\uD83D\uDC8E":
                     System.out.println("You collected some ore.");
                     Thread.sleep(1000);
-                    addInventory("Ore");
+                    addInventory("\uD83D\uDC8E Ore");
                     break;
 
                 case "\uD83C\uDF44":
                     System.out.println("You collected some mushrooms.");
                     Thread.sleep(1000);
-                    addInventory("Mushroom");
+                    addInventory("\uD83C\uDF44 Mushroom");
                     break;
 
                 case "\uD83D\uDC1B":
                     System.out.println("You caught some critters.");
                     Thread.sleep(1000);
-                    addInventory("Critter");
+                    addInventory("\uD83D\uDC1B Critter");
                     break;
 
                 case "\uD83C\uDF52":
                     System.out.println("You collected some berries.");
                     Thread.sleep(1000);
-                    addInventory("Berries");
+                    addInventory("\uD83C\uDF52 Berries");
                     break;
 
                 case "\uD83E\uDDF0":
@@ -270,9 +270,12 @@ public class Player extends Character {
         //Determine random generation
         randGen = generation.nextInt(100)+1;
 
-        if (randGen <= 90) {
+        if (randGen <= 60) {
             //Tree
             chunk = "\uD83C\uDF33";
+        } else if (randGen <= 90) {
+            //Alt Tree
+            chunk = "\uD83C\uDF32";
         } else if (randGen <= 99) {
             //Dungeon
             chunk = "\uD83C\uDFDB";
@@ -455,10 +458,10 @@ public class Player extends Character {
 
         if (random <= 30) {
             //Wood
-            item = "\uD83E\uDEB5";
+            item = "\uD83E\uDD62";
         } else if (random <= 40) {
             //Stone
-            item = "\uD83E\uDEA8";
+            item = "\uD83E\uDD4C";
         } else if (random <= 50) {
             //Apple
             item = "\uD83C\uDF4E";
@@ -634,9 +637,9 @@ public class Player extends Character {
         //Print map
         for (int i=0; i<world.size(); i++) {
             for (int j=0; j<world.get(i).size(); j++) {
-                System.out.print(world.get(i).get(j) + "\t\t");
+                System.out.print(world.get(i).get(j) + "\t");
             }
-            System.out.println("\n");
+            System.out.println();
         }
 
         System.out.println("Type 'm' to exit.");
