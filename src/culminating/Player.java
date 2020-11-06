@@ -56,11 +56,11 @@ public class Player extends Character {
         for (int i=0; i<5; i++) {
             world.add(new ArrayList<>());
             for (int j=0; j<5; j++) {
-                world.get(i).add("Grass");
+                world.get(i).add("\uD83D\uDFE9");//Grass
             }
         }
-        world.get(0).set(2, "Fairy");
-        world.get(0).set(3, "Ogre");
+        world.get(0).set(2, "\uD83E\uDDDA");//Fairy
+        world.get(0).set(3, "\uD83D\uDC79");//Ogre
         row = 2;
         column = 2;
     }
@@ -82,15 +82,15 @@ public class Player extends Character {
 
             //Get current tile of player location, replace it with player
             currentPosition = world.get(row).get(column);
-            world.get(row).set(column, "Player");
+            world.get(row).set(column, "\uD83E\uDDDD");//Elf
 
             //Print player's field of vision
             System.out.println();
             for (int i=row-2; i<row + 3; i++) {
-                for (int j = column - 2; j < column + 3; j++) {
-                    System.out.print(world.get(i).get(j) + "\t\t");
+                for (int j=column-2; j<column+3; j++) {
+                    System.out.print(world.get(i).get(j) + "\t");
                 }
-                System.out.println("\n");
+                System.out.println();
             }
 
             //Movement user input
@@ -179,58 +179,58 @@ public class Player extends Character {
 
             //Initiate event depending on player position
             switch (world.get(row).get(column)) {
-                case "Dungeon":
+                case "\uD83C\uDFDB":
                     return "Dungeon";
 
-                case "Village":
+                case "\uD83C\uDFD8":
                     return "Village";
 
-                case "Ogre":
+                case "\uD83D\uDC79":
                     return "Ogre";
 
-                case "Wood":
+                case "\uD83E\uDEB5":
                     System.out.println("You collected some wood.");
                     Thread.sleep(1000);
                     addInventory("Wood");
                     break;
 
-                case "Stone":
+                case "\uD83E\uDEA8":
                     System.out.println("You collected some stone.");
                     Thread.sleep(1000);
                     addInventory("Stone");
                     break;
 
-                case "Apple":
+                case "\uD83C\uDF4E":
                     System.out.println("You collected some apples.");
                     Thread.sleep(1000);
                     addInventory("Apple");
                     break;
 
-                case "Ore":
+                case "\uD83D\uDC8E":
                     System.out.println("You collected some ore.");
                     Thread.sleep(1000);
                     addInventory("Ore");
                     break;
 
-                case "Mushroom":
+                case "\uD83C\uDF44":
                     System.out.println("You collected some mushrooms.");
                     Thread.sleep(1000);
                     addInventory("Mushroom");
                     break;
 
-                case "Critter":
+                case "\uD83D\uDC1B":
                     System.out.println("You caught some critters.");
                     Thread.sleep(1000);
                     addInventory("Critter");
                     break;
 
-                case "Berries":
+                case "\uD83C\uDF52":
                     System.out.println("You collected some berries.");
                     Thread.sleep(1000);
                     addInventory("Berries");
                     break;
 
-                case "Chest":
+                case "\uD83E\uDDF0":
                     System.out.println("You opened a chest.");
                     Thread.sleep(1000);
                     break;
@@ -272,13 +272,13 @@ public class Player extends Character {
 
         if (randGen <= 90) {
             //Tree
-            chunk = "Tree";
+            chunk = "\uD83C\uDF33";
         } else if (randGen <= 99) {
             //Dungeon
-            chunk = "Dungeon";
+            chunk = "\uD83C\uDFDB";
         } else {
             //Village
-            chunk = "Village";
+            chunk = "\uD83C\uDFD8";
         }
 
         return chunk;
@@ -301,28 +301,28 @@ public class Player extends Character {
 
         if (random <= 30) {
             //Zombie
-            enemy = "Zombie";
+            enemy = "\uD83E\uDDDF";
         } else if (random <= 40) {
             //Goblin
-            enemy = "Goblin";
+            enemy = "\uD83D\uDC7A";
         } else if (random <= 50) {
             //Ogre
-            enemy = "Ogre";
+            enemy = "\uD83D\uDC79";
         } else if (random <= 60) {
             //Ghost
-            enemy = "Ghost";
+            enemy = "\uD83D\uDC7B";
         } else if (random <= 70) {
             //Alien
-            enemy = "Alien";
+            enemy = "\uD83D\uDC7D";
         } else if (random <= 80) {
             //Octopus
-            enemy = "Octopus";
+            enemy = "\uD83D\uDC19";
         } else if (random <= 90) {
             //Skeleton
-            enemy = "Skeleton";
+            enemy = "\uD83D\uDC80";
         } else {
-            //Boss
-            enemy = "Boss";
+            //Golem
+            enemy = "\uD83E\uDD16";
         }
 
         //Determine random spawn coordinates
@@ -455,28 +455,28 @@ public class Player extends Character {
 
         if (random <= 30) {
             //Wood
-            item = "Wood";
+            item = "\uD83E\uDEB5";
         } else if (random <= 40) {
             //Stone
-            item = "Stone";
+            item = "\uD83E\uDEA8";
         } else if (random <= 50) {
             //Apple
-            item = "Apple";
+            item = "\uD83C\uDF4E";
         } else if (random <= 60) {
             //Ore
-            item = "Ore";
+            item = "\uD83D\uDC8E";
         } else if (random <= 70) {
             //Mushroom
-            item = "Mushroom";
+            item = "\uD83C\uDF44";
         } else if (random <= 80) {
             //Critter
-            item = "Critter";
+            item = "\uD83D\uDC1B";
         } else if (random <= 90) {
             //Berries
-            item = "Berries";
+            item = "\uD83C\uDF52";
         } else {
             //Chest
-            item = "Chest";
+            item = "\uD83E\uDDF0";
         }
 
         //Determine random spawn coordinates

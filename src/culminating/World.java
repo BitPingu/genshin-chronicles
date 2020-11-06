@@ -19,6 +19,7 @@ public class World {
      * Method Name: initWorld
      * Method Description: Initializes the world through a 5x5 grid and sets player starting position.
      **************************/
+    /*
     public void initWorld() {
         for (int i=0; i<5; i++) {
             world.add(new ArrayList<>());
@@ -30,6 +31,9 @@ public class World {
         world.get(0).set(3, "Ogre");
         row = 2;
         column = 2;
+
     }
+
+     */
 
 }
