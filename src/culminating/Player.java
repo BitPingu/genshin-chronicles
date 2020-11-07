@@ -38,16 +38,17 @@ public class Player extends Character {
         Random random = new Random();
 
         //Variables in fight
-        int prompt, diceRoll, damage = 0;
+        String prompt;
+        int diceRoll, damage = 0;
 
         System.out.println("What will " + name + " do?");
         System.out.println("1) Attack");
         System.out.println("2) Special");
         System.out.println("3) Run");
-        prompt = Integer.parseInt(keyInput.nextLine());
+        prompt = keyInput.nextLine();
 
         switch (prompt) {
-            case 1:
+            case "1":
                 diceRoll = random.nextInt(6) + 1;
                 for (int i=0; i<diceRoll; i++) {
                     if (entity.health == 0) {
@@ -62,12 +63,12 @@ public class Player extends Character {
                 Thread.sleep(1000);
                 break;
 
-            case 2:
+            case "2":
                 System.out.println();
                 for (int i=0; i<moveSet.size(); i++) {
                     System.out.println(i+1 + ") " + moveSet.get(i));
                 }
-                prompt = Integer.parseInt(keyInput.nextLine());
+                prompt = keyInput.nextLine();
                 damage = 6;
                 entity.health -= damage;
                 System.out.println("\n" + name + " used Wrath Strike!");
@@ -76,7 +77,7 @@ public class Player extends Character {
                 Thread.sleep(1000);
                 break;
 
-            case 3:
+            case "3":
                 System.out.println("Got away safely!");
                 break;
 
@@ -92,7 +93,7 @@ public class Player extends Character {
      **************************/
     public void checkInventory(ArrayList<Character> partyMembers) {
 
-        char prompt;
+        String prompt;
 
         //Print inventory
         System.out.println();
@@ -108,7 +109,7 @@ public class Player extends Character {
         }
 
         System.out.println("Type 'i' to exit.");
-        prompt = keyInput.nextLine().charAt(0);
+        prompt = keyInput.nextLine();
 
     }//end of checkInventory
 

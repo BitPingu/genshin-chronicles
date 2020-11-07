@@ -1,5 +1,8 @@
 package culminating;
 
+import javax.sound.sampled.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -7,9 +10,10 @@ import java.util.Scanner;
 public class World {
 
     //Field objects
-    private final ArrayList<ArrayList<String>> world = new ArrayList<>();
+    private ArrayList<ArrayList<String>> world = new ArrayList<>();
     private final Scanner keyInput = new Scanner(System.in);
     private final Random random = new Random();
+    public Clip clip;
 
     private final ArrayList<Character> partyMembers = new ArrayList<>();
     private final Character player  = new Player("\uD83E\uDDDD Traveller", 1);
@@ -28,13 +32,25 @@ public class World {
     private int row, column, xPos, yPos;
     private boolean finishTutorial;
 
-    //Constructor
-    public World()
-    {
+    //Constructors
+    public World() {
         initWorld();
     }
 
+    public World(ArrayList<ArrayList<String>> w, int r, int c, int x, int y, boolean f) {
+        world = w;
+        row = r;
+        column = c;
+        xPos = x;
+        yPos = y;
+        finishTutorial = f;
+    }
+
     //Accessors
+    public ArrayList<ArrayList<String>> getWorld() {
+        return world;
+    }
+
     public Character getPlayer() {
         return player;
     }
@@ -59,7 +75,15 @@ public class World {
         return yPos;
     }
 
+    public boolean isFinishTutorial() {
+        return finishTutorial;
+    }
+
     //Mutators
+    public void setWorld(ArrayList<ArrayList<String>> w) {
+        world = w;
+    }
+
     public void setRow(int r) {
         row = r;
     }
@@ -74,6 +98,10 @@ public class World {
 
     public void setyPos(int y) {
         yPos = y;
+    }
+
+    public void setFinishTutorial(boolean f) {
+        finishTutorial = f;
     }
 
     /*************************
@@ -98,7 +126,7 @@ public class World {
      * Method Name: start
      * Method Description: Prints the text dialogue at the start of the game.
      **************************/
-    public void start() throws InterruptedException {
+    public void start() throws InterruptedException, UnsupportedAudioFileException, IOException, LineUnavailableException {
 
         partyMembers.add(player);
 
@@ -106,12 +134,14 @@ public class World {
         world.get(0).set(3, "\uD83D\uDC79");//Ogre
 
         //Start of the game - waking up and saving person
-        System.out.println("You wake up on a grassy field to the sound of a girl screaming.");
+        System.out.println("\nYou wake up on a grassy field to the sound of a girl screaming.");
         Thread.sleep(1000);
         System.out.println(healer.getName() + ": Someone please help me!");
         Thread.sleep(1000);
         System.out.println("(Press the asdw keys to move)");
         Thread.sleep(1000);
+        //Call music method
+        music("overworld.wav");
         navigate();
 
         //After first battle - meeting the waifu and setting the name
@@ -141,9 +171,8 @@ public class World {
         world.get(2).set(2, "\uD83D\uDFE9");
         world.get(2).set(3, "\uD83D\uDFE9");
 
-        while (true) {
-            navigate();
-        }
+        //Call navigate method
+        navigate();
 
     }//end of start
 
@@ -151,7 +180,7 @@ public class World {
      * Method Name: navigate
      * Method Description: Allows the player to explore the world using the asdw keys.
      **************************/
-    public void navigate() throws InterruptedException {
+    public void navigate() throws InterruptedException, UnsupportedAudioFileException, IOException, LineUnavailableException {
 
         //Variables in navigate
         String currentPosition;
@@ -212,6 +241,10 @@ public class World {
                         world.get(row).set(column, currentPosition);
                     }
                     break;
+                case "l":
+                    if (finishTutorial) {
+                        return;
+                    }
                 default:
             }
 
@@ -731,7 +764,7 @@ public class World {
      **************************/
     public void map() {
 
-        char prompt;
+        String prompt;
 
         //Print map
         System.out.println();
@@ -743,7 +776,7 @@ public class World {
         }
 
         System.out.println("Type 'm' to exit.");
-        prompt = keyInput.nextLine().charAt(0);
+        prompt = keyInput.nextLine();
 
     }//end of map
 
@@ -752,9 +785,13 @@ public class World {
      * Method Description: Displays the battle system.
      * @param entity - Enemy to be fought.
      **************************/
-    public void battle(Character entity) throws InterruptedException {
+    public void battle(Character entity) throws InterruptedException, UnsupportedAudioFileException, IOException, LineUnavailableException {
 
         boolean win = false;
+
+        //Call music method
+        clip.stop();
+        music("battle.wav");
 
         if (!finishTutorial) {
             //First battle - no equipment only fists
@@ -792,6 +829,10 @@ public class World {
             }
         }
 
+        //Call music method
+        clip.stop();
+        music("overworld.wav");
+
     }
 
     /*************************
@@ -813,16 +854,101 @@ public class World {
      * Method Name: village
      * Method Description: Displays the village.
      **************************/
-    public void village() {
+    public void village() throws UnsupportedAudioFileException, IOException, LineUnavailableException, InterruptedException {
 
-        System.out.println("You arrived at a village. Will you enter?");
+        String prompt;
 
-        System.out.println("Welcome to village.");
-        System.out.println("1) Rest at Inn");//pay 50
-        System.out.println("2) Visit the Store");
-        System.out.println("3) Talk to Villagers");
-        System.out.println("4) Exit");
+        System.out.println("You arrived at a village. Will you enter? (y/n)");
+        prompt = keyInput.nextLine();
+
+        if (prompt.equalsIgnoreCase("y")) {
+
+            //Call music method
+            clip.stop();
+            music("village.wav");
+
+            do {
+
+                System.out.println("\nWelcome to village.");
+                System.out.println("1) Rest at Inn");//pay 50
+                System.out.println("2) Visit the Store");
+                System.out.println("3) Visit the Workshop");
+                System.out.println("4) Talk to Villagers");
+                System.out.println("5) Exit");
+                prompt = keyInput.nextLine();
+
+                switch (prompt) {
+                    case "1":
+                        System.out.println("Pay 50 rupees to rest at Inn? (y/n)");
+                        prompt = keyInput.nextLine();
+                        if (prompt.equalsIgnoreCase("y")) {
+                            System.out.println("You and your team's health are fully restored!");
+                            Thread.sleep(1000);
+                        }
+                        break;
+                    case "2":
+                        System.out.println("Store Clerk: Hey there! How may I help ya?");
+                        System.out.println("1) Weapons and Armor");
+                        System.out.println("2) Items");
+                        System.out.println("3) See ya!");
+                        prompt = keyInput.nextLine();
+                        System.out.println("Store Clerk: Come back soon!");
+                        Thread.sleep(1000);
+                        break;
+                    case "3":
+                        System.out.println(player.name + ": Hmm... what should I craft?");
+                        System.out.println("Type 'r' to return.");
+                        prompt = keyInput.nextLine();
+                        break;
+                    case "4":
+                        System.out.println("There are no available quests.");
+                        System.out.println("Type 'r' to return.");
+                        prompt = keyInput.nextLine();
+                        break;
+                }
+
+            } while (!prompt.equalsIgnoreCase("5"));
+
+            //Call music method
+            clip.stop();
+            music("overworld.wav");
+
+        }
 
     }//end of village
+
+    /*************************
+     * Method Name: music
+     * Method Description: Plays epic music.
+     **************************/
+    public void music(String filename) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+
+        //Create file object for background music
+        File musicFile = new File(filename);
+
+        //Check if file exists
+        if (!musicFile.exists()) {
+            System.out.println("\u001B[31mError music file not found. Game cannot be runned.\u001B[0m");
+            System.exit(0);
+        }
+
+        //Create audioInputStream object to get audio from file
+        AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicFile);
+
+        //Create clip object to allow music to be played from file
+        clip = AudioSystem.getClip();
+
+        //Open clip
+        clip.open(audioInput);
+
+        //Create floatControl object to set volume
+        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        gainControl.setValue(-20.0f);
+
+        //Play on loop until program ends or stopped
+        clip.start();
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
+
+    }//end of music
 
 }//end of class

@@ -37,16 +37,17 @@ public class Party extends Character {
         Random random = new Random();
 
         //Variables in fight
-        int prompt, diceRoll, damage = 0;
+        String prompt;
+        int diceRoll, damage = 0;
 
         System.out.println("What will " + name + " do?");
         System.out.println("1) Attack");
         System.out.println("2) Special");
         System.out.println("3) Run");
-        prompt = Integer.parseInt(keyInput.nextLine());
+        prompt = keyInput.nextLine();
 
         switch (prompt) {
-            case 1:
+            case "1":
                 diceRoll = random.nextInt(6) + 1;
                 damage = 0;
                 for (int i=0; i<diceRoll; i++) {
@@ -62,12 +63,12 @@ public class Party extends Character {
                 Thread.sleep(1000);
                 break;
 
-            case 2:
+            case "2":
                 System.out.println();
                 for (int i=0; i<moveSet.size(); i++) {
                     System.out.println(i+1 + ") " + moveSet.get(i));
                 }
-                prompt = Integer.parseInt(keyInput.nextLine());
+                prompt = keyInput.nextLine();
                 for (int i=0; i<5; i++) {
                     if (partyMembers.get(0).health == partyMembers.get(0).maxHealth) {
                         break;
@@ -81,7 +82,7 @@ public class Party extends Character {
                 Thread.sleep(1000);
                 break;
 
-            case 3:
+            case "3":
                 System.out.println("Got away safely!");
                 break;
 
