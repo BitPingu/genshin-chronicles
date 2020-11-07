@@ -3,21 +3,16 @@ package culminating;
 public class Character {
 
     //Fields
-    protected int level, health, strength, defense, speed, ep;
+    protected int health, strength, defense, speed, ep;
     protected String name, weapon, armor;
     protected boolean tutorial;
 
     //Constructor
-    public Character(String n, int l) {
+    public Character(String n) {
         name = n;
-        level = l;
     }
 
     //Accessors
-    public String setName() {
-        return name;
-    }
-
     public int getHealth() {
         return health;
     }
@@ -47,9 +42,6 @@ public class Character {
     }
 
     //Mutators
-    public void setName(String s) {
-        name = s;
-    }
     public void setHealth(int h) {
         health = h;
     }
