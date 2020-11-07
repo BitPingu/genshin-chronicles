@@ -75,15 +75,12 @@ public class Character {
      * Method Description: Invoked when player initiates an enemy
      **************************/
     public void fight(Character entity) {
-
     }
 
-    public String navigate() throws InterruptedException {
-        return null;
+    public void navigate() throws InterruptedException {
     }
 
     public void addInventory(String item) {
-
     }
 
 }
