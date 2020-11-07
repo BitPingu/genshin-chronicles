@@ -1,15 +1,24 @@
-package culminating;
+package Entities;
 
-public class Character {
+public abstract class Character {
 
     //Fields
-    protected int health, strength, defense, speed, ep;
-    protected String name, weapon, armor;
+    protected int health, strength, defense, speed;
+    protected String weapon, armor;
     protected boolean tutorial;
+    
+    protected Position position;
 
     //Constructor
-    public Character(String n) {
-        name = n;
+    public Character() {
+        position = new Position(1, 1);
+    }
+    
+    public abstract void update();
+
+    public Position getPosition()
+    {
+        return position;
     }
 
     //Accessors
@@ -70,17 +79,8 @@ public class Character {
         tutorial = t;
     }
 
-    /*************************
-     * Method Name: fight
-     * Method Description: Invoked when player initiates an enemy
-     **************************/
-    public void fight(Character entity) {
-    }
-
-    public void navigate() throws InterruptedException {
-    }
-
-    public void addInventory(String item) {
+    public String navigate() throws InterruptedException {
+        return null;
     }
 
 }
