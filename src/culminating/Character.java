@@ -37,7 +37,7 @@ public class Character {
         return armor;
     }
 
-    public boolean isTutorial() {
+    public boolean getTutorial() {
         return tutorial;
     }
 
@@ -76,11 +76,9 @@ public class Character {
      **************************/
     public void fight(Character entity) {
     }
-
-    public void navigate() throws InterruptedException {
+    
+    public void checkInventory() {
     }
-
     public void addInventory(String item) {
     }
-
-}
+}//end of class
