@@ -14,13 +14,13 @@ import java.util.Scanner;
 
 public class Main {
 
-    private Character ogre = new Enemy("Ogre");
+    //private Character ogre = new Enemy("Ogre");
     
     
     public static void main(String[] args) throws InterruptedException {
         
         World world = new World();
-        Character ogre = new Enemy("Ogre");
+        //Character ogre = new Enemy("Ogre");
 
         //Start of the game - waking up and saving person
         System.out.println("You wake up on a grassy field to the sound of someone screaming.");
