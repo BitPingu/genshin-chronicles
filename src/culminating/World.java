@@ -6,49 +6,152 @@ import java.util.Scanner;
 
 public class World {
 
-//    protected ArrayList<ArrayList<String>> worldGen = new ArrayList<>();
-    
-    private final Scanner keyInput = new Scanner(System.in);
-    private Character player  = new Player("???");
-    private boolean tutorial;
-    
+    //Field objects
     private final ArrayList<ArrayList<String>> world = new ArrayList<>();
-    private final ArrayList<ArrayList<String>> inventory = new ArrayList<>();
+    private final Scanner keyInput = new Scanner(System.in);
+    private final Random random = new Random();
 
+    private final ArrayList<Character> partyMembers = new ArrayList<>();
+    private final Character player  = new Player("\uD83E\uDDDD Traveller", 1);
+    private final Character healer = new Party("\uD83E\uDDDA Girl", 1);
+
+    Character zombie = new Enemy("\uD83E\uDDDF Zombie", 1);
+    Character ogre = new Enemy("\uD83D\uDC79 Ogre", 1);
+    Character goblin = new Enemy("\uD83D\uDC7A Goblin", 1);
+    Character ghost = new Enemy("\uD83D\uDC7B Ghost", 1);
+    Character alien = new Enemy("\uD83D\uDC7D Alien", 1);
+    Character octopus = new Enemy("\uD83D\uDC19 Octopus", 1);
+    Character skeleton = new Enemy("\uD83D\uDC80 Skeleton", 1);
+    Character golem = new Enemy("\uD83E\uDD16 Golem", 1);
+
+    //Field variables
     private int row, column, xPos, yPos;
+    private boolean finishTutorial;
 
+    //Constructor
     public World()
     {
         initWorld();
     }
-    //getter
-    public Character getPlayer()
-    {
+
+    //Accessors
+    public Character getPlayer() {
         return player;
     }
-    
+
+    public Character getHealer() {
+        return healer;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    public int getxPos() {
+        return xPos;
+    }
+
+    public int getyPos() {
+        return yPos;
+    }
+
+    //Mutators
+    public void setRow(int r) {
+        row = r;
+    }
+
+    public void setColumn(int c) {
+        column = c;
+    }
+
+    public void setxPos(int x) {
+        xPos = x;
+    }
+
+    public void setyPos(int y) {
+        yPos = y;
+    }
+
     /*************************
      * Method Name: initWorld
      * Method Description: Initializes the world through a 5x5 grid and sets player starting position.
      **************************/
     public void initWorld() {
-        //crreasts the starting world
+
         for (int i=0; i<5; i++) {
             world.add(new ArrayList<>());
             for (int j=0; j<5; j++) {
                 world.get(i).add("\uD83D\uDFE9");//Grass
             }
         }
-        //sets premade icons for game tutorial
-        world.get(0).set(2, "\uD83E\uDDDA");//Fairy
-        world.get(0).set(3, "\uD83D\uDC79");//Ogre
+
         row = 2;
         column = 2;
-    }//end of initWorld
-    
-    public String navigate() throws InterruptedException {
 
-        Random random = new Random();
+    }//end of initWorld
+
+    /*************************
+     * Method Name: start
+     * Method Description: Prints the text dialogue at the start of the game.
+     **************************/
+    public void start() throws InterruptedException {
+
+        partyMembers.add(player);
+
+        world.get(0).set(2, "\uD83E\uDDDA");//Fairy
+        world.get(0).set(3, "\uD83D\uDC79");//Ogre
+
+        //Start of the game - waking up and saving person
+        System.out.println("You wake up on a grassy field to the sound of a girl screaming.");
+        Thread.sleep(1000);
+        System.out.println(healer.getName() + ": Someone please help me!");
+        Thread.sleep(1000);
+        System.out.println("(Press the asdw keys to move)");
+        Thread.sleep(1000);
+        navigate();
+
+        //After first battle - meeting the waifu and setting the name
+        System.out.println("\n" + healer.getName() + ": Thanks for saving me! My name is Robin. What is yours?");
+        Thread.sleep(1000);
+        healer.setName("\uD83E\uDDDA Robin");
+        System.out.println(healer.getName() + ": What?! You don't remember your name? Then I should call you...");
+
+        System.out.print("My name is: ");
+        player.setName("\uD83E\uDDDD " + keyInput.nextLine());
+
+        if (player.name.equals("")) {
+            player.setName("...");
+        }
+
+        System.out.println(healer.getName() + ": I shall call you " + player.getName() + "!");
+        Thread.sleep(1000);
+        System.out.println(healer.getName() + ": Here is a map...");
+        System.out.println(player.name + " received a map!");
+        Thread.sleep(1000);
+        getPlayer().addInventory("\uD83D\uDDFA Map");
+        //Robin introduces the player to the world, and the goal of the game
+
+        finishTutorial = true;
+
+        //Replace with grass
+        world.get(2).set(2, "\uD83D\uDFE9");
+        world.get(2).set(3, "\uD83D\uDFE9");
+
+        while (true) {
+            navigate();
+        }
+
+    }//end of start
+
+    /*************************
+     * Method Name: navigate
+     * Method Description: Allows the player to explore the world using the asdw keys.
+     **************************/
+    public void navigate() throws InterruptedException {
 
         //Variables in navigate
         String currentPosition;
@@ -96,13 +199,13 @@ public class World {
                     yPos++;
                     break;
                 case "i":
-                    if (!getPlayer().getTutorial()) {
+                    if (finishTutorial) {
                         //Use inventory
-                        getPlayer().checkInventory();
+                        getPlayer().checkInventory(partyMembers);
                     }
                     break;
                 case "m":
-                    if (!tutorial) {
+                    if (finishTutorial) {
                         //Use map
                         world.get(row).set(column, "\uD83E\uDDDD");
                         map();
@@ -136,7 +239,7 @@ public class World {
             }
 
             //Prevent player from escaping during tutorial
-            if (tutorial && (xPos < -2 || yPos < -2 || xPos > 2 || yPos > 2)) {
+            if (!finishTutorial && (xPos < -2 || yPos < -2 || xPos > 2 || yPos > 2)) {
                 if ("a".equals(movement)) {
                     column++;
                     xPos++;
@@ -157,68 +260,133 @@ public class World {
             //Initiate event depending on player position
             switch (world.get(row).get(column)) {
                 case "\uD83C\uDFDB":
+                    //Go to dungeon
                     dungeon();
                     break;
 
                 case "\uD83C\uDFD8":
+                    //Go to village
                     village();
                     break;
 
+                case "\uD83E\uDDDF":
+                    //Fight Zombie
+                    System.out.println("You encountered a " + zombie.getName() + "!");
+                    Thread.sleep(1000);
+                    battle(zombie);
+                    break;
+
+                case "\uD83D\uDC7A":
+                    //Fight Goblin
+                    System.out.println("You encountered a " + goblin.getName() + "!");
+                    Thread.sleep(1000);
+                    battle(goblin);
+                    break;
+
                 case "\uD83D\uDC79":
-                    return "Ogre";
+                    //Fight Ogre
+                    System.out.println("You encountered a " + ogre.getName() + "!");
+                    Thread.sleep(1000);
+                    battle(ogre);
+                    if (!finishTutorial) {
+                        return;
+                    }
+                    break;
+
+                case "\uD83D\uDC7B":
+                    //Fight Ghost
+                    System.out.println("You encountered a " + ghost.getName() + "!");
+                    Thread.sleep(1000);
+                    battle(ghost);
+                    break;
+
+                case "\uD83D\uDC7D":
+                    //Fight Alien
+                    System.out.println("You encountered a " + alien.getName() + "!");
+                    Thread.sleep(1000);
+                    battle(alien);
+                    break;
+
+                case "\uD83D\uDC19":
+                    //Fight Octopus
+                    System.out.println("You encountered a " + octopus.getName() + "!");
+                    Thread.sleep(1000);
+                    battle(octopus);
+                    break;
+
+                case "\uD83D\uDC80":
+                    System.out.println("You encountered a " + skeleton.getName() + "!");
+                    Thread.sleep(1000);
+                    battle(skeleton);
+                    break;
+
+                case "\uD83E\uDD16":
+                    System.out.println("You encountered a " + golem.getName() + "!");
+                    Thread.sleep(1000);
+                    battle(golem);
+                    break;
 
                 case "\uD83E\uDD62":
                     System.out.println("You collected some wood.");
                     Thread.sleep(1000);
                     getPlayer().addInventory("\uD83E\uDD62 Wood");
+                    world.get(row).set(column, "\uD83C\uDF33");
                     break;
 
                 case "\uD83E\uDD4C":
                     System.out.println("You collected some stone.");
                     Thread.sleep(1000);
                     getPlayer().addInventory("\uD83E\uDD4C Stone");
+                    world.get(row).set(column, "\uD83C\uDF33");
                     break;
 
                 case "\uD83C\uDF4E":
                     System.out.println("You collected some apples.");
                     Thread.sleep(1000);
                     getPlayer().addInventory("\uD83C\uDF4E Apple");
+                    world.get(row).set(column, "\uD83C\uDF33");
                     break;
 
                 case "\uD83D\uDC8E":
                     System.out.println("You collected some ore.");
                     Thread.sleep(1000);
                     getPlayer().addInventory("\uD83D\uDC8E Ore");
+                    world.get(row).set(column, "\uD83C\uDF33");
                     break;
 
                 case "\uD83C\uDF44":
                     System.out.println("You collected some mushrooms.");
                     Thread.sleep(1000);
                     getPlayer().addInventory("\uD83C\uDF44 Mushroom");
+                    world.get(row).set(column, "\uD83C\uDF33");
                     break;
 
                 case "\uD83D\uDC1B":
                     System.out.println("You caught some critters.");
                     Thread.sleep(1000);
                     getPlayer().addInventory("\uD83D\uDC1B Critter");
+                    world.get(row).set(column, "\uD83C\uDF33");
                     break;
 
                 case "\uD83C\uDF52":
                     System.out.println("You collected some berries.");
                     Thread.sleep(1000);
                     getPlayer().addInventory("\uD83C\uDF52 Berries");
+                    world.get(row).set(column, "\uD83C\uDF33");
                     break;
 
                 case "\uD83E\uDDF0":
                     System.out.println("You opened a chest.");
                     Thread.sleep(1000);
+                    world.get(row).set(column, "\uD83C\uDF33");
                     break;
 
             }
 
-            //Spawn enemies and/or items when moving
-            if (!tutorial && ("a".equals(movement) || "s".equals(movement) 
-                    || "d".equals(movement) || "w".equals(movement))) {
+            //Spawn enemies and/or items when moving and outside of start
+            if (finishTutorial && ("a".equals(movement) || "s".equals(movement)
+                    || "d".equals(movement) || "w".equals(movement)) &&
+                    (xPos < -2 || yPos < -2 || xPos > 2 || yPos > 2)) {
                 spawn = random.nextInt(2);
                 if (spawn == 0) {
                     spawnEnemy();
@@ -230,31 +398,30 @@ public class World {
             }
 
         }
+
     }//end of navigate
 
     /*************************
      * Method Name: chunk
-     * Method Description: Generates a random chunk in the world
-     * @return 
+     * Method Description: Generates a random chunk in the world.
+     * @return chunk - chunk to be generated
      **************************/
     public String chunk() {
 
-        Random generation = new Random();
-
         //Variables in chunk
-        int randGen;
+        int generation;
         String chunk;
 
         //Determine random generation
-        randGen = generation.nextInt(100)+1;
+        generation = random.nextInt(100)+1;
 
-        if (randGen <= 60) {
+        if (generation <= 60) {
             //Tree
             chunk = "\uD83C\uDF33";
-        } else if (randGen <= 90) {
+        } else if (generation <= 90) {
             //Alt Tree
             chunk = "\uD83C\uDF32";
-        } else if (randGen <= 99) {
+        } else if (generation <= 99) {
             //Dungeon
             chunk = "\uD83C\uDFDB";
         } else {
@@ -268,37 +435,36 @@ public class World {
 
     /*************************
      * Method Name: spawnEnemy
-     * Method Description: Spawns a random enemy in the player's field of vision
+     * Method Description: Spawns a random enemy in the player's field of vision.
      **************************/
     public void spawnEnemy() {
 
-        Random entity = new Random();
-
-        int random, enemyRow = 0, enemyColumn = 0;
+        //Variables in spawnEnemy
+        int spawn, enemyRow = 0, enemyColumn = 0;
         String enemy;
 
         //Determine random enemy
-        random = entity.nextInt(100)+1;
+        spawn = random.nextInt(100)+1;
 
-        if (random <= 30) {
+        if (spawn <= 30) {
             //Zombie
             enemy = "\uD83E\uDDDF";
-        } else if (random <= 40) {
+        } else if (spawn <= 40) {
             //Goblin
             enemy = "\uD83D\uDC7A";
-        } else if (random <= 50) {
+        } else if (spawn <= 50) {
             //Ogre
             enemy = "\uD83D\uDC79";
-        } else if (random <= 60) {
+        } else if (spawn <= 60) {
             //Ghost
             enemy = "\uD83D\uDC7B";
-        } else if (random <= 70) {
+        } else if (spawn <= 70) {
             //Alien
             enemy = "\uD83D\uDC7D";
-        } else if (random <= 80) {
+        } else if (spawn <= 80) {
             //Octopus
             enemy = "\uD83D\uDC19";
-        } else if (random <= 90) {
+        } else if (spawn <= 90) {
             //Skeleton
             enemy = "\uD83D\uDC80";
         } else {
@@ -307,9 +473,9 @@ public class World {
         }
 
         //Determine random spawn coordinates
-        random = entity.nextInt(24)+1;
+        spawn = random.nextInt(24)+1;
 
-        switch (random) {
+        switch (spawn) {
             case 1:
                 enemyRow = row - 2;
                 enemyColumn = column - 2;
@@ -408,51 +574,43 @@ public class World {
                 break;
         }
 
-
-        //Get current tile of enemy location, replace it with enemy
-        //currentPosition = world.get(row).get(column);
+        //Spawn enemy in world
         world.get(enemyRow).set(enemyColumn, enemy);
-
-        /*
-        //Replace enemy position with original tile
-        world.get(row).set(column, currentPosition);
-         */
 
     }//end of spawnEnemy
 
     /*************************
      * Method Name: spawnItem
-     * Method Description: Spawns a random item in the player's field of vision (and if lucky a chest)
+     * Method Description: Spawns a random item in the player's field of vision (and if lucky a chest).
      **************************/
     public void spawnItem() {
 
-        Random entity = new Random();
-
-        int random, itemRow = 0, itemColumn = 0;
+        //Variables in spawnItem
+        int spawn, itemRow = 0, itemColumn = 0;
         String item;
 
         //Determine random enemy
-        random = entity.nextInt(100)+1;
+        spawn = random.nextInt(100)+1;
 
-        if (random <= 30) {
+        if (spawn <= 30) {
             //Wood
             item = "\uD83E\uDD62";
-        } else if (random <= 40) {
+        } else if (spawn <= 40) {
             //Stone
             item = "\uD83E\uDD4C";
-        } else if (random <= 50) {
+        } else if (spawn <= 50) {
             //Apple
             item = "\uD83C\uDF4E";
-        } else if (random <= 60) {
+        } else if (spawn <= 60) {
             //Ore
             item = "\uD83D\uDC8E";
-        } else if (random <= 70) {
+        } else if (spawn <= 70) {
             //Mushroom
             item = "\uD83C\uDF44";
-        } else if (random <= 80) {
+        } else if (spawn <= 80) {
             //Critter
             item = "\uD83D\uDC1B";
-        } else if (random <= 90) {
+        } else if (spawn <= 90) {
             //Berries
             item = "\uD83C\uDF52";
         } else {
@@ -461,9 +619,9 @@ public class World {
         }
 
         //Determine random spawn coordinates
-        random = entity.nextInt(24)+1;
+        spawn = random.nextInt(24)+1;
 
-        switch (random) {
+        switch (spawn) {
             case 1:
                 itemRow = row - 2;
                 itemColumn = column - 2;
@@ -562,26 +720,21 @@ public class World {
                 break;
         }
 
-        //Get current tile of enemy location, replace it with enemy
-        //currentPosition = world.get(row).get(column);
+        //Spawn item in world
         world.get(itemRow).set(itemColumn, item);
 
-        /*
-        //Replace enemy position with original tile
-        world.get(row).set(column, currentPosition);
-         */
-
     }//end of spawnItem
-    
+
     /*************************
      * Method Name: map
-     * Method Description: Display the entire world that has been explored
+     * Method Description: Displays the entire world that has been explored.
      **************************/
     public void map() {
 
         char prompt;
 
         //Print map
+        System.out.println();
         for (int i=0; i<world.size(); i++) {
             for (int j=0; j<world.get(i).size(); j++) {
                 System.out.print(world.get(i).get(j) + "\t");
@@ -593,7 +746,58 @@ public class World {
         prompt = keyInput.nextLine().charAt(0);
 
     }//end of map
-    
+
+    /*************************
+     * Method Name: battle
+     * Method Description: Displays the battle system.
+     * @param entity - Enemy to be fought.
+     **************************/
+    public void battle(Character entity) throws InterruptedException {
+
+        boolean win = false;
+
+        if (!finishTutorial) {
+            //First battle - no equipment only fists
+            System.out.println(healer.getName() + ": Wait, you know how to fight?");
+            Thread.sleep(1000);
+            System.out.println(healer.getName() + ": Ok! I'm a healer, so I can help you when you're injured.");
+            Thread.sleep(1000);
+            partyMembers.add(healer);
+        }
+        for (int i=0;;i++) {
+            for (int j=0; j<partyMembers.size(); j++) {
+                System.out.println();
+                for (int k=0; k<partyMembers.size(); k++) {
+                    System.out.println(partyMembers.get(k).getName() + " - HP: " + partyMembers.get(k).getHealth());
+                }
+                System.out.println();
+                System.out.println(entity.getName() + " - HP: " + entity.getHealth());
+                System.out.println();
+                if (partyMembers.get(j).fight(partyMembers, entity)) {
+                    System.out.println(entity.name + " dies!");
+                    Thread.sleep(1000);
+                    player.distributeStats();
+                    world.get(row).set(column, "\uD83C\uDF33");
+                    entity.setHealth(entity.maxHealth);
+                    win = true;
+                    break;
+                }
+            }
+            if (win) {
+                break;
+            }
+            if (entity.fight(partyMembers, player)) {
+                System.out.println("Oh no you've died!");
+                System.exit(0);
+            }
+        }
+
+    }
+
+    /*************************
+     * Method Name: dungeon
+     * Method Description: Displays the dungeon.
+     **************************/
     public void dungeon() {
 
         System.out.println("You arrived at a dungeon. Will you enter?");
@@ -605,6 +809,10 @@ public class World {
 
     }//end of dungeon
 
+    /*************************
+     * Method Name: village
+     * Method Description: Displays the village.
+     **************************/
     public void village() {
 
         System.out.println("You arrived at a village. Will you enter?");
@@ -614,7 +822,7 @@ public class World {
         System.out.println("2) Visit the Store");
         System.out.println("3) Talk to Villagers");
         System.out.println("4) Exit");
+
     }//end of village
-    
 
 }//end of class

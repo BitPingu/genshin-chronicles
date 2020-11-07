@@ -6,62 +6,40 @@ import java.util.Scanner;
 
 public class Player extends Character {
 
-    private final Scanner keyInput = new Scanner(System.in);
-    //private final ArrayList<ArrayList<String>> world = new ArrayList<>();
+    //Fields
     private final ArrayList<ArrayList<String>> inventory = new ArrayList<>();
-
-    private int row, column, xPos, yPos, money;
-    private boolean tutorial;
+    private final Scanner keyInput = new Scanner(System.in);
 
     //Constructor
-    public Player(String noName) {
-        super(noName);
-        tutorial = true;
-        xPos = 0;
-        yPos = 0;
-        //initWorld();
+    public Player(String noName, int level) {
+        super(noName, level);
+        distributeStats();
+        weapon = "\uD83E\uDD1B Fists";
+        armor = "\uD83D\uDC55 Torn Shirt";
     }
 
     //Accessors
-    public int getRow() {
-        return row;
-    }
-
-    public int getColumn() {
-        return row;
-    }
-
-    public boolean isTutorial() {
-        return tutorial;
-    }
 
     //Mutators
-    public void setRow(int r) {
-        row = r;
+
+    public void distributeStats() {
+        if (level == 1) {
+            moveSet.add("Wrath Strike");
+            super.distributeStats();
+        }
     }
 
-    public void setColumn(int c) {
-        column = c;
-    }
-
-    public void setTutorial(boolean t) {
-        tutorial = t;
-    }
-
-    /*************************
-     * Method Name: navigate
-     * Method Description: Allows the player to explore the world using the asdw keys.
-     **************************/
- 
     /*************************
      * Method Name: fight
      * Method Description: Invoked when player initiates an enemy
      **************************/
-    public void fight(Character entity) {
+    public boolean fight(ArrayList<Character> partyMembers, Character entity) throws InterruptedException {
 
-        int prompt;
+        Random random = new Random();
 
-        System.out.println("You encountered a " + entity.name + "!");
+        //Variables in fight
+        int prompt, diceRoll, damage = 0;
+
         System.out.println("What will " + name + " do?");
         System.out.println("1) Attack");
         System.out.println("2) Special");
@@ -70,15 +48,41 @@ public class Player extends Character {
 
         switch (prompt) {
             case 1:
+                diceRoll = random.nextInt(6) + 1;
+                for (int i=0; i<diceRoll; i++) {
+                    if (entity.health == 0) {
+                        break;
+                    }
+                    entity.health--;
+                    damage++;
+                }
+                System.out.println("\n" + name + " attacks!");
+                Thread.sleep(1000);
+                System.out.println(name + " deals " + damage + " damage!");
+                Thread.sleep(1000);
                 break;
 
             case 2:
+                System.out.println();
+                for (int i=0; i<moveSet.size(); i++) {
+                    System.out.println(i+1 + ") " + moveSet.get(i));
+                }
+                prompt = Integer.parseInt(keyInput.nextLine());
+                damage = 6;
+                entity.health -= damage;
+                System.out.println("\n" + name + " used Wrath Strike!");
+                Thread.sleep(1000);
+                System.out.println(name + " deals " + damage + " damage!");
+                Thread.sleep(1000);
                 break;
 
             case 3:
+                System.out.println("Got away safely!");
                 break;
 
         }
+
+        return entity.health == 0;
 
     }//end of fight
     
@@ -86,11 +90,19 @@ public class Player extends Character {
      * Method Name: checkInventory
      * Method Description: Display the player's inventory
      **************************/
-    public void checkInventory() {
+    public void checkInventory(ArrayList<Character> partyMembers) {
 
         char prompt;
 
         //Print inventory
+        System.out.println();
+        for (int i=0; i<partyMembers.size(); i++) {
+            System.out.println(partyMembers.get(i).getName());
+            System.out.println("Weapon: " + partyMembers.get(i).getWeapon());
+            System.out.println("Armor: " + partyMembers.get(i).getArmor());
+            System.out.println();
+        }
+
         for (int i=0; i<inventory.size(); i++) {
             System.out.println(inventory.get(i).get(0) + ": " + inventory.get(i).size());
         }
@@ -101,7 +113,7 @@ public class Player extends Character {
     }//end of checkInventory
 
     /*************************
-     * Method Name: inventory
+     * Method Name: addInventory
      * Method Description: Adds a new item to the player's inventory
      **************************/
     public void addInventory(String item) {

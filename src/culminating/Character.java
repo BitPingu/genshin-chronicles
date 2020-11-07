@@ -1,18 +1,25 @@
 package culminating;
 
+import java.util.ArrayList;
+
 public class Character {
 
     //Fields
-    protected int health, strength, defense, speed, ep;
+    protected ArrayList<String> moveSet = new ArrayList<>();
+    protected int level, health, strength, defense, speed, exp, mp, maxHealth;
     protected String name, weapon, armor;
-    protected boolean tutorial;
 
     //Constructor
-    public Character(String n) {
+    public Character(String n, int l) {
         name = n;
+        level = l;
     }
 
     //Accessors
+    public int getLevel() {
+        return level;
+    }
+
     public int getHealth() {
         return health;
     }
@@ -29,6 +36,22 @@ public class Character {
         return speed;
     }
 
+    public int getExp() {
+        return exp;
+    }
+
+    public int getMp() {
+        return mp;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     public String getWeapon() {
         return weapon;
     }
@@ -37,11 +60,11 @@ public class Character {
         return armor;
     }
 
-    public boolean getTutorial() {
-        return tutorial;
+    //Mutators
+    public void setLevel(int l) {
+        level = l;
     }
 
-    //Mutators
     public void setHealth(int h) {
         health = h;
     }
@@ -58,6 +81,22 @@ public class Character {
         speed = s;
     }
 
+    public void setExp(int e) {
+        exp = e;
+    }
+
+    public void setMp(int m) {
+        mp = m;
+    }
+
+    public void setMaxHealth(int m) {
+        maxHealth = m;
+    }
+
+    public void setName(String n) {
+        name = n;
+    }
+
     public void setWeapon(String w) {
         weapon = w;
     }
@@ -66,19 +105,28 @@ public class Character {
         armor = a;
     }
 
-    public void setTutorial(boolean t) {
-        tutorial = t;
-    }
-
-    /*************************
-     * Method Name: fight
-     * Method Description: Invoked when player initiates an enemy
-     **************************/
-    public void fight(Character entity) {
+    public boolean fight(ArrayList<Character> partyMembers, Character entity) throws InterruptedException {
+        return false;
     }
     
-    public void checkInventory() {
+    public void checkInventory(ArrayList<Character> partyMembers) {
+
     }
+
     public void addInventory(String item) {
+
     }
+
+    public void distributeStats() {
+        if (level == 1) {
+            health = 20;
+            strength = 10;
+            defense = 8;
+            speed = 8;
+            exp = 0;
+            mp = 20;
+            maxHealth = health;
+        }
+    }
+
 }//end of class
