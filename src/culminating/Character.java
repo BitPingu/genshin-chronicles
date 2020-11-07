@@ -73,6 +73,7 @@ public class Character {
     /*************************
      * Method Name: fight
      * Method Description: Invoked when player initiates an enemy
+     * @param entity
      **************************/
     public void fight(Character entity) {
     }

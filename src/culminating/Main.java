@@ -14,8 +14,12 @@ import java.util.Scanner;
 
 public class Main {
 
+    private Character player = new Player("???");
+    private Character ogre = new Enemy("Ogre");
+    
+    
     public static void main(String[] args) throws InterruptedException {
-
+        
         Character player = new Player("???");
         Character ogre = new Enemy("Ogre");
 
@@ -47,52 +51,13 @@ public class Main {
         player.addInventory("\uD83D\uDDFA Map");
         //Robin introduces the player to the world, and the goal of the game
 
-        while (true) {
-
-            switch (player.navigate()) {
-
-                case "Dungeon":
-                    //Go to dungeon
-                    dungeon();
-                    break;
-
-                case "Village":
-                    //Go to village
-                    village();
-                    break;
-
-                case "Ogre":
-                    //Go fight Ogre
-                    player.fight(ogre);
-                    break;
-
-            }
-
+        while (true) 
+        {
+            player.navigate();
         }
+
+    }//end of main
         
-    }
+}//end of class
 
-    public static void dungeon() {
 
-        System.out.println("You arrived at a dungeon. Will you enter?");
-
-        System.out.println("You entered the dungeon.");
-        System.out.println("Floor 1");
-        System.out.println("Floor 2");
-        System.out.println("Floor 3");
-
-    }
-
-    public static void village() {
-
-        System.out.println("You arrived at a village. Will you enter?");
-
-        System.out.println("Welcome to village.");
-        System.out.println("1) Rest at Inn");//pay 50
-        System.out.println("2) Visit the Store");
-        System.out.println("3) Talk to Villagers");
-        System.out.println("4) Exit");
-
-    }
-    
-}
