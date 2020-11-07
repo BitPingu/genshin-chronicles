@@ -7,9 +7,7 @@ public class Enemy extends Character {
         super(name);
     }
 
-    //Accessors
-
-    //Mutators
+    
 
 
 
