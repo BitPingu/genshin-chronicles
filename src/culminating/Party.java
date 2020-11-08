@@ -8,25 +8,29 @@ public class Party extends Character {
 
     //Fields
     private final Scanner keyInput = new Scanner(System.in);
-
+    private final Scanner scanN = new Scanner(System.in);
+    
     //Constructor
-    public Party(String name, int level) {
-        super(name, level);
-        distributeStats();
+    public Party(String name, int level, int hp, int mp, int str, int def, int spd, int exp, int dice) {
+        super(name, level, hp, mp, str, def, spd, exp, dice);
+//        distributeStats();
         weapon = "\uD83E\uDD4D Wooden Staff";
         armor = "\uD83D\uDC57 Leather Dress";
+        moveSet.add("Physic");
     }
 
     //Accessors
 
     //Mutators
 
-    public void distributeStats() {
-        if (level == 1) {
-            moveSet.add("Physic");
-            super.distributeStats();
-        }
-    }
+//    public void distributeStats() {
+//        if (level == 1) {
+//            moveSet.add("Physic");
+//            super.distributeStats();
+//        }
+//    }
+    
+    
 
     /*************************
      * Method Name: fight
@@ -34,41 +38,33 @@ public class Party extends Character {
      **************************/
     public boolean fight(ArrayList<Character> partyMembers, Character entity) throws InterruptedException {
 
-        Random random = new Random();
-
         //Variables in fight
-        String prompt;
-        int diceRoll, damage = 0;
+        int prompt, damage;
 
         System.out.println("What will " + name + " do?");
         System.out.println("1) Attack");
         System.out.println("2) Special");
         System.out.println("3) Run");
-        prompt = keyInput.nextLine();
+        prompt = Integer.parseInt(keyInput.nextLine());
 
         switch (prompt) {
-            case "1":
-                diceRoll = random.nextInt(6) + 1;
-                damage = 0;
-                for (int i=0; i<diceRoll; i++) {
-                    if (entity.health == 0) {
-                        break;
-                    }
-                    entity.health--;
-                    damage++;
-                }
+            case 1:
+                damage = attack(getDices());
+                
+                entity.health -= damage;
+                
                 System.out.println("\n" + name + " attacks!");
                 Thread.sleep(1000);
                 System.out.println(name + " deals " + damage + " damage!");
                 Thread.sleep(1000);
                 break;
 
-            case "2":
+            case 2:
                 System.out.println();
                 for (int i=0; i<moveSet.size(); i++) {
                     System.out.println(i+1 + ") " + moveSet.get(i));
                 }
-                prompt = keyInput.nextLine();
+                prompt = Integer.parseInt(keyInput.nextLine());
                 for (int i=0; i<5; i++) {
                     if (partyMembers.get(0).health == partyMembers.get(0).maxHealth) {
                         break;
@@ -82,7 +78,7 @@ public class Party extends Character {
                 Thread.sleep(1000);
                 break;
 
-            case "3":
+            case 3:
                 System.out.println("Got away safely!");
                 break;
 
@@ -90,6 +86,31 @@ public class Party extends Character {
 
         return entity.health == 0;
 
-    }
+    }//end of fight
+    
+    /**
+     * attack 
+     * This method will show the user their available attacks
+     * @param diceTotal - how many dices the character has
+     * @return - returns damage output
+     */
+    @Override
+    public int attack(int diceTotal)
+    {
+        Random random = new Random();
+        int choice;
+        
+        ArrayList<Integer> dice = new ArrayList<>();
+        for (int i = 0; i < diceTotal; i++)
+        {
+            dice.add(random.nextInt(6) + 1);
+            System.out.println("DICE[" + (i + 1) + "]: "+dice.get(i));
+        }
+        System.out.println("What dice do you want to use?");
+        
+        choice = scanN.nextInt();
+
+        return dice.get(choice-1);
+    }//end of attack
 
 }

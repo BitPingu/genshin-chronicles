@@ -6,13 +6,21 @@ public class Character {
 
     //Fields
     protected ArrayList<String> moveSet = new ArrayList<>();
-    protected int level, health, strength, defense, speed, exp, mp, maxHealth;
+    protected int level, health, strength, defense, speed, exp, mp, maxHealth, dices;
     protected String name, weapon, armor;
 
     //Constructor
-    public Character(String n, int l) {
+    public Character(String n, int l, int h, int m, int s, int d, int sp, int ep, int di) {
         name = n;
         level = l;
+        health = h;
+        mp = m;
+        strength = s;
+        defense = d;
+        speed = sp;
+        exp = ep;
+        dices = di;
+        maxHealth = health;
     }
 
     //Accessors
@@ -59,6 +67,9 @@ public class Character {
     public String getArmor() {
         return armor;
     }
+    public int getDices() {
+        return dices;
+    }
 
     //Mutators
     public void setLevel(int l) {
@@ -104,9 +115,15 @@ public class Character {
     public void setArmor(String a) {
         armor = a;
     }
+    public void setDices(int di) {
+        dices = di;
+    }
 
     public boolean fight(ArrayList<Character> partyMembers, Character entity) throws InterruptedException {
         return false;
+    }
+    public int attack(int diceTotal) {
+        return 0;
     }
     
     public void checkInventory(ArrayList<Character> partyMembers) {
@@ -117,16 +134,17 @@ public class Character {
 
     }
 
-    public void distributeStats() {
-        if (level == 1) {
-            health = 20;
-            strength = 10;
-            defense = 8;
-            speed = 8;
-            exp = 0;
-            mp = 20;
-            maxHealth = health;
-        }
-    }
+//    public void distributeStats() {
+//        if (level == 1) {
+//            health = 20;
+//            strength = 10;
+//            defense = 8;
+//            speed = 8;
+//            exp = 0;
+//            mp = 20;
+//            dices = 4;
+//            maxHealth = health;
+//        }
+//    }
 
 }//end of class

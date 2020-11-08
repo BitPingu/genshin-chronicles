@@ -9,25 +9,27 @@ public class Player extends Character {
     //Fields
     private final ArrayList<ArrayList<String>> inventory = new ArrayList<>();
     private final Scanner keyInput = new Scanner(System.in);
+    private final Scanner scanN = new Scanner(System.in);
 
     //Constructor
-    public Player(String noName, int level) {
-        super(noName, level);
-        distributeStats();
+    public Player(String noName, int level, int hp, int mp, int str, int def, int spd, int exp, int dice) {
+        super(noName, level, hp, mp, str, def, spd, exp, dice);
+//        distributeStats();
         weapon = "\uD83E\uDD1B Fists";
         armor = "\uD83D\uDC55 Torn Shirt";
+        moveSet.add("Wrath Strike");
     }
 
     //Accessors
 
     //Mutators
 
-    public void distributeStats() {
-        if (level == 1) {
-            moveSet.add("Wrath Strike");
-            super.distributeStats();
-        }
-    }
+//    public void distributeStats() {
+//        if (level == 1) {
+//            moveSet.add("Wrath Strike");
+//            super.distributeStats();
+//        }
+//    }
 
     /*************************
      * Method Name: fight
@@ -35,40 +37,37 @@ public class Player extends Character {
      **************************/
     public boolean fight(ArrayList<Character> partyMembers, Character entity) throws InterruptedException {
 
-        Random random = new Random();
-
         //Variables in fight
-        String prompt;
-        int diceRoll, damage = 0;
-
+        int prompt, damage
+        
         System.out.println("What will " + name + " do?");
         System.out.println("1) Attack");
         System.out.println("2) Special");
         System.out.println("3) Run");
-        prompt = keyInput.nextLine();
+        prompt = Integer.parseInt(keyInput.nextLine());
 
         switch (prompt) {
-            case "1":
-                diceRoll = random.nextInt(6) + 1;
-                for (int i=0; i<diceRoll; i++) {
-                    if (entity.health == 0) {
-                        break;
-                    }
-                    entity.health--;
-                    damage++;
-                }
+            //attack
+            case 1:
+                damage = attack(getDices());
+                
+                entity.health -= damage;
+                
+                if (entity.health > 0)
+                    entity.health = 0;
+                
                 System.out.println("\n" + name + " attacks!");
                 Thread.sleep(1000);
                 System.out.println(name + " deals " + damage + " damage!");
                 Thread.sleep(1000);
                 break;
-
-            case "2":
+            //sepcial
+            case 2:
                 System.out.println();
                 for (int i=0; i<moveSet.size(); i++) {
                     System.out.println(i+1 + ") " + moveSet.get(i));
                 }
-                prompt = keyInput.nextLine();
+                prompt = Integer.parseInt(keyInput.nextLine());
                 damage = 6;
                 entity.health -= damage;
                 System.out.println("\n" + name + " used Wrath Strike!");
@@ -76,8 +75,8 @@ public class Player extends Character {
                 System.out.println(name + " deals " + damage + " damage!");
                 Thread.sleep(1000);
                 break;
-
-            case "3":
+            //running
+            case 3:
                 System.out.println("Got away safely!");
                 break;
 
@@ -87,13 +86,43 @@ public class Player extends Character {
 
     }//end of fight
     
+    /**
+     * attack 
+     * This method will show the user their available attacks
+     * @param diceTotal - how many dices the character has
+     * @return - returns damage output
+     */
+    @Override
+    public int attack(int diceTotal)
+    {
+        Random random = new Random();
+        int choice;
+        
+        ArrayList<Integer> dices = new ArrayList<>();
+        
+        //shows how many dices the player can use
+        for (int i = 0; i < diceTotal; i++)
+        {
+            dices.add(random.nextInt(8) + 1);
+            System.out.println("DICE[" + (i + 1) + "]: "+dices.get(i));
+        }
+        System.out.println("What dice do you want to use?");
+        System.out.print("Dice: ");
+        //user input(error handle)
+        choice = scanN.nextInt()
+
+        return dices.get(choice-1);
+    }//end of attack
+    
+    
+    
     /*************************
      * Method Name: checkInventory
      * Method Description: Display the player's inventory
      **************************/
     public void checkInventory(ArrayList<Character> partyMembers) {
 
-        String prompt;
+        char prompt;
 
         //Print inventory
         System.out.println();
@@ -109,7 +138,7 @@ public class Player extends Character {
         }
 
         System.out.println("Type 'i' to exit.");
-        prompt = keyInput.nextLine();
+        prompt = keyInput.nextLine().charAt(0);
 
     }//end of checkInventory
 
@@ -134,7 +163,5 @@ public class Player extends Character {
         }
 
     }//end of addInventory
-    
-
-    
+   
 }//end of class
