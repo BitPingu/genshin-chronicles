@@ -9,10 +9,11 @@ public class Party extends Character {
     //Fields
     private final Scanner keyInput = new Scanner(System.in);
     private final Scanner scanN = new Scanner(System.in);
+    private final Random random = new Random();
     
     //Constructor
-    public Party(String name, int level, int hp, int mp, int str, int def, int spd, int exp, int dice) {
-        super(name, level, hp, mp, str, def, spd, exp, dice);
+    public Party(String name, int level, int hp, int mp, int str, int def, int spd, int exp, int dice, int money) {
+        super(name, level, hp, mp, str, def, spd, exp, dice, money);
         weapon = "\uD83E\uDD4D Wooden Staff";
         armor = "\uD83D\uDC57 Leather Dress";
         moveSet.add("Physic");
@@ -29,53 +30,65 @@ public class Party extends Character {
     public boolean fight(ArrayList<Character> partyMembers, Character entity) throws InterruptedException {
 
         //Variables in fight
-        int prompt, damage =0;
+        int damage =0;
+        String prompt;
 
-        System.out.println("What will " + name + " do?");
-        System.out.println("1) Attack");
-        System.out.println("2) Special");
-        System.out.println("3) Run");
-        prompt = Integer.parseInt(keyInput.nextLine());
+        do
+        {
+            System.out.println("What will " + name + " do?");
+            System.out.println("1) Attack");
+            System.out.println("2) Special");
+            System.out.println("3) Run");
+            prompt = keyInput.nextLine();
 
-        switch (prompt) {
-            case 1:
-                damage = attack(getDices());
-                entity.health -= damage;
-                
-                //makes sure that the enemy does not go below 0
-                if (entity.health < 0)
-                    entity.health = 0;
+            switch (prompt) 
+            {
+                //attacking
+                case "1":
+                    damage = attack(getDices()) + getStrength();
+                    entity.health -= damage;
 
-                System.out.println("\n" + name + " attacks!");
-                Thread.sleep(1000);
-                System.out.println(name + " deals " + damage + " damage!");
-                Thread.sleep(1000);
-                break;
+                    //makes sure that the enemy does not go below 0
+                    if (entity.health < 0)
+                        entity.health = 0;
 
-            case 2:
-                System.out.println();
-                for (int i=0; i<moveSet.size(); i++) {
-                    System.out.println(i+1 + ") " + moveSet.get(i));
-                }
-                prompt = Integer.parseInt(keyInput.nextLine());
-                for (int i=0; i<5; i++) {
-                    if (partyMembers.get(0).health == partyMembers.get(0).maxHealth) {
-                        break;
+                    System.out.println("\n" + name + " attacks!");
+                    Thread.sleep(1000);
+                    System.out.println(name + " deals " + damage + " damage!");
+                    Thread.sleep(1000);
+                    break;
+                    
+                //specials
+                case "2":
+                    System.out.println();
+                    for (int i=0; i<moveSet.size(); i++) {
+                        System.out.println(i+1 + ") " + moveSet.get(i));
                     }
-                    partyMembers.get(0).health++;
-                    damage++;
-                }
-                System.out.println("\n" + name + " used Physic!");
-                Thread.sleep(1000);
-                System.out.println(name + " restored " + damage + " health to " + partyMembers.get(0).name + ".");
-                Thread.sleep(1000);
-                break;
+                    prompt = keyInput.nextLine();
+                    for (int i=0; i<5; i++) {
+                        if (partyMembers.get(0).health == partyMembers.get(0).maxHealth) {
+                            break;
+                        }
+                        partyMembers.get(0).health++;
+                        damage++;
+                    }
+                    System.out.println("\n" + name + " used Physic!");
+                    Thread.sleep(1000);
+                    System.out.println(name + " restored " + damage + " health to " + partyMembers.get(0).name + ".");
+                    Thread.sleep(1000);
+                    break;
+                
+                //running away
+                case "3":
+                    System.out.println("Got away safely!");
+                    break;
+                //error handle
+                default:
+                    System.out.println("Please enter a command");
+                    break;
 
-            case 3:
-                System.out.println("Got away safely!");
-                break;
-
-        }
+            }
+        } while (!prompt.equals("1") && !prompt.equals("2") && !prompt.equals("3"));
 
         return entity.health == 0;
 
@@ -105,5 +118,46 @@ public class Party extends Character {
 
         return dice.get(choice-1);
     }//end of attack
+    
+    /**
+     * checkLvl
+     * THis method will check if the user can level up or not
+     */
+    @Override
+    public void checkLvl()
+    {
+        //level up based on level * 20
+        if (getExp() >= (getLevel() * 20))
+        {
+            System.out.println("Level up! " + getName());
+            setExp(0);
+            
+            //shows new level
+            System.out.print("Lvl: " + level + " -> ");
+            level += 1;
+            System.out.println(level);
+            
+            //shows new heatlh
+            System.out.print("HP: " + health + " -> ");
+            health += 5;
+            System.out.println(health);
+            
+            //shows new strength
+            System.out.print("Atk: " + strength + " -> ");
+            strength += 5;
+            System.out.println(strength);
+            
+            //shows new defence
+            System.out.print("Def: " + defence + " -> ");
+            defence += 5;
+            System.out.println(defence);
+            
+            //shows new speed
+            System.out.print("Spd: " + speed + " -> ");
+            speed += 5;
+            System.out.println(speed);
+            
+        }
+    }//end of checkLvl
 
 }

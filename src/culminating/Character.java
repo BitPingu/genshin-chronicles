@@ -6,21 +6,22 @@ public class Character {
 
     //Fields
     protected ArrayList<String> moveSet = new ArrayList<>();
-    protected int level, health, strength, defense, speed, exp, mp, maxHealth, dices;
+    protected int level, health, strength, defence, speed, exp, mp, maxHealth, dices, money;
     protected String name, weapon, armor;
 
     //Constructor
-    public Character(String n, int l, int h, int m, int s, int d, int sp, int ep, int di) {
+    public Character(String n, int l, int h, int m, int s, int d, int sp, int ep, int di, int mo) {
         name = n;
         level = l;
         health = h;
         mp = m;
         strength = s;
-        defense = d;
+        defence = d;
         speed = sp;
         exp = ep;
         dices = di;
         maxHealth = health;
+        money = mo;
     }
 
     //Accessors
@@ -36,8 +37,8 @@ public class Character {
         return strength;
     }
 
-    public int getDefense() {
-        return defense;
+    public int getDefence() {
+        return defence;
     }
 
     public int getSpeed() {
@@ -72,6 +73,12 @@ public class Character {
         return dices;
     }
 
+    public int getMoney()
+    {
+        return money;
+    }
+    
+
     //Mutators
     public void setLevel(int l) {
         level = l;
@@ -85,8 +92,8 @@ public class Character {
         strength = s;
     }
 
-    public void setDefense(int d) {
-        defense = d;
+    public void setDefence(int d) {
+        defence = d;
     }
 
     public void setSpeed(int s) {
@@ -136,5 +143,20 @@ public class Character {
     public void addInventory(String item) {
 
     }
-
+    
+    /**
+     * gainExpMoney
+ This method is a way to distubute the exp
+     * @param entity 
+     */
+    public void gainExpMoney(Character entity)
+    {
+        //gives exp based on enemies level and exp hold
+        exp += (entity.getExp() * entity.getLevel());
+    }
+    
+    public void checkLvl()
+    {
+    }//end of checkLvl
+    
 }//end of class

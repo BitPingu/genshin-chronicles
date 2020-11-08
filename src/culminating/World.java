@@ -820,6 +820,7 @@ public class World {
         clip.stop();
         music("battle.wav");
 
+        //tutorial
         if (!finishTutorial) {
             //First battle - no equipment only fists
             System.out.println(healer.getName() + ": Wait, you know how to fight?");
@@ -828,21 +829,29 @@ public class World {
             Thread.sleep(1000);
             partyMembers.add(healer);
         }
-        for (int i=0;;i++) {
-            for (int j=0; j<partyMembers.size(); j++) 
+        //goes through each party memeber and enemy
+        for (int i = 0;; i++) 
+        {
+            //goes through each aprty member
+            for (int j = 0; j < partyMembers.size(); j++) 
             {
                 
                 System.out.println();
                 clearScreen();
-                for (int k=0; k<partyMembers.size(); k++) {
+                //prints all party emember info
+                for (int k = 0; k < partyMembers.size(); k++) 
+                {
                     System.out.println(partyMembers.get(k).getName() + " - HP: " + partyMembers.get(k).getHealth());
                 }
                 
+                //prints enemy info
                 System.out.println();
                 System.out.println(entity.getName() + " - HP: " + entity.getHealth());
                 System.out.println();
                 
-                if (partyMembers.get(j).fight(partyMembers, entity)) {
+                //if one of the characters defeats the enemy
+                if (partyMembers.get(j).fight(partyMembers, entity)) 
+                {
                     System.out.println(entity.name + " dies!");
                     Thread.sleep(1000);
                     world.get(row).set(column, "\uD83C\uDF33");
@@ -851,9 +860,11 @@ public class World {
                     break;
                 }
             }
+            //if players won
             if (win) 
             {
                 System.out.println("You won!");
+                //distrobute exp to all your party members
                 for (int j = 0; j < partyMembers.size(); j++)
                 {
                     partyMembers.get(j).gainExpMoney(entity);
@@ -862,6 +873,7 @@ public class World {
                 Thread.sleep(2000);
                 break;
             }
+            //if one of your paty members die, you lose
             if (entity.fight(partyMembers, player)) {
                 System.out.println("Oh no you've died!");
                 System.exit(0);
