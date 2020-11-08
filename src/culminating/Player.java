@@ -53,7 +53,8 @@ public class Player extends Character {
                 
                 entity.health -= damage;
                 
-                if (entity.health > 0)
+                //makes sure that the enemy does not go below 0
+                if (entity.health < 0)
                     entity.health = 0;
                 
                 System.out.println("\n" + name + " attacks!");

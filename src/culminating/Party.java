@@ -39,7 +39,7 @@ public class Party extends Character {
     public boolean fight(ArrayList<Character> partyMembers, Character entity) throws InterruptedException {
 
         //Variables in fight
-        int prompt, damage;
+        int prompt, damage =0;
 
         System.out.println("What will " + name + " do?");
         System.out.println("1) Attack");
@@ -52,6 +52,11 @@ public class Party extends Character {
                 damage = attack(getDices());
                 
                 entity.health -= damage;
+                
+                //makes sure that the enemy does not go below 0
+                if (entity.health < 0)
+                    entity.health = 0;
+                
                 
                 System.out.println("\n" + name + " attacks!");
                 Thread.sleep(1000);
