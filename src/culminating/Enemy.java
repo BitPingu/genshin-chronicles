@@ -8,7 +8,6 @@ public class Enemy extends Character {
     //Constructor
     public Enemy(String name, int level, int hp, int mp, int str, int def, int spd, int exp, int dice) {
         super(name, level, hp, mp, str, def, spd, exp, dice);
-//        super.distributeStats();
     }
 
     //Accessors

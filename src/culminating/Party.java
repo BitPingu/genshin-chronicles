@@ -13,7 +13,6 @@ public class Party extends Character {
     //Constructor
     public Party(String name, int level, int hp, int mp, int str, int def, int spd, int exp, int dice) {
         super(name, level, hp, mp, str, def, spd, exp, dice);
-//        distributeStats();
         weapon = "\uD83E\uDD4D Wooden Staff";
         armor = "\uD83D\uDC57 Leather Dress";
         moveSet.add("Physic");
@@ -22,15 +21,6 @@ public class Party extends Character {
     //Accessors
 
     //Mutators
-
-//    public void distributeStats() {
-//        if (level == 1) {
-//            moveSet.add("Physic");
-//            super.distributeStats();
-//        }
-//    }
-    
-    
 
     /*************************
      * Method Name: fight
@@ -50,14 +40,12 @@ public class Party extends Character {
         switch (prompt) {
             case 1:
                 damage = attack(getDices());
-                
                 entity.health -= damage;
                 
                 //makes sure that the enemy does not go below 0
                 if (entity.health < 0)
                     entity.health = 0;
-                
-                
+
                 System.out.println("\n" + name + " attacks!");
                 Thread.sleep(1000);
                 System.out.println(name + " deals " + damage + " damage!");

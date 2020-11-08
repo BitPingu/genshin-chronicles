@@ -1,5 +1,8 @@
 package culminating;
 
+import javax.sound.sampled.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -7,23 +10,29 @@ import java.util.Scanner;
 public class World {
 
     //Field objects
-    private final ArrayList<ArrayList<String>> world = new ArrayList<>();
+    private ArrayList<ArrayList<String>> world = new ArrayList<>();
     private final Scanner keyInput = new Scanner(System.in);
     private final Random random = new Random();
+    private Clip clip;
 
     private final ArrayList<Character> partyMembers = new ArrayList<>();
     
     //name, level, hp, mp, str, def, spd, exp, dice
     private final Character player  = new Player("\uD83E\uDDDD Traveller", 1, 50, 25, 10, 5, 5, 0, 4);
     private final Character healer = new Party("\uD83E\uDDDA Girl", 1, 35, 55, 6, 6, 5, 0, 3);
-    private Character zombie = new Enemy("\uD83E\uDDDF Zombie", 1 , 50, 25, 10, 5, 5, 0, 4);
-    private Character ogre = new Enemy("\uD83D\uDC79 Ogre", 1, 50, 25, 10, 5, 5, 0, 4);
-    private Character goblin = new Enemy("\uD83D\uDC7A Goblin", 1, 50, 25, 10, 5, 5, 0, 4);
-    private Character ghost = new Enemy("\uD83D\uDC7B Ghost", 1, 50, 25, 10, 5, 5, 0, 4);
-    private Character alien = new Enemy("\uD83D\uDC7D Alien", 1, 50, 25, 10, 5, 5, 0, 4);
-    private Character octopus = new Enemy("\uD83D\uDC19 Octopus", 1, 50, 25, 10, 5, 5, 0, 4);
-    private Character skeleton = new Enemy("\uD83D\uDC80 Skeleton", 1, 50, 25, 10, 5, 5, 0, 4);
-    private Character golem = new Enemy("\uD83E\uDD16 Golem", 1, 50, 25, 10, 5, 5, 0, 4);
+    private final Character soldier = new Party("\uD83D\uDE4E Link", 1, 50, 25,10, 5, 5, 0, 4);
+    private final Character mage = new Party("\uD83D\uDC70 Mona", 1, 50, 25,10, 5, 5, 0, 4);
+    private final Character archer = new Party("\uD83D\uDC68 Claude", 1, 50, 25,10, 5, 5, 0, 4);
+    private final Character rogue = new Party("\uD83D\uDC69 Keqing", 1, 50, 25,10, 5, 5, 0, 4);
+
+    private final Character zombie = new Enemy("\uD83E\uDDDF Zombie", 1 , 50, 25, 10, 5, 5, 0, 4);
+    private final Character ogre = new Enemy("\uD83D\uDC79 Ogre", 1, 50, 25, 10, 5, 5, 0, 4);
+    private final Character goblin = new Enemy("\uD83D\uDC7A Goblin", 1, 50, 25, 10, 5, 5, 0, 4);
+    private final Character ghost = new Enemy("\uD83D\uDC7B Ghost", 1, 50, 25, 10, 5, 5, 0, 4);
+    private final Character alien = new Enemy("\uD83D\uDC7D Alien", 1, 50, 25, 10, 5, 5, 0, 4);
+    private final Character octopus = new Enemy("\uD83D\uDC19 Octopus", 1, 50, 25, 10, 5, 5, 0, 4);
+    private final Character skeleton = new Enemy("\uD83D\uDC80 Skeleton", 1, 50, 25, 10, 5, 5, 0, 4);
+    private final Character golem = new Enemy("\uD83E\uDD16 Golem", 1, 50, 25, 10, 5, 5, 0, 4);
 
     //Field variables
     private int row, column, xPos, yPos;
@@ -35,7 +44,20 @@ public class World {
         initWorld();
     }
 
+    public World(ArrayList<ArrayList<String>> w, int r, int c, int x, int y, boolean f) {
+        world = w;
+        row = r;
+        column = c;
+        xPos = x;
+        yPos = y;
+        finishTutorial = f;
+    }
+
     //Accessors
+    public ArrayList<ArrayList<String>> getWorld() {
+        return world;
+    }
+
     public Character getPlayer() {
         return player;
     }
@@ -60,7 +82,15 @@ public class World {
         return yPos;
     }
 
+    public boolean isFinishTutorial() {
+        return finishTutorial;
+    }
+
     //Mutators
+    public void setWorld(ArrayList<ArrayList<String>> w) {
+        world = w;
+    }
+
     public void setRow(int r) {
         row = r;
     }
@@ -75,6 +105,10 @@ public class World {
 
     public void setyPos(int y) {
         yPos = y;
+    }
+
+    public void setFinishTutorial(boolean f) {
+        finishTutorial = f;
     }
 
     /*************************
@@ -99,7 +133,7 @@ public class World {
      * Method Name: start
      * Method Description: Prints the text dialogue at the start of the game.
      **************************/
-    public void start() throws InterruptedException {
+    public void start() throws InterruptedException, UnsupportedAudioFileException, IOException, LineUnavailableException {
 
         partyMembers.add(player);
 
@@ -107,12 +141,14 @@ public class World {
         world.get(0).set(3, "\uD83D\uDC79");//Ogre
 
         //Start of the game - waking up and saving person
-        System.out.println("You wake up on a grassy field to the sound of a girl screaming.");
+        System.out.println("\nYou wake up on a grassy field to the sound of a girl screaming.");
         Thread.sleep(1000);
         System.out.println(healer.getName() + ": Someone please help me!");
         Thread.sleep(1000);
         System.out.println("(Press the asdw keys to move)");
         Thread.sleep(1000);
+        //Call music method
+        music("overworld.wav");
         navigate();
 
         //After first battle - meeting the waifu and setting the name
@@ -139,12 +175,11 @@ public class World {
         finishTutorial = true;
 
         //Replace with grass
-        world.get(2).set(2, "\uD83D\uDFE9");
-        world.get(2).set(3, "\uD83D\uDFE9");
+        world.get(row).set(column-1, "\uD83D\uDFE9");
+        world.get(row).set(column, "\uD83D\uDFE9");
 
-        while (true) {
-            navigate();
-        }
+        //Call navigate method
+        navigate();
 
     }//end of start
 
@@ -152,7 +187,7 @@ public class World {
      * Method Name: navigate
      * Method Description: Allows the player to explore the world using the asdw keys.
      **************************/
-    public void navigate() throws InterruptedException {
+    public void navigate() throws InterruptedException, UnsupportedAudioFileException, IOException, LineUnavailableException {
 
         //Variables in navigate
         String currentPosition;
@@ -214,6 +249,10 @@ public class World {
                         world.get(row).set(column, currentPosition);
                     }
                     break;
+                case "l":
+                    if (finishTutorial) {
+                        return;
+                    }
                 default:
             }
 
@@ -317,18 +356,21 @@ public class World {
                     break;
 
                 case "\uD83D\uDC80":
+                    //Fight Skeleton
                     System.out.println("You encountered a " + skeleton.getName() + "!");
                     Thread.sleep(1000);
                     battle(skeleton);
                     break;
 
                 case "\uD83E\uDD16":
+                    //Fight Golem
                     System.out.println("You encountered a " + golem.getName() + "!");
                     Thread.sleep(1000);
                     battle(golem);
                     break;
 
                 case "\uD83E\uDD62":
+                    //Collect wood
                     System.out.println("You collected some wood.");
                     Thread.sleep(1000);
                     getPlayer().addInventory("\uD83E\uDD62 Wood");
@@ -336,6 +378,7 @@ public class World {
                     break;
 
                 case "\uD83E\uDD4C":
+                    //Collect stone
                     System.out.println("You collected some stone.");
                     Thread.sleep(1000);
                     getPlayer().addInventory("\uD83E\uDD4C Stone");
@@ -343,6 +386,7 @@ public class World {
                     break;
 
                 case "\uD83C\uDF4E":
+                    //Collect apples
                     System.out.println("You collected some apples.");
                     Thread.sleep(1000);
                     getPlayer().addInventory("\uD83C\uDF4E Apple");
@@ -350,6 +394,7 @@ public class World {
                     break;
 
                 case "\uD83D\uDC8E":
+                    //Collect ores
                     System.out.println("You collected some ore.");
                     Thread.sleep(1000);
                     getPlayer().addInventory("\uD83D\uDC8E Ore");
@@ -357,6 +402,7 @@ public class World {
                     break;
 
                 case "\uD83C\uDF44":
+                    //Collect mushrooms
                     System.out.println("You collected some mushrooms.");
                     Thread.sleep(1000);
                     getPlayer().addInventory("\uD83C\uDF44 Mushroom");
@@ -364,6 +410,7 @@ public class World {
                     break;
 
                 case "\uD83D\uDC1B":
+                    //Collect critters
                     System.out.println("You caught some critters.");
                     Thread.sleep(1000);
                     getPlayer().addInventory("\uD83D\uDC1B Critter");
@@ -371,6 +418,7 @@ public class World {
                     break;
 
                 case "\uD83C\uDF52":
+                    //Collect berries
                     System.out.println("You collected some berries.");
                     Thread.sleep(1000);
                     getPlayer().addInventory("\uD83C\uDF52 Berries");
@@ -378,6 +426,7 @@ public class World {
                     break;
 
                 case "\uD83E\uDDF0":
+                    //Collect open chest
                     System.out.println("You opened a chest.");
                     Thread.sleep(1000);
                     world.get(row).set(column, "\uD83C\uDF33");
@@ -733,7 +782,7 @@ public class World {
      **************************/
     public void map() {
 
-        char prompt;
+        String prompt;
 
         //Print map
         System.out.println();
@@ -745,7 +794,7 @@ public class World {
         }
 
         System.out.println("Type 'm' to exit.");
-        prompt = keyInput.nextLine().charAt(0);
+        prompt = keyInput.nextLine();
 
     }//end of map
 
@@ -754,9 +803,13 @@ public class World {
      * Method Description: Displays the battle system.
      * @param entity - Enemy to be fought.
      **************************/
-    public void battle(Character entity) throws InterruptedException {
+    public void battle(Character entity) throws InterruptedException, UnsupportedAudioFileException, IOException, LineUnavailableException {
 
         boolean win = false;
+
+        //Call music method
+        clip.stop();
+        music("battle.wav");
 
         if (!finishTutorial) {
             //First battle - no equipment only fists
@@ -778,7 +831,6 @@ public class World {
                 if (partyMembers.get(j).fight(partyMembers, entity)) {
                     System.out.println(entity.name + " dies!");
                     Thread.sleep(1000);
-                    //player.distributeStats();
                     world.get(row).set(column, "\uD83C\uDF33");
                     entity.setHealth(entity.maxHealth);
                     win = true;
@@ -793,6 +845,10 @@ public class World {
                 System.exit(0);
             }
         }
+
+        //Call music method
+        clip.stop();
+        music("overworld.wav");
 
     }
 
@@ -815,22 +871,79 @@ public class World {
      * Method Name: village
      * Method Description: Displays the village.
      **************************/
-    public void village() {
+    public void village() throws UnsupportedAudioFileException, IOException, LineUnavailableException, InterruptedException {
 
-        System.out.println("You arrived at a village. Will you enter?");
+        String prompt;
 
-        System.out.println("Welcome to village.");
-        System.out.println("1) Rest at Inn");//pay 50
-        System.out.println("2) Visit the Store");
-        System.out.println("3) Talk to Villagers");
-        System.out.println("4) Exit");
+        System.out.println("You arrived at a village. Will you enter? (y/n)");
+        prompt = keyInput.nextLine();
+
+        if (prompt.equalsIgnoreCase("y")) {
+
+            //Call music method
+            clip.stop();
+            music("village.wav");
+
+            do {
+
+                System.out.println("\nWelcome to village.");
+                System.out.println("1) Rest at Inn");//pay 50
+                System.out.println("2) Visit the Store");
+                System.out.println("3) Visit the Workshop");
+                System.out.println("4) Talk to Villagers");
+                System.out.println("5) Exit");
+                prompt = keyInput.nextLine();
+
+                switch (prompt) {
+                    case "1":
+                        System.out.println("Pay 50 rupees to rest at Inn? (y/n)");
+                        prompt = keyInput.nextLine();
+                        if (prompt.equalsIgnoreCase("y")) {
+                            System.out.println("You and your team's health are fully restored!");
+                            Thread.sleep(1000);
+                        }
+                        break;
+                    case "2":
+                        System.out.println("Store Clerk: Hey there! How may I help ya?");
+                        System.out.println("1) Weapons and Armor");
+                        System.out.println("2) Items");
+                        System.out.println("3) See ya!");
+                        prompt = keyInput.nextLine();
+                        System.out.println("Store Clerk: Come back soon!");
+                        Thread.sleep(1000);
+                        break;
+                    case "3":
+                        System.out.println(player.name + ": Hmm... what should I craft?");
+                        System.out.println("Type 'r' to return.");
+                        prompt = keyInput.nextLine();
+                        break;
+                    case "4":
+                        System.out.println("There are no available quests.");
+                        System.out.println("Villager: I need 5 wood in order to build a house.");
+                        System.out.println("Villager: I need 5 stone in order to build a well.");
+                        System.out.println("Villager: I need 2 apples and 2 mushrooms to make mushroom soup.");
+                        System.out.println("Villager: I need 10 berries to make a shake.");
+                        System.out.println("Villager: I need 5 critters to make elixirs.");
+                        System.out.println("Villager: I need 3 ore and 4 wood to make a weapon.");
+                        System.out.println("Type 'r' to return.");
+                        prompt = keyInput.nextLine();
+                        break;
+                }
+
+            } while (!prompt.equalsIgnoreCase("5"));
+
+            //Call music method
+            clip.stop();
+            music("overworld.wav");
+
+        }
 
     }//end of village
-    
-    /**
-     * clearScreen
-     * This method will just clear the screen for the world
-     */
+
+    /*************************
+     * Method Name: clearScreen
+     * Method Description: Clear screen for world.
+     **************************/
     public void clearScreen()
     {
         for (int i = 0; i < 25; i++) 
@@ -838,5 +951,39 @@ public class World {
             System.out.println("");    
         }
     }//end of clearScreen
+
+    /*************************
+     * Method Name: music
+     * Method Description: Plays epic music.
+     **************************/
+    public void music(String filename) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+
+        //Create file object for background music
+        File musicFile = new File(filename);
+
+        //Check if file exists
+        if (!musicFile.exists()) {
+            System.out.println("\u001B[31mError music file not found. Game cannot be runned.\u001B[0m");
+            System.exit(0);
+        }
+
+        //Create audioInputStream object to get audio from file
+        AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicFile);
+
+        //Create clip object to allow music to be played from file
+        clip = AudioSystem.getClip();
+
+        //Open clip
+        clip.open(audioInput);
+
+        //Create floatControl object to set volume
+        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        gainControl.setValue(-20.0f);
+
+        //Play on loop until program ends or stopped
+        clip.start();
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
+
+    }//end of music
 
 }//end of class

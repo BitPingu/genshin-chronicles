@@ -14,7 +14,6 @@ public class Player extends Character {
     //Constructor
     public Player(String noName, int level, int hp, int mp, int str, int def, int spd, int exp, int dice) {
         super(noName, level, hp, mp, str, def, spd, exp, dice);
-//        distributeStats();
         weapon = "\uD83E\uDD1B Fists";
         armor = "\uD83D\uDC55 Torn Shirt";
         moveSet.add("Wrath Strike");
@@ -24,21 +23,14 @@ public class Player extends Character {
 
     //Mutators
 
-//    public void distributeStats() {
-//        if (level == 1) {
-//            moveSet.add("Wrath Strike");
-//            super.distributeStats();
-//        }
-//    }
-
     /*************************
      * Method Name: fight
-     * Method Description: Invoked when player initiates an enemy
+     * Method Description: Invoked when player initiates an enemy.
      **************************/
     public boolean fight(ArrayList<Character> partyMembers, Character entity) throws InterruptedException {
 
         //Variables in fight
-        int prompt, damage
+        int prompt, damage;
         
         System.out.println("What will " + name + " do?");
         System.out.println("1) Attack");
@@ -50,7 +42,6 @@ public class Player extends Character {
             //attack
             case 1:
                 damage = attack(getDices());
-                
                 entity.health -= damage;
                 
                 //makes sure that the enemy does not go below 0
@@ -62,7 +53,7 @@ public class Player extends Character {
                 System.out.println(name + " deals " + damage + " damage!");
                 Thread.sleep(1000);
                 break;
-            //sepcial
+            //special
             case 2:
                 System.out.println();
                 for (int i=0; i<moveSet.size(); i++) {
@@ -87,12 +78,12 @@ public class Player extends Character {
 
     }//end of fight
     
-    /**
+    /************************
      * attack 
      * This method will show the user their available attacks
      * @param diceTotal - how many dices the character has
      * @return - returns damage output
-     */
+     ************************/
     @Override
     public int attack(int diceTotal)
     {
@@ -110,7 +101,7 @@ public class Player extends Character {
         System.out.println("What dice do you want to use?");
         System.out.print("Dice: ");
         //user input(error handle)
-        choice = scanN.nextInt()
+        choice = scanN.nextInt();
 
         return dices.get(choice-1);
     }//end of attack

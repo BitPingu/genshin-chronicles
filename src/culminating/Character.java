@@ -67,6 +67,7 @@ public class Character {
     public String getArmor() {
         return armor;
     }
+
     public int getDices() {
         return dices;
     }
@@ -115,6 +116,7 @@ public class Character {
     public void setArmor(String a) {
         armor = a;
     }
+
     public void setDices(int di) {
         dices = di;
     }
@@ -122,6 +124,7 @@ public class Character {
     public boolean fight(ArrayList<Character> partyMembers, Character entity) throws InterruptedException {
         return false;
     }
+
     public int attack(int diceTotal) {
         return 0;
     }
@@ -133,18 +136,5 @@ public class Character {
     public void addInventory(String item) {
 
     }
-
-//    public void distributeStats() {
-//        if (level == 1) {
-//            health = 20;
-//            strength = 10;
-//            defense = 8;
-//            speed = 8;
-//            exp = 0;
-//            mp = 20;
-//            dices = 4;
-//            maxHealth = health;
-//        }
-//    }
 
 }//end of class
