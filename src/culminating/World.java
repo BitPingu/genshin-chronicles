@@ -18,21 +18,21 @@ public class World {
     private final ArrayList<Character> partyMembers = new ArrayList<>();
     
     //name, level, hp, mp, str, def, spd, exp, dice
-    private final Character player  = new Player("\uD83E\uDDDD Traveller", 1, 50, 25, 10, 5, 5, 0, 4);
-    private final Character healer = new Party("\uD83E\uDDDA Girl", 1, 35, 55, 6, 6, 5, 0, 3);
-    private final Character soldier = new Party("\uD83D\uDE4E Link", 1, 50, 25,10, 5, 5, 0, 4);
-    private final Character mage = new Party("\uD83D\uDC70 Mona", 1, 50, 25,10, 5, 5, 0, 4);
-    private final Character archer = new Party("\uD83D\uDC68 Claude", 1, 50, 25,10, 5, 5, 0, 4);
-    private final Character rogue = new Party("\uD83D\uDC69 Keqing", 1, 50, 25,10, 5, 5, 0, 4);
+    private final Character player  = new Player("\uD83E\uDDDD Traveller", 1, 50, 25, 10, 5, 5, 0, 4, 0);
+    private final Character healer = new Party("\uD83E\uDDDA Girl", 1, 35, 55, 6, 6, 5, 0, 3, 0);
+    private final Character soldier = new Party("\uD83D\uDE4E Link", 1, 50, 25,10, 5, 5, 0, 4, 0);
+    private final Character mage = new Party("\uD83D\uDC70 Mona", 1, 50, 25,10, 5, 5, 0, 4, 0);
+    private final Character archer = new Party("\uD83D\uDC68 Claude", 1, 50, 25,10, 5, 5, 0, 4, 0);
+    private final Character rogue = new Party("\uD83D\uDC69 Keqing", 1, 50, 25,10, 5, 5, 0, 4, 0);
 
-    private final Character zombie = new Enemy("\uD83E\uDDDF Zombie", 1 , 50, 25, 10, 5, 5, 0, 4);
-    private final Character ogre = new Enemy("\uD83D\uDC79 Ogre", 1, 50, 25, 10, 5, 5, 0, 4);
-    private final Character goblin = new Enemy("\uD83D\uDC7A Goblin", 1, 50, 25, 10, 5, 5, 0, 4);
-    private final Character ghost = new Enemy("\uD83D\uDC7B Ghost", 1, 50, 25, 10, 5, 5, 0, 4);
-    private final Character alien = new Enemy("\uD83D\uDC7D Alien", 1, 50, 25, 10, 5, 5, 0, 4);
-    private final Character octopus = new Enemy("\uD83D\uDC19 Octopus", 1, 50, 25, 10, 5, 5, 0, 4);
-    private final Character skeleton = new Enemy("\uD83D\uDC80 Skeleton", 1, 50, 25, 10, 5, 5, 0, 4);
-    private final Character golem = new Enemy("\uD83E\uDD16 Golem", 1, 50, 25, 10, 5, 5, 0, 4);
+    private final Character zombie = new Enemy("\uD83E\uDDDF Zombie", 1 , 50, 25, 10, 5, 5, 10, 4, 10);
+    private final Character ogre = new Enemy("\uD83D\uDC79 Ogre", 1, 50, 25, 10, 5, 5, 20, 4, 20);
+    private final Character goblin = new Enemy("\uD83D\uDC7A Goblin", 1, 50, 25, 10, 5, 5, 30, 4, 30);
+    private final Character ghost = new Enemy("\uD83D\uDC7B Ghost", 1, 50, 25, 10, 5, 5, 40, 4, 40);
+    private final Character alien = new Enemy("\uD83D\uDC7D Alien", 1, 50, 25, 10, 5, 5, 50, 4, 50);
+    private final Character octopus = new Enemy("\uD83D\uDC19 Octopus", 1, 50, 25, 10, 5, 5, 60, 4, 60);
+    private final Character skeleton = new Enemy("\uD83D\uDC80 Skeleton", 1, 50, 25, 10, 5, 5, 70, 4, 70);
+    private final Character golem = new Enemy("\uD83E\uDD16 Golem", 1, 50, 25, 10, 5, 5, 80, 4, 80);
 
     //Field variables
     private int row, column, xPos, yPos;
@@ -139,6 +139,8 @@ public class World {
 
         world.get(0).set(2, "\uD83E\uDDDA");//Fairy
         world.get(0).set(3, "\uD83D\uDC79");//Ogre
+        
+        clearScreen();
 
         //Start of the game - waking up and saving person
         System.out.println("\nYou wake up on a grassy field to the sound of a girl screaming.");
@@ -201,6 +203,13 @@ public class World {
             currentPosition = world.get(row).get(column);
             world.get(row).set(column, "\uD83E\uDDDD");//Elf
 
+            System.out.println("Player: " + player.getName());
+            System.out.println("Level: " + player.getLevel());
+            System.out.println("Exp: " + player.getExp());
+            System.out.println("Mooney: " + player.getMoney());
+            System.out.println("[i]: Inventory ");
+            System.out.println("[m]: Map ");
+            System.out.println("[l]: save and quit ");
             //Print player's field of vision
             System.out.println();
             for (int i=row-2; i<row + 3; i++) {
@@ -820,14 +829,19 @@ public class World {
             partyMembers.add(healer);
         }
         for (int i=0;;i++) {
-            for (int j=0; j<partyMembers.size(); j++) {
+            for (int j=0; j<partyMembers.size(); j++) 
+            {
+                
                 System.out.println();
+                clearScreen();
                 for (int k=0; k<partyMembers.size(); k++) {
                     System.out.println(partyMembers.get(k).getName() + " - HP: " + partyMembers.get(k).getHealth());
                 }
+                
                 System.out.println();
                 System.out.println(entity.getName() + " - HP: " + entity.getHealth());
                 System.out.println();
+                
                 if (partyMembers.get(j).fight(partyMembers, entity)) {
                     System.out.println(entity.name + " dies!");
                     Thread.sleep(1000);
@@ -837,7 +851,15 @@ public class World {
                     break;
                 }
             }
-            if (win) {
+            if (win) 
+            {
+                System.out.println("You won!");
+                for (int j = 0; j < partyMembers.size(); j++)
+                {
+                    partyMembers.get(j).gainExpMoney(entity);
+                    partyMembers.get(j).checkLvl();
+                }
+                Thread.sleep(2000);
                 break;
             }
             if (entity.fight(partyMembers, player)) {
