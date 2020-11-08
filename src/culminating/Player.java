@@ -10,10 +10,11 @@ public class Player extends Character {
     private final ArrayList<ArrayList<String>> inventory = new ArrayList<>();
     private final Scanner keyInput = new Scanner(System.in);
     private final Scanner scanN = new Scanner(System.in);
+    private final Random random = new Random();
 
     //Constructor
-    public Player(String noName, int level, int hp, int mp, int str, int def, int spd, int exp, int dice) {
-        super(noName, level, hp, mp, str, def, spd, exp, dice);
+    public Player(String noName, int level, int hp, int mp, int str, int def, int spd, int exp, int dice, int money) {
+        super(noName, level, hp, mp, str, def, spd, exp, dice, money);
         weapon = "\uD83E\uDD1B Fists";
         armor = "\uD83D\uDC55 Torn Shirt";
         moveSet.add("Wrath Strike");
@@ -30,52 +31,62 @@ public class Player extends Character {
     public boolean fight(ArrayList<Character> partyMembers, Character entity) throws InterruptedException {
 
         //Variables in fight
-        int prompt, damage;
+        int damage;
+        String prompt;
         
-        System.out.println("What will " + name + " do?");
-        System.out.println("1) Attack");
-        System.out.println("2) Special");
-        System.out.println("3) Run");
-        prompt = Integer.parseInt(keyInput.nextLine());
+        do
+        {
+            //displays user choice
+            System.out.println("What will " + name + " do?");
+            System.out.println("1) Attack");
+            System.out.println("2) Special");
+            System.out.println("3) Run");
+            prompt = keyInput.nextLine());
 
-        switch (prompt) {
-            //attack
-            case 1:
-                damage = attack(getDices());
-                entity.health -= damage;
-                
-                //makes sure that the enemy does not go below 0
-                if (entity.health < 0)
-                    entity.health = 0;
-                
-                System.out.println("\n" + name + " attacks!");
-                Thread.sleep(1000);
-                System.out.println(name + " deals " + damage + " damage!");
-                Thread.sleep(1000);
-                break;
-            //special
-            case 2:
-                System.out.println();
-                for (int i=0; i<moveSet.size(); i++) {
-                    System.out.println(i+1 + ") " + moveSet.get(i));
-                }
-                prompt = Integer.parseInt(keyInput.nextLine());
-                damage = 6;
-                entity.health -= damage;
-                System.out.println("\n" + name + " used Wrath Strike!");
-                Thread.sleep(1000);
-                System.out.println(name + " deals " + damage + " damage!");
-                Thread.sleep(1000);
-                break;
-            //running
-            case 3:
-                System.out.println("Got away safely!");
-                break;
+            switch (prompt) 
+            {
+                //attack
+                case "1":
+                    damage = attack(getDices()) + getStrength();
+                    entity.health -= damage;
 
-        }
+                    //makes sure that the enemy does not go below 0
+                    if (entity.health < 0)
+                        entity.health = 0;
+
+                    System.out.println("\n" + name + " attacks!");
+                    Thread.sleep(1000);
+                    System.out.println(name + " deals " + damage + " damage!");
+                    Thread.sleep(1000);
+                    break;
+                //special
+                case "2":
+                    System.out.println();
+                    for (int i=0; i<moveSet.size(); i++) {
+                        System.out.println(i+1 + ") " + moveSet.get(i));
+                    }
+                    prompt = keyInput.nextLine();
+                    damage = 50;
+                    entity.health -= damage;
+                    System.out.println("\n" + name + " used Wrath Strike!");
+                    Thread.sleep(1000);
+                    System.out.println(name + " deals " + damage + " damage!");
+                    Thread.sleep(1000);
+                    break;
+                //running
+                case "3":
+                    System.out.println("Got away safely!");
+                    break;
+                default:
+                    System.out.println("Please enter a command");
+                    break;
+
+            }
+        } while (!prompt.equals("1") && !prompt.equals("2") && !prompt.equals("3"));
+
+        
 
         return entity.health == 0;
-
     }//end of fight
     
     /************************
@@ -87,7 +98,6 @@ public class Player extends Character {
     @Override
     public int attack(int diceTotal)
     {
-        Random random = new Random();
         int choice;
         
         ArrayList<Integer> dices = new ArrayList<>();
@@ -155,5 +165,48 @@ public class Player extends Character {
         }
 
     }//end of addInventory
+    
+    /**
+     * checkLvl
+     * THis method will check if the user can level up or not
+     */
+    @Override
+    public void checkLvl()
+    {
+        //level up based on level * 20
+        if (getExp() >= (getLevel() * 20))
+        {
+            System.out.println("Level up! " + getName());
+            setExp(0);
+            
+            //shows new level
+            System.out.print("Lvl: " + level + " -> ");
+            level += 1;
+            System.out.println(level);
+            
+            //shows new heatlh
+            System.out.print("HP: " + health + " -> ");
+            health += ;
+            System.out.println(health);
+            
+            //shows new strength
+            System.out.print("Atk: " + strength + " -> ");
+            strength += 5;
+            System.out.println(strength);
+            
+            //shows new defence
+            System.out.print("Def: " + defence + " -> ");
+            defence += 5;
+            System.out.println(defence);
+            
+            //shows new speed
+            System.out.print("Spd: " + speed + " -> ");
+            speed += 5;
+            System.out.println(speed);
+            
+        }
+    }//end of checkLvl
+    
+    
    
 }//end of class
