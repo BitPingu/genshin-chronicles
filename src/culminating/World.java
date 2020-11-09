@@ -20,21 +20,21 @@ public class World {
     private final ArrayList<Character> partyMembers = new ArrayList<>();
     
     //name, level, hp, mp, str, def, spd, exp, dice
-    private final Character player  = new Player("\uD83E\uDDDD Traveller", 1, 50, 25, 10, 5, 5, 0, 4, 0);
-    private final Character healer = new Party("\uD83E\uDDDA Girl", 1, 35, 55, 6, 6, 5, 0, 3, 0);
-    private final Character soldier = new Party("\uD83D\uDE4E Link", 1, 50, 25,10, 5, 5, 0, 4, 0);
+    private final Character player  = new Player("\uD83E\uDDDD Traveller", 1, 50, 15, 10, 5, 5, 0, 4, 0);
+    private final Character healer = new Party("\uD83E\uDDDA Girl", 1, 35, 20, 6, 6, 5, 0, 3, 0);
+    private final Character soldier = new Party("\uD83D\uDE4E Link", 1, 50, 12,10, 5, 5, 0, 4, 0);
     private final Character mage = new Party("\uD83D\uDC70 Mona", 1, 50, 25,10, 5, 5, 0, 4, 0);
     private final Character archer = new Party("\uD83D\uDC68 Claude", 1, 50, 25,10, 5, 5, 0, 4, 0);
     private final Character rogue = new Party("\uD83D\uDC69 Keqing", 1, 50, 25,10, 5, 5, 0, 4, 0);
 
-    private final Character zombie = new Enemy("\uD83E\uDDDF Zombie", 1 , 50, 25, 10, 5, 5, 10, 4, 10);
-    private final Character ogre = new Enemy("\uD83D\uDC79 Ogre", 1, 50, 25, 10, 5, 5, 20, 4, 20);
-    private final Character goblin = new Enemy("\uD83D\uDC7A Goblin", 1, 50, 25, 10, 5, 5, 30, 4, 30);
-    private final Character ghost = new Enemy("\uD83D\uDC7B Ghost", 1, 50, 25, 10, 5, 5, 40, 4, 40);
-    private final Character alien = new Enemy("\uD83D\uDC7D Alien", 1, 50, 25, 10, 5, 5, 50, 4, 50);
-    private final Character octopus = new Enemy("\uD83D\uDC19 Octopus", 1, 50, 25, 10, 5, 5, 60, 4, 60);
-    private final Character skeleton = new Enemy("\uD83D\uDC80 Skeleton", 1, 50, 25, 10, 5, 5, 70, 4, 70);
-    private final Character golem = new Enemy("\uD83E\uDD16 Golem", 1, 50, 25, 10, 5, 5, 80, 4, 80);
+    private final Character zombie = new Enemy("\uD83E\uDDDF Zombie", 1 , 78, 25, 10, 5, 5, 10, 4, 10);
+    private final Character ogre = new Enemy("\uD83D\uDC79 Ogre", 1, 120, 25, 10, 5, 5, 20, 4, 20);
+    private final Character goblin = new Enemy("\uD83D\uDC7A Goblin", 1, 58, 25, 10, 5, 5, 30, 4, 30);
+    private final Character ghost = new Enemy("\uD83D\uDC7B Ghost", 1, 69, 25, 10, 5, 5, 40, 4, 40);
+    private final Character alien = new Enemy("\uD83D\uDC7D Alien", 1, 101, 25, 10, 5, 5, 50, 4, 50);
+    private final Character octopus = new Enemy("\uD83D\uDC19 Octopus", 88, 50, 25, 10, 5, 5, 60, 4, 60);
+    private final Character skeleton = new Enemy("\uD83D\uDC80 Skeleton", 104, 50, 25, 10, 5, 5, 70, 4, 70);
+    private final Character golem = new Enemy("\uD83E\uDD16 Golem", 1, 185, 25, 10, 5, 5, 80, 4, 80);
 
     //Field variables in World
     private int row, column, xPos, yPos;
@@ -865,7 +865,8 @@ public class World {
      * Method Description: Displays the battle system.
      * @param entity - Enemy to be fought.
      **************************/
-    public void battle(Character entity) throws InterruptedException, UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public void battle(Character entity) throws InterruptedException, UnsupportedAudioFileException, IOException, 
+            LineUnavailableException {
 
         boolean win = false;
 
@@ -894,12 +895,17 @@ public class World {
                 //Print Party Members' battle info
                 for (int k = 0; k < partyMembers.size(); k++) 
                 {
-                    System.out.println(partyMembers.get(k).getName() + " - HP: " + partyMembers.get(k).getHealth());
+                    System.out.println(partyMembers.get(k).getName());
+                    System.out.println("HP: " + partyMembers.get(k).getHealth() + "/" 
+                            + partyMembers.get(k).getCurrentHealth());
+                    System.out.println("MP: " + partyMembers.get(k).getMp() + "/" 
+                            + partyMembers.get(k).getCurrentMp());
                 }
 
                 //Print Enemy battle info
                 System.out.println();
-                System.out.println(entity.getName() + " - HP: " + entity.getHealth());
+                System.out.println(entity.getName());
+                System.out.println("HP: " + entity.getHealth() + "/" + entity.getCurrentHealth());
                 System.out.println();
                 
                 //If one of the Party Members defeats the enemy
@@ -1205,14 +1211,16 @@ public class World {
         //Return quest
         return occupation + ": I need " + amount + " " + material + " to " + reason;
 
-    }
+    }//end of quest
 
     /*************************
      * Method Name: questReward
      * Method Description: Generates a quest reward.
      **************************/
-    public void questReward() {
-
+    public void questReward() 
+    {
+        
+        
     }
 
     /*************************
