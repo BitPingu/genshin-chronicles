@@ -15,6 +15,7 @@ public class Player extends Character {
     //Constructor
     public Player(String noName, int level, int hp, int mp, int str, int def, int spd, int exp, int dice, int money) {
         super(noName, level, hp, mp, str, def, spd, exp, dice, money);
+        System.out.println("test");
         weapon = "\uD83E\uDD1B Fists";
         armor = "\uD83D\uDC55 Torn Shirt";
         moveSet.add("Wrath Strike");

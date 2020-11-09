@@ -42,7 +42,9 @@ public class World {
     //Constructors
     public World()
     {
+        System.out.println("test");
         initWorld();
+        
     }
 
     public World(ArrayList<ArrayList<String>> w, int r, int c, int x, int y, boolean f) {
