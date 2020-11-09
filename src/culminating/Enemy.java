@@ -122,8 +122,8 @@ public class Enemy extends Character {
     /*************************
      * Method Name: fight
      * Method Description: Invoked when player initiates an enemy
-     * @param partyMembers
-     * @param entity
+     * @param partyMembers - current party members
+     * @param entity - user/players
      * @return 
      * @throws java.lang.InterruptedException 
      **************************/
@@ -132,49 +132,77 @@ public class Enemy extends Character {
 
         Random random = new Random();
 
-        int damage;
+        int damage, target;
 
         switch (random.nextInt(5) + 1) {
 
-            //enemy attack
+            //enemy attack - will attack one person at a time
             case 1:     
             case 2:
             case 3:
             case 4:
-                damage = strength + random.nextInt(8) + 1;
-                for (int i = 0; i < partyMembers.size(); i++)
+                //targets which member you have
+                target = random.nextInt(partyMembers.size());
+                
+                //damage calculation
+                damage = (strength + random.nextInt(8) + 1 
+                        - partyMembers.get(target).defence);
+                
+                //damage cant go tonegative(else they will heal)
+                if (damage < 0) 
                 {
-                    partyMembers.get(i).currentHealth -= (damage - partyMembers.get(i).defence);
-                    if (partyMembers.get(i).currentHealth < 0)
-                    {
-                        partyMembers.get(i).currentHealth = 0;
-                    }
+                    damage = 0;
                 }
                 
-                System.out.println("\n" + name + " attacks!");
+                //damages the target
+                partyMembers.get(target).currentHealth -= (damage);
+                
+                //makes sure the target is not negative hp
+                if (partyMembers.get(target).currentHealth < 0)
+                {
+                    partyMembers.get(target).currentHealth = 0;
+                }
+                
+                System.out.println("\n" + name + " is attacking " 
+                        + partyMembers.get(target).name);
                 Thread.sleep(1000);
-                System.out.println(name + " deals " + damage + " damage!");
+                System.out.println(name + " dealt " + damage + " damage!");
                 Thread.sleep(1000);
                 break;
 
-            //enemy special
+            //enemy special - attacks everyone
             case 5:
-                
-                damage = 20;
-                
-                for (int i = 0; i < partyMembers.size(); i++)
+                if ((mp - 5) > 0) 
                 {
-                    partyMembers.get(i).currentHealth -= (damage - partyMembers.get(i).defence);
-                    if (partyMembers.get(i).currentHealth < 0)
+                    System.out.println("\n" + name + " uses a special!");
+                    Thread.sleep(1000);
+
+                    //damages everyone
+                    for (int i = 0; i < partyMembers.size(); i++)
                     {
-                        partyMembers.get(i).currentHealth = 0;
+                        damage = ((level * 20) + strength) - partyMembers.get(i).defence;
+
+                        if (damage < 0) 
+                        {
+                            damage = 0;
+                        }
+
+                        partyMembers.get(i).currentHealth -= (damage);
+                        System.out.println(name + " dealt " + damage + " damage to " 
+                                + partyMembers.get(i).getName() + "!");
+
+                        //fallen message
+                        if (partyMembers.get(i).currentHealth <= 0)
+                        {
+                            System.out.println("Oh no " 
+                                    +  partyMembers.get(i).getName() + " has fallen");
+                            partyMembers.get(i).currentHealth = 0;
+                        }
+                        Thread.sleep(1000);
                     }
                 }
-
-                System.out.println("\n" + name + " uses a special!");
-                Thread.sleep(1000);
-                System.out.println(name + " deals " + damage + " damage!");
-                Thread.sleep(1000);
+                
+                
                 break;
 
         }
