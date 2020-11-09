@@ -20,8 +20,8 @@ public class World {
     private final ArrayList<Character> partyMembers = new ArrayList<>();
     
     //name, level, hp, mp, str, def, spd, exp, dice
-    private final Character player  = new Player("\uD83E\uDDDD Traveller", 1, 50, 15, 10, 5, 5, 0, 4, 0);
-    private final Character healer = new Party("\uD83E\uDDDA Girl", 1, 35, 20, 6, 6, 5, 0, 3, 0);
+    private final Character player  = new Player("\uD83E\uDDDD Traveller", 1, 128, 15, 36, 5, 5, 0, 4, 0);
+    private final Character healer = new Party("\uD83E\uDDDA Girl", 1, 85, 20, 15, 12, 5, 0, 3, 0);
     private final Character soldier = new Party("\uD83D\uDE4E Link", 1, 50, 12,10, 5, 5, 0, 4, 0);
     private final Character mage = new Party("\uD83D\uDC70 Mona", 1, 50, 25,10, 5, 5, 0, 4, 0);
     private final Character archer = new Party("\uD83D\uDC68 Claude", 1, 50, 25,10, 5, 5, 0, 4, 0);
@@ -911,7 +911,10 @@ public class World {
                 //Print Enemy battle info
                 System.out.println();
                 System.out.println(enemy.getName());
-                System.out.println("HP: " + enemy.getHealth() + "/" + enemy.getCurrentHealth());
+                System.out.println("HP: " + enemy.getHealth() + "/" 
+                        + enemy.getCurrentHealth());
+                System.out.println("MP: " + enemy.getMp() + " / " 
+                        + enemy.getCurrentMp());
                 System.out.println();
                 
                 //If one of the Party Members defeats the enemy
@@ -921,8 +924,16 @@ public class World {
                     break;
                 }
             }
-
-            if (win) 
+            
+            //user runs
+            if (win && enemy.getCurrentHealth() > 0) 
+            {
+                System.out.println("You ran safely");
+                break;
+            }
+            
+            //team wins
+            if (win && enemy.getCurrentHealth() == 0) 
             {
                 //Player (and Team Members) win
                 System.out.println(enemy.name + " dies!");
@@ -938,7 +949,7 @@ public class World {
                 Thread.sleep(2000);
                 break;
             }
-
+            
             //If a Party Member dies
             if (enemy.fight(partyMembers, player)) {
                 System.out.println("Oh no you've died!");

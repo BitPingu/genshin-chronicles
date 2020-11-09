@@ -146,7 +146,8 @@ public class Character {
         return false;
     }
 
-    public int attack(int diceTotal) {
+    public int attack(int diceTotal) throws InterruptedException
+    {
         return 0;
     }
     

@@ -52,6 +52,10 @@ public class Party extends Character {
                 //attacking
                 case "1":
                     damage = (attack(getDices()) + getStrength()) - entity.defence;
+                    if (damage < 0) 
+                    {
+                        damage = 0;
+                    }
                     entity.currentHealth -= (damage);
 
                     //makes sure that the enemy does not go below 0
@@ -99,14 +103,19 @@ public class Party extends Character {
                     {
                         System.out.println("You are out of mp, you cant use your special");
                     }
-                    
                     break;
                 
                 //running away
                 case "3":
-                    System.out.println("Got away safely!");
-                    flag = true;
-                    break;
+                    if (speed > (random.nextInt(entity.speed) + 2)) 
+                    {
+                        return true; 
+                    }
+                    else
+                    {
+                        System.out.println("You tripped while trying to run");
+                        flag = true;
+                    }
                 //error handle
                 default:
                     System.out.println("Please enter a command");
@@ -129,32 +138,55 @@ public class Party extends Character {
     @Override
     public int attack(int diceTotal)
     {
-        Random random = new Random();
+        //declaring local variables
         int choice;
-        
         ArrayList<Integer> dice = new ArrayList<>();
-        for (int i = 0; i < diceTotal; i++)
-        {
-            dice.add(random.nextInt(6) + 1);
-            System.out.println("DICE[" + (i + 1) + "]: "+dice.get(i));
-        }
-        System.out.println("What dice do you want to use?");
         
-        choice = scanN.nextInt();
-
-        return dice.get(choice-1);
+        //error trap
+        do 
+        {
+            //shows how many dices the player can use
+            for (int i = 0; i < diceTotal; i++)
+            {
+                dice.add(random.nextInt(8) + 1);
+                System.out.println("DICE[" + (i + 1) + "]: " + dice.get(i));
+            }
+            System.out.println("What dice do you want to use?");
+            System.out.print("Dice: ");
+            //if user uses a number
+            if (scanN.hasNextInt()) 
+            {
+                choice = scanN.nextInt();
+                //if user tried to pick a nonExistant dice
+                if (choice > dice.size()) 
+                {
+                    System.out.println("Please input a dice");
+                }
+                //player picks dice
+                else
+                {
+                    return dice.get(choice-1);
+                }
+            }
+            //id user picks anytghing but a number
+            else
+            {
+                scanN.nextLine();
+                System.out.println("Please input a dice");
+            }
+        } while (true);
 
     }//end of attack
     
     /*************************
      * checkLvl
-     * THis method will check if the user can level up or not
+     * This method will check if the user can level up or not
      *************************/
     @Override
     public void checkLvl()
     {
         //declaring base growth of each party member
-        int bHp, b;
+        int bHp, bMp, bAtk, bDef, bSpd;
         //level up based on level * 20
         if (getExp() >= (getLevel() * 20))
         {
@@ -168,27 +200,29 @@ public class Party extends Character {
             
             //shows new heatlh
             System.out.print("HP: " + health + " -> ");
-            health += 5;
+            health += random.nextInt(10) + 5;
             System.out.println(health);
+            currentHealth = health;
             
             //shows new MP
             System.out.print("MP: " + mp + " -> ");
-            mp += 5;
+            mp += random.nextInt(15) + 5;
             System.out.println(mp);
+            currentMp = mp;
             
             //shows new strength
             System.out.print("Atk: " + strength + " -> ");
-            strength += 5;
+            strength += random.nextInt(8) + 1;
             System.out.println(strength);
             
             //shows new defence
             System.out.print("Def: " + defence + " -> ");
-            defence += 5;
+            defence += random.nextInt(8) + 3;
             System.out.println(defence);
             
             //shows new speed
             System.out.print("Spd: " + speed + " -> ");
-            speed += 5;
+            speed += random.nextInt(9) + 4;
             System.out.println(speed);
             
             //shows new dices
