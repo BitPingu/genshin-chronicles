@@ -33,6 +33,7 @@ public class Player extends Character {
         //Variables in fight
         int damage;
         String prompt;
+        boolean flag = false;
         
         do
         {
@@ -58,31 +59,41 @@ public class Player extends Character {
                     Thread.sleep(1000);
                     System.out.println(name + " deals " + damage + " damage!");
                     Thread.sleep(1000);
+                    
+                    flag = true;
                     break;
                 //special
                 case "2":
-                    System.out.println();
-                    for (int i=0; i<moveSet.size(); i++) {
-                        System.out.println(i+1 + ") " + moveSet.get(i));
+                    if (mp > 0)
+                    {
+                        System.out.println();
+                        for (int i=0; i<moveSet.size(); i++) {
+                            System.out.println(i+1 + ") " + moveSet.get(i));
+                        }
+                        prompt = keyInput.nextLine();
+                        damage = 50;
+                        entity.health -= damage;
+                        System.out.println("\n" + name + " used Wrath Strike!");
+                        Thread.sleep(1000);
+                        System.out.println(name + " deals " + damage + " damage!");
+                        Thread.sleep(1000);
+                        flag = true;
                     }
-                    prompt = keyInput.nextLine();
-                    damage = 50;
-                    entity.health -= damage;
-                    System.out.println("\n" + name + " used Wrath Strike!");
-                    Thread.sleep(1000);
-                    System.out.println(name + " deals " + damage + " damage!");
-                    Thread.sleep(1000);
+                    System.out.println("You dont have enough mp");
+                    
                     break;
                 //running
                 case "3":
                     System.out.println("Got away safely!");
+                    
+                    flag = true;
                     break;
                 default:
                     System.out.println("Please enter a command");
                     break;
 
             }
-        } while (!prompt.equals("1") && !prompt.equals("2") && !prompt.equals("3"));
+        } while (!flag);
 
         
 
@@ -124,23 +135,37 @@ public class Player extends Character {
      **************************/
     public void checkInventory(ArrayList<Character> partyMembers) {
 
-        char prompt;
+        String prompt;
 
         //Print inventory
         System.out.println();
+        
+        //prints the party members and what they have
         for (int i=0; i<partyMembers.size(); i++) {
             System.out.println(partyMembers.get(i).getName());
+            System.out.println("Lvl: " + partyMembers.get(i).getLevel());
+            System.out.println("HP: " + partyMembers.get(i).getHealth());
+            System.out.println("MP: " + partyMembers.get(i).getMp());
+            System.out.println("Atk: " + partyMembers.get(i).getStrength());
+            System.out.println("Def: " + partyMembers.get(i).getDefence());
+            System.out.println("Spd: " + partyMembers.get(i).getSpeed());
+            System.out.println("Exp: " + (partyMembers.get(i).getLevel()*20) + " / " +partyMembers.get(i).getExp());
+            System.out.println("Dices: " + partyMembers.get(i).getDices());
             System.out.println("Weapon: " + partyMembers.get(i).getWeapon());
             System.out.println("Armor: " + partyMembers.get(i).getArmor());
             System.out.println();
         }
+        
+        //prints out how much money you have
+        System.out.println("\nMoney: " + money +"\n");
 
+        //prints out what the user owns
         for (int i=0; i<inventory.size(); i++) {
             System.out.println(inventory.get(i).get(0) + ": " + inventory.get(i).size());
         }
 
-        System.out.println("Type 'i' to exit.");
-        prompt = keyInput.nextLine().charAt(0);
+        System.out.println("Type anything to exit.");
+        keyInput.nextLine());
 
     }//end of checkInventory
 
@@ -151,7 +176,8 @@ public class Player extends Character {
     public void addInventory(String item) {
 
         boolean newItem = true;
-
+        
+        //adds to current inventory
         for (int i=0; i<inventory.size(); i++) {
             if (inventory.get(i).contains(item)) {
                 inventory.get(i).add(item);
@@ -159,11 +185,11 @@ public class Player extends Character {
             }
         }
 
+        //adds new item into inventory
         if (newItem) {
             inventory.add(new ArrayList<>());
             inventory.get(inventory.size()-1).add(item);
         }
-
     }//end of addInventory
     
     /**
@@ -186,8 +212,13 @@ public class Player extends Character {
             
             //shows new heatlh
             System.out.print("HP: " + health + " -> ");
-            health += ;
+            health += 5;
             System.out.println(health);
+            
+            //shows new MP
+            System.out.print("MP: " + mp + " -> ");
+            mp += 5;
+            System.out.println(mp);
             
             //shows new strength
             System.out.print("Atk: " + strength + " -> ");
@@ -204,9 +235,20 @@ public class Player extends Character {
             speed += 5;
             System.out.println(speed);
             
+            //shows new dices
+            if ((level % 2) == 0 && dices != 6)
+            {
+                System.out.print("Dices: " + dices + " -> ");
+                dices++;
+                System.out.println(dices);  
+            }
+            else
+                System.out.println("Dices: " + dices + " -> " + dices);
+            
+            
         }
     }//end of checkLvl
     
     
-   
+ 
 }//end of class

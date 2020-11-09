@@ -66,7 +66,7 @@ public class Party extends Character {
                     }
                     prompt = keyInput.nextLine();
                     for (int i=0; i<5; i++) {
-                        if (partyMembers.get(0).health == partyMembers.get(0).maxHealth) {
+                        if (partyMembers.get(0).health == partyMembers.get(0).currentHealth) {
                             break;
                         }
                         partyMembers.get(0).health++;
@@ -126,6 +126,8 @@ public class Party extends Character {
     @Override
     public void checkLvl()
     {
+        //declaring base growth of each party member
+        int bHp, b;
         //level up based on level * 20
         if (getExp() >= (getLevel() * 20))
         {
@@ -142,6 +144,11 @@ public class Party extends Character {
             health += 5;
             System.out.println(health);
             
+            //shows new MP
+            System.out.print("MP: " + mp + " -> ");
+            mp += 5;
+            System.out.println(mp);
+            
             //shows new strength
             System.out.print("Atk: " + strength + " -> ");
             strength += 5;
@@ -156,6 +163,16 @@ public class Party extends Character {
             System.out.print("Spd: " + speed + " -> ");
             speed += 5;
             System.out.println(speed);
+            
+            //shows new dices
+            if ((level % 2) == 0 && dices != 6)
+            {
+                System.out.print("Dices: " + dices + " -> ");
+                dices++;
+                System.out.println(dices);  
+            }
+            else
+                System.out.println("Dices: " + dices + " -> " + dices);
             
         }
     }//end of checkLvl

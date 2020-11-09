@@ -855,7 +855,7 @@ public class World {
                     System.out.println(entity.name + " dies!");
                     Thread.sleep(1000);
                     world.get(row).set(column, "\uD83C\uDF33");
-                    entity.setHealth(entity.maxHealth);
+                    entity.setHealth(entity.currentHealth);
                     win = true;
                     break;
                 }

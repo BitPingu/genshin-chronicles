@@ -6,7 +6,7 @@ public class Character {
 
     //Fields
     protected ArrayList<String> moveSet = new ArrayList<>();
-    protected int level, health, strength, defence, speed, exp, mp, maxHealth, dices, money;
+    protected int level, health, strength, defence, speed, exp, mp, currentHealth, currentMp, dices, money;
     protected String name, weapon, armor;
 
     //Constructor
@@ -20,10 +20,11 @@ public class Character {
         speed = sp;
         exp = ep;
         dices = di;
-        maxHealth = health;
+        currentHealth = health;
+        currentMp = mp;
         money = mo;
     }
-
+    
     //Accessors
     public int getLevel() {
         return level;
@@ -31,6 +32,10 @@ public class Character {
 
     public int getHealth() {
         return health;
+    }
+    
+    public int getMp() {
+        return mp;
     }
 
     public int getStrength() {
@@ -49,12 +54,13 @@ public class Character {
         return exp;
     }
 
-    public int getMp() {
-        return mp;
+    public int getCurrentHealth() {
+        return currentHealth;
     }
-
-    public int getMaxHealth() {
-        return maxHealth;
+    
+    public int getCurrentMp()
+    {
+        return currentMp;
     }
 
     public String getName() {
@@ -108,9 +114,15 @@ public class Character {
         mp = m;
     }
 
-    public void setMaxHealth(int m) {
-        maxHealth = m;
+    public void setCurrentHealth(int h) {
+        currentHealth = h;
     }
+
+    public void setCurrentMp(int m)
+    {
+        currentMp = m;
+    }
+    
 
     public void setName(String n) {
         name = n;
@@ -153,6 +165,7 @@ public class Character {
     {
         //gives exp based on enemies level and exp hold
         exp += (entity.getExp() * entity.getLevel());
+        money += (entity.getLevel() * entity.getMoney());
     }
     
     public void checkLvl()
