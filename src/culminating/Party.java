@@ -51,11 +51,11 @@ public class Party extends Character {
                 //attacking
                 case "1":
                     damage = attack(getDices()) + getStrength();
-                    entity.health -= damage;
+                    entity.currentHealth -= damage;
 
                     //makes sure that the enemy does not go below 0
-                    if (entity.health < 0)
-                        entity.health = 0;
+                    if (entity.currentHealth < 0)
+                        entity.currentHealth = 0;
 
                     System.out.println("\n" + name + " attacks!");
                     Thread.sleep(1000);
@@ -74,7 +74,7 @@ public class Party extends Character {
                         if (partyMembers.get(0).health == partyMembers.get(0).currentHealth) {
                             break;
                         }
-                        partyMembers.get(0).health++;
+                        partyMembers.get(0).currentHealth++;
                         damage++;
                     }
                     System.out.println("\n" + name + " used Physic!");
@@ -96,7 +96,7 @@ public class Party extends Character {
 
         } while (!prompt.equals("1") && !prompt.equals("2") && !prompt.equals("3"));
 
-        return entity.health == 0;
+        return entity.currentHealth == 0;
 
     }//end of fight
     

@@ -190,7 +190,8 @@ public class World {
      * Method Name: navigate
      * Method Description: Allows the player to explore the world using the asdw keys.
      **************************/
-    public void navigate() throws InterruptedException, UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public void navigate() throws InterruptedException, UnsupportedAudioFileException, IOException, 
+            LineUnavailableException {
 
         //Variables in navigate
         String currentPosition;
@@ -351,23 +352,23 @@ public class World {
 
                 case "\uD83E\uDDDF":
                     //Fight Zombie
-                    System.out.println("You encountered a " + zombie.getName() + "!");
+                    System.out.println("You encountered a \uD83E\uDDDF Zombie!");
                     Thread.sleep(1000);
-                    battle(zombie);
+                    battle("\uD83E\uDDDF Zombie");
                     break;
 
                 case "\uD83D\uDC7A":
                     //Fight Goblin
-                    System.out.println("You encountered a " + goblin.getName() + "!");
+                    System.out.println("You encountered a \uD83D\uDC7A Goblin!");
                     Thread.sleep(1000);
-                    battle(goblin);
+                    battle("\uD83D\uDC7A Goblin");
                     break;
 
                 case "\uD83D\uDC79":
                     //Fight Ogre
-                    System.out.println("You encountered a " + ogre.getName() + "!");
+                    System.out.println("You encountered a \uD83D\uDC79 Ogre!");
                     Thread.sleep(1000);
-                    battle(ogre);
+                    battle("\uD83D\uDC79 Ogre");
                     if (!finishTutorial) {
                         return;
                     }
@@ -375,37 +376,37 @@ public class World {
 
                 case "\uD83D\uDC7B":
                     //Fight Ghost
-                    System.out.println("You encountered a " + ghost.getName() + "!");
+                    System.out.println("You encountered a \uD83D\uDC7B Ghost!");
                     Thread.sleep(1000);
-                    battle(ghost);
+                    battle("\uD83D\uDC7B Ghost");
                     break;
 
                 case "\uD83D\uDC7D":
                     //Fight Alien
-                    System.out.println("You encountered a " + alien.getName() + "!");
+                    System.out.println("You encountered a \uD83D\uDC7D Alien!");
                     Thread.sleep(1000);
-                    battle(alien);
+                    battle("\uD83D\uDC7D Alien");
                     break;
 
                 case "\uD83D\uDC19":
                     //Fight Octopus
-                    System.out.println("You encountered a " + octopus.getName() + "!");
+                    System.out.println("You encountered a \uD83D\uDC19 Octopus!");
                     Thread.sleep(1000);
-                    battle(octopus);
+                    battle("\uD83D\uDC19 Octopus");
                     break;
 
                 case "\uD83D\uDC80":
                     //Fight Skeleton
-                    System.out.println("You encountered a " + skeleton.getName() + "!");
+                    System.out.println("You encountered a \uD83D\uDC80 Skeleton!");
                     Thread.sleep(1000);
-                    battle(skeleton);
+                    battle("\uD83D\uDC80 Skeleton");
                     break;
 
                 case "\uD83E\uDD16":
                     //Fight Golem
-                    System.out.println("You encountered a " + golem.getName() + "!");
+                    System.out.println("You encountered a \uD83E\uDD16 Golem!");
                     Thread.sleep(1000);
-                    battle(golem);
+                    battle("\uD83E\uDD16 Golem");
                     break;
 
                 case "\uD83E\uDD62":
@@ -865,8 +866,13 @@ public class World {
      * Method Description: Displays the battle system.
      * @param entity - Enemy to be fought.
      **************************/
-    public void battle(Character entity) throws InterruptedException, UnsupportedAudioFileException, IOException, 
-            LineUnavailableException {
+    public void battle(String enemyType) throws InterruptedException, UnsupportedAudioFileException, IOException, 
+            LineUnavailableException 
+    {
+        Character enemy;
+        
+        enemy = new Enemy(enemyType, player.getLevel() , 0, 0, 0, 0, 0, 0, 0, 0);
+    
 
         boolean win = false;
 
@@ -904,30 +910,29 @@ public class World {
 
                 //Print Enemy battle info
                 System.out.println();
-                System.out.println(entity.getName());
-                System.out.println("HP: " + entity.getHealth() + "/" + entity.getCurrentHealth());
+                System.out.println(enemy.getName());
+                System.out.println("HP: " + enemy.getHealth() + "/" + enemy.getCurrentHealth());
                 System.out.println();
                 
                 //If one of the Party Members defeats the enemy
-                if (partyMembers.get(j).fight(partyMembers, entity)) 
+                if (partyMembers.get(j).fight(partyMembers, enemy)) 
                 {
                     win = true;
                     break;
                 }
-
             }
 
             if (win) 
             {
                 //Player (and Team Members) win
-                System.out.println(entity.name + " dies!");
+                System.out.println(enemy.name + " dies!");
                 Thread.sleep(1000);
 
                 //Distribute exp to all Party Members
                 System.out.println();
                 for (int j = 0; j < partyMembers.size(); j++)
                 {
-                    partyMembers.get(j).gainExpMoney(entity);
+                    partyMembers.get(j).gainExpMoney(enemy);
                     partyMembers.get(j).checkLvl();
                 }
                 Thread.sleep(2000);
@@ -935,7 +940,7 @@ public class World {
             }
 
             //If a Party Member dies
-            if (entity.fight(partyMembers, player)) {
+            if (enemy.fight(partyMembers, player)) {
                 System.out.println("Oh no you've died!");
                 System.exit(0);
             }
@@ -944,7 +949,7 @@ public class World {
 
         //Replace enemy on map and reset their health
         world.get(row).set(column, "\uD83C\uDF33");
-        entity.setHealth(entity.health);
+        //enemy.setCurrentHealth(enemy.health);
 
         //Call music method
         clip.stop();

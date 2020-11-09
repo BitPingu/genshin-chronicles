@@ -52,11 +52,11 @@ public class Player extends Character {
                 //attack
                 case "1":
                     damage = attack(getDices()) + getStrength();
-                    entity.health -= damage;
+                    entity.currentHealth -= damage;
 
                     //makes sure that the enemy does not go below 0
-                    if (entity.health < 0)
-                        entity.health = 0;
+                    if (entity.currentHealth < 0)
+                        entity.currentHealth = 0;
 
                     System.out.println("\n" + name + " attacks!");
                     Thread.sleep(1000);
@@ -106,7 +106,7 @@ public class Player extends Character {
             }
         } while (!flag);
 
-        return entity.health == 0;
+        return entity.currentHealth == 0;
     }//end of fight
     
     /************************
