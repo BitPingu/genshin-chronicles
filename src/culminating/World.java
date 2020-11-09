@@ -1076,9 +1076,8 @@ public class World {
                         do {
 
                             enoughItems = false;
-
                             //Print available quests for specific village
-                            if (quests.size() > 0) {
+                            if (quests.size() > 1) {
                                 for (int i = 1; i < quests.size(); i++) {
                                     System.out.println(i + ") " + quests.get(i));
                                 }
@@ -1117,8 +1116,12 @@ public class World {
                                             Thread.sleep(1000);
 
                                             //Give required item amount
-                                            for (int j=0; j<amount; j++) {
-                                                player.getInventory().get(i).remove(item);
+                                            if (player.getInventory().get(i).size() - amount == 0) {
+                                                player.getInventory().remove(i);
+                                            } else {
+                                                for (int j = 0; j < amount; j++) {
+                                                    player.getInventory().get(i).remove(item);
+                                                }
                                             }
 
                                             //Remove quest from village and give reward
