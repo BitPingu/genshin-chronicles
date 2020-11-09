@@ -14,6 +14,7 @@ public class Party extends Character {
     //Constructor
     public Party(String name, int level, int hp, int mp, int str, int def, int spd, int exp, int dice, int money) {
         super(name, level, hp, mp, str, def, spd, exp, dice, money);
+        System.out.println("Test");
         weapon = "\uD83E\uDD4D Wooden Staff";
         armor = "\uD83D\uDC57 Leather Dress";
         moveSet.add("Physic");
