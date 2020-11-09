@@ -11,7 +11,6 @@ public class Character {
 
     //Constructor
     public Character(String n, int l, int h, int m, int s, int d, int sp, int ep, int di, int mo) {
-        System.out.println("Test");
         name = n;
         level = l;
         health = h;

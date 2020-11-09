@@ -15,7 +15,6 @@ public class Player extends Character {
     //Constructor
     public Player(String noName, int level, int hp, int mp, int str, int def, int spd, int exp, int dice, int money) {
         super(noName, level, hp, mp, str, def, spd, exp, dice, money);
-        System.out.println("test");
         weapon = "\uD83E\uDD1B Fists";
         armor = "\uD83D\uDC55 Torn Shirt";
         moveSet.add("Wrath Strike");
@@ -68,7 +67,7 @@ public class Player extends Character {
                     break;
                 //special
                 case "2":
-                    if (mp > 0)
+                    if (mp >= 0)
                     {
                         System.out.println();
                         for (int i=0; i<moveSet.size(); i++) {
@@ -81,7 +80,15 @@ public class Player extends Character {
                         Thread.sleep(1000);
                         System.out.println(name + " deals " + damage + " damage!");
                         Thread.sleep(1000);
+                        
+                        //makes sure that the enemy does not go below 0
+                        if (entity.health < 0)
+                        entity.health = 0;  
                         flag = true;
+                    }
+                    else
+                    {
+                        System.out.println("You are out of mp, you cant use your special");
                     }
                     System.out.println("You dont have enough mp");
                     
