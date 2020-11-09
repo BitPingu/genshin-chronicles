@@ -76,7 +76,6 @@ public class Player extends Character {
                     if ((currentMp - 5) > 0)
                     {
                         currentMp -= 5;
-                        System.out.println();
                         for (int i=0; i<moveSet.size(); i++) {
                             System.out.println(i+1 + ") " + moveSet.get(i));
                         }
@@ -174,10 +173,10 @@ public class Player extends Character {
     }//end of attack
     
     /*************************
-     * Method Name: checkInventory
+     * Method Name: printInventory
      * Method Description: Display the player's inventory
      **************************/
-    public void checkInventory(ArrayList<Character> partyMembers) {
+    public void printInventory(ArrayList<Character> partyMembers) {
         
         //Prints the party members and what they have
         for (int i=0; i<partyMembers.size(); i++) {
@@ -198,8 +197,6 @@ public class Player extends Character {
         //Prints out how much money you have
         System.out.println("\nMoney: " + money +"\n");
 
-        sortInventory(inventory);
-
         //Prints out what the user owns (sorted)
         for (int i=0; i<inventory.size(); i++) {
             System.out.println(inventory.get(i).get(0) + ": " + inventory.get(i).size());
@@ -208,11 +205,11 @@ public class Player extends Character {
         System.out.println("Type anything to exit.");
         keyInput.nextLine();
 
-    }//end of checkInventory
+    }//end of printInventory
 
     /*************************
      * Method Name: sortInventory
-     * Method Description: Sort the player's inventory
+     * Method Description: Sort the player's inventory using selection sort.
      **************************/
     public void sortInventory(ArrayList<ArrayList<String>> inventory) {
 
@@ -241,31 +238,102 @@ public class Player extends Character {
 
         }
 
-    }
+    }//end of sortInventory
+
+    /*************************
+     * Method Name: checkInventory
+     * Method Description: Check the player's inventory to find a certain item and amount using binary search.
+     **************************/
+    public boolean checkInventory(ArrayList<ArrayList<String>> inventory, String item, int amount) throws InterruptedException {
+
+        int first = 0, middle = 0, last = inventory.size()-1;
+        boolean found = false;
+        String[] tokens1 = item.split(" ");
+        String[] tokens2;
+
+        while (!found && first <= last) {
+
+            middle = (first + last) / 2;
+            tokens2 = inventory.get(middle).get(0).split(" ");
+
+            if (tokens2[1].equals(tokens1[1])) {
+                found = true;
+            } else if (tokens2[1].compareTo(tokens1[1]) < 0) {
+                first = middle + 1;
+            } else if (tokens2[1].compareTo(tokens1[1]) > 0) {
+                last = middle - 1;
+            }
+
+        }
+
+        if (!found) {
+            System.out.println("You don't have any " + item + ".");
+            Thread.sleep(1000);
+        } else if (inventory.get(middle).size() < amount) {
+            System.out.println("You don't have enough " + item + ".");
+            Thread.sleep(1000);
+            found = false;
+        }
+
+        return found;
+
+    }//end of checkInventory
 
     /*************************
      * Method Name: addInventory
-     * Method Description: Adds a new item to the player's inventory
+     * Method Description: Adds a new item to the player's inventory.
      **************************/
     public void addInventory(String item) {
 
         boolean newItem = true;
         
-        //adds to current inventory
+        //Check if item exists in inventory
         for (int i=0; i<inventory.size(); i++) {
+
             if (inventory.get(i).contains(item)) {
                 inventory.get(i).add(item);
                 newItem = false;
             }
+
         }
 
-        //adds new item into inventory
+        //Add new item to inventory
         if (newItem) {
             inventory.add(new ArrayList<>());
             inventory.get(inventory.size()-1).add(item);
         }
 
+        //Sorts inventory
+        sortInventory(inventory);
+
     }//end of addInventory
+
+    /*************************
+     * Method Name: removeInventory
+     * Method Description: Removes an item from the player's inventory.
+     **************************/
+    public void removeInventory(String item, int amount) {
+
+        //Look for item in inventory
+        for (int i=0; i<inventory.size(); i++) {
+
+            if (inventory.get(i).contains(item)) {
+
+                if (inventory.get(i).size() - amount == 0) {
+                    //If item is exact amount, remove entire row
+                    inventory.remove(i);
+                    break;
+                } else {
+                    for (int j = 0; j < amount; j++) {
+                        inventory.get(i).remove(item);
+                    }
+                }
+
+            }
+
+        }
+
+    }//end of removeInventory
     
     /*************************
      * checkLvl

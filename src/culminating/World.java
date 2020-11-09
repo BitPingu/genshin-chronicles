@@ -155,7 +155,7 @@ public class World {
         navigate();
 
         //After first battle - meeting the waifu and setting the name
-        System.out.println("\n" + healer.getName() + ": Thanks for saving me! My name is Robin. What is yours?");
+        System.out.println(healer.getName() + ": Thanks for saving me! My name is Robin. What is yours?");
         Thread.sleep(1000);
         healer.setName("\uD83E\uDDDA Robin");
         System.out.println(healer.getName() + ": What?! You don't remember your name? Then I should call you...");
@@ -258,7 +258,7 @@ public class World {
                     if (finishTutorial) {
                         //Use inventory
                         clearScreen();
-                        getPlayer().checkInventory(partyMembers);
+                        player.printInventory(partyMembers);
                     }
                     break;
                 case "m":
@@ -332,13 +332,19 @@ public class World {
                     row++;
                     yPos--;
                 }
-                System.out.println("Where are you going? You can't leave the person!");
+                System.out.println("Where are you going? You can't leave the girl!");
                 Thread.sleep(1000);
 
             }
 
             //Initiate event depending on player position
             switch (world.get(row).get(column)) {
+
+                case "\uD83E\uDDDA":
+                    //Save Girl
+                    System.out.println("Girl: Please help me!");
+                    Thread.sleep(1000);
+                    break;
 
                 case "\uD83C\uDFDB":
                     //Go to dungeon
@@ -413,7 +419,7 @@ public class World {
                     //Collect wood
                     System.out.println("You collected some wood.");
                     Thread.sleep(1000);
-                    getPlayer().addInventory("\uD83E\uDD62 Wood");
+                    player.addInventory("\uD83E\uDD62 Wood");
                     world.get(row).set(column, "\uD83C\uDF33");
                     break;
 
@@ -421,7 +427,7 @@ public class World {
                     //Collect stone
                     System.out.println("You collected some stone.");
                     Thread.sleep(1000);
-                    getPlayer().addInventory("\uD83E\uDD4C Stone");
+                    player.addInventory("\uD83E\uDD4C Stone");
                     world.get(row).set(column, "\uD83C\uDF33");
                     break;
 
@@ -429,7 +435,7 @@ public class World {
                     //Collect apples
                     System.out.println("You collected some apples.");
                     Thread.sleep(1000);
-                    getPlayer().addInventory("\uD83C\uDF4E Apples");
+                    player.addInventory("\uD83C\uDF4E Apples");
                     world.get(row).set(column, "\uD83C\uDF33");
                     break;
 
@@ -437,7 +443,7 @@ public class World {
                     //Collect ores
                     System.out.println("You collected some ore.");
                     Thread.sleep(1000);
-                    getPlayer().addInventory("\uD83D\uDC8E Ore");
+                    player.addInventory("\uD83D\uDC8E Ore");
                     world.get(row).set(column, "\uD83C\uDF33");
                     break;
 
@@ -445,7 +451,7 @@ public class World {
                     //Collect mushrooms
                     System.out.println("You collected some mushrooms.");
                     Thread.sleep(1000);
-                    getPlayer().addInventory("\uD83C\uDF44 Mushrooms");
+                    player.addInventory("\uD83C\uDF44 Mushrooms");
                     world.get(row).set(column, "\uD83C\uDF33");
                     break;
 
@@ -453,7 +459,7 @@ public class World {
                     //Collect critters
                     System.out.println("You caught some critters.");
                     Thread.sleep(1000);
-                    getPlayer().addInventory("\uD83D\uDC1B Critters");
+                    player.addInventory("\uD83D\uDC1B Critters");
                     world.get(row).set(column, "\uD83C\uDF33");
                     break;
 
@@ -461,7 +467,7 @@ public class World {
                     //Collect berries
                     System.out.println("You collected some berries.");
                     Thread.sleep(1000);
-                    getPlayer().addInventory("\uD83C\uDF52 Berries");
+                    player.addInventory("\uD83C\uDF52 Berries");
                     world.get(row).set(column, "\uD83C\uDF33");
                     break;
 
@@ -864,7 +870,7 @@ public class World {
     /*************************
      * Method Name: battle
      * Method Description: Displays the battle system.
-     * @param entity - Enemy to be fought.
+     * @param enemyType - Enemy to be fought.
      **************************/
     public void battle(String enemyType) throws InterruptedException, UnsupportedAudioFileException, IOException, 
             LineUnavailableException 
@@ -872,13 +878,17 @@ public class World {
         Character enemy;
         
         enemy = new Enemy(enemyType, player.getLevel() , 0, 0, 0, 0, 0, 0, 0, 0);
-    
 
         boolean win = false;
 
         //Call music method
         clip.stop();
-        music("battle.wav");
+        int theme = random.nextInt(2);
+        if (theme == 0) {
+            music("battle.wav");
+        } else {
+            music ("battle2.wav");
+        }
 
         if (!finishTutorial) {
             //First battle - no equipment only fists
@@ -898,7 +908,14 @@ public class World {
 
                 clearScreen();
 
+                //Print Enemy battle info
+                System.out.println("Enemy:");
+                System.out.println(enemy.getName());
+                System.out.println("HP: " + enemy.getHealth() + "/" + enemy.getCurrentHealth());
+                System.out.println("MP: " + enemy.getMp() + "/" + enemy.getCurrentMp());
+
                 //Print Party Members' battle info
+                /*
                 for (int k = 0; k < partyMembers.size(); k++) 
                 {
                     System.out.println(partyMembers.get(k).getName());
@@ -907,15 +924,23 @@ public class World {
                     System.out.println("MP: " + partyMembers.get(k).getMp() + "/" 
                             + partyMembers.get(k).getCurrentMp());
                 }
+                 */
 
-                //Print Enemy battle info
+                System.out.println("\nTeam:");
+                for (int k=0; k<partyMembers.size(); k++) {
+                    System.out.format("%-15s", partyMembers.get(k).getName());
+                }
                 System.out.println();
-                System.out.println(enemy.getName());
-                System.out.println("HP: " + enemy.getHealth() + "/" 
-                        + enemy.getCurrentHealth());
-                System.out.println("MP: " + enemy.getMp() + " / " 
-                        + enemy.getCurrentMp());
+                for (int k=0; k<partyMembers.size(); k++) {
+                    System.out.format("%-15s", "HP: " + partyMembers.get(k).getHealth() + "/"
+                            + partyMembers.get(k).getCurrentHealth());
+                }
                 System.out.println();
+                for (int k=0; k<partyMembers.size(); k++) {
+                    System.out.format("%-15s","MP: " + partyMembers.get(k).getMp() + "/"
+                            + partyMembers.get(k).getCurrentMp());
+                }
+                System.out.println("\n");
                 
                 //If one of the Party Members defeats the enemy
                 if (partyMembers.get(j).fight(partyMembers, enemy)) 
@@ -945,6 +970,7 @@ public class World {
                 {
                     partyMembers.get(j).gainExpMoney(enemy);
                     partyMembers.get(j).checkLvl();
+                    System.out.println();
                 }
                 Thread.sleep(2000);
                 break;
@@ -995,7 +1021,7 @@ public class World {
         //Variables in village
         String prompt;
         int newQuests, questSelect;
-        boolean visitedVillage = false, enoughItems;
+        boolean visitedVillage = false, done;
 
         //User prompt to enter village
         do {
@@ -1048,6 +1074,7 @@ public class World {
                 System.out.println("3) Visit the Workshop");
                 System.out.println("4) Talk to Villagers");
                 System.out.println("5) Exit");
+                System.out.println("[i]: Inventory");
                 prompt = keyInput.nextLine();
 
                 //Go to user selection
@@ -1091,16 +1118,28 @@ public class World {
                         //Talk to Villagers (view available quests)
                         do {
 
-                            enoughItems = false;
-                            //Print available quests for specific village
-                            if (quests.size() > 1) {
-                                for (int i = 1; i < quests.size(); i++) {
-                                    System.out.println(i + ") " + quests.get(i));
+                            done = false;
+
+                            do {
+
+                                //Print available quests for specific village
+                                if (quests.size() > 1) {
+                                    for (int i = 1; i < quests.size(); i++) {
+                                        System.out.println(i + ") " + quests.get(i));
+                                    }
+                                } else {
+                                    System.out.println("There are no available quests.");
                                 }
-                            } else {
-                                System.out.println("There are no available quests.");
-                            }
-                            System.out.println("Type 0 to return.");
+                                System.out.println("Type 0 to return.");
+
+                                if (keyInput.hasNextInt()) {
+                                    done = true;
+                                } else {
+                                    keyInput.nextLine();
+                                }
+
+                            } while (!done);
+
                             questSelect = Integer.parseInt(keyInput.nextLine());
 
                             //User prompt to select available quest
@@ -1111,55 +1150,40 @@ public class World {
                                 String item = tokens[4] + " " + tokens[5];
                                 int amount = Integer.parseInt(tokens[3]);
 
-                                //Loop through each item in player's inventory
-                                for (int i=0; i<player.getInventory().size(); i++) {
+                                //Check if player has enough of the item required
+                                if (player.checkInventory(player.getInventory(), item, amount)) {
 
-                                    //Check if player has enough of the item required
-                                    if (player.getInventory().get(i).contains(item) &&
-                                            player.getInventory().get(i).size() >= amount) {
+                                    //User prompt to give item required
+                                    do {
+                                        System.out.println("Give " + amount + " " + item + " to " + tokens[0] + "? (y/n)");
+                                        prompt = keyInput.nextLine();
+                                    } while (!prompt.equalsIgnoreCase("y") && !prompt.equalsIgnoreCase("n"));
 
-                                        enoughItems = true;
+                                    if (prompt.equalsIgnoreCase("y")) {
 
-                                        //User prompt to give item required
-                                        do {
-                                            System.out.println("Give " + amount + " " + item + " to " + tokens[0] + "? (y/n)");
-                                            prompt = keyInput.nextLine();
-                                        } while (!prompt.equalsIgnoreCase("y") && !prompt.equalsIgnoreCase("n"));
+                                        System.out.println(tokens[0] + " Thank you!");
+                                        Thread.sleep(1000);
 
-                                        if (prompt.equalsIgnoreCase("y")) {
+                                        //Give required item amount
+                                        player.removeInventory(item, amount);
 
-                                            System.out.println(tokens[0] + " Thank you!");
-                                            Thread.sleep(1000);
-
-                                            //Give required item amount
-                                            if (player.getInventory().get(i).size() - amount == 0) {
-                                                player.getInventory().remove(i);
-                                            } else {
-                                                for (int j = 0; j < amount; j++) {
-                                                    player.getInventory().get(i).remove(item);
-                                                }
-                                            }
-
-                                            //Remove quest from village and give reward
-                                            quests.remove(questSelect);
-                                            questReward();
-                                            break;
-
-                                        }
+                                        //Remove quest from village and give reward
+                                        quests.remove(questSelect);
+                                        questReward();
 
                                     }
 
                                 }
 
-                                //Not enough items
-                                if (!enoughItems) {
-                                    System.out.println("You don't have enough of that item.");
-                                    Thread.sleep(1000);
-                                }
-
                             }
 
                         } while (questSelect != 0);
+                        break;
+
+                    case "i":
+                        clearScreen();
+                        //Print inventory
+                        player.printInventory(partyMembers);
                         break;
 
                 }
@@ -1280,7 +1304,7 @@ public class World {
 
         //Create floatControl object to set volume
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        gainControl.setValue(-20.0f);
+        gainControl.setValue(-30.0f);
 
         //Play on loop until program ends or stopped
         clip.start();

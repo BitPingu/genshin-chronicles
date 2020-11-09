@@ -74,7 +74,6 @@ public class Party extends Character {
                     if ((currentMp -5) > 0)
                     {
                         currentMp -= 5;
-                        System.out.println();
                         for (int i=0; i<moveSet.size(); i++) {
                             System.out.println(i+1 + ") " + moveSet.get(i));
                         }

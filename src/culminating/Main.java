@@ -183,7 +183,7 @@ public class Main {
 
         //Create floatControl object to set volume
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        gainControl.setValue(-10.0f);
+        gainControl.setValue(-20.0f);
 
         //Play on loop until program ends or stopped
         clip.start();

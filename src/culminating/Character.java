@@ -151,11 +151,19 @@ public class Character {
         return 0;
     }
     
-    public void checkInventory(ArrayList<Character> partyMembers) {
+    public void printInventory(ArrayList<Character> partyMembers) {
 
     }
 
+    public boolean checkInventory(ArrayList<ArrayList<String>> inventory, String item, int amount) throws InterruptedException {
+        return false;
+    }
+
     public void addInventory(String item) {
+
+    }
+
+    public void removeInventory(String item, int amount) {
 
     }
     
