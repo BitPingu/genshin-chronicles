@@ -11,6 +11,7 @@ public class World {
 
     //Field objects in World
     private ArrayList<ArrayList<String>> world = new ArrayList<>();
+    private final ArrayList<ArrayList<String>> map = new ArrayList<>();
     private final ArrayList<ArrayList<String>> villagesVisited = new ArrayList<>();
     private final Scanner keyInput = new Scanner(System.in);
     private final Random random = new Random();
@@ -120,8 +121,10 @@ public class World {
 
         for (int i=0; i<5; i++) {
             world.add(new ArrayList<>());
+            map.add(new ArrayList<>());
             for (int j=0; j<5; j++) {
                 world.get(i).add("\uD83D\uDFE9");//Grass
+                map.get(i).add("\uD83D\uDFE9");//Grass
             }
         }
 
@@ -277,21 +280,36 @@ public class World {
                 column++;
                 for (int j=0; j<world.size(); j++) {
                     world.get(j).add(0, chunk());
+                    map.get(j).add(0, "?");
                 }
             } else if (row + 1 == world.size()-1) {
                 world.add(new ArrayList<>());
+                map.add(new ArrayList<>());
                 for (int j=0; j<world.get(row).size(); j++) {
                     world.get(row + 2).add(chunk());
+                    map.get(row + 2).add("?");
                 }
             } else if (column + 1 == world.get(row).size()-1) {
                 for (int j=0; j<world.size(); j++) {
                     world.get(j).add(chunk());
+                    map.get(j).add("?");
                 }
             } else if (row - 1 == 0) {
                 row++;
                 world.add(0, new ArrayList<>());
+                map.add(0, new ArrayList<>());
                 for (int j=0; j<world.get(row).size(); j++) {
                     world.get(row - 2).add(chunk());
+                    map.get(row - 2).add("?");
+                }
+            }
+
+            //Add explored area to map
+            for (int i=row-2; i<row + 3; i++) {
+                for (int j=column-2; j<column+3; j++) {
+                    if (map.get(i).get(j).equalsIgnoreCase("?")) {
+                        map.get(i).set(j, world.get(i).get(j));
+                    }
                 }
             }
 
@@ -817,17 +835,26 @@ public class World {
      **************************/
     public void map() {
 
+        String currentPosition;
+
+        //Get current tile of player location, replace it with player
+        currentPosition = map.get(row).get(column);
+        map.get(row).set(column, "\uD83E\uDDDD");//Elf
+
         //Print map
         System.out.println();
-        for (int i=0; i<world.size(); i++) {
-            for (int j=0; j<world.get(i).size(); j++) {
-                System.out.print(world.get(i).get(j) + "\t");
+        for (int i=0; i<map.size(); i++) {
+            for (int j=0; j<map.get(i).size(); j++) {
+                System.out.print(map.get(i).get(j) + "\t");
             }
             System.out.println();
         }
 
         System.out.println("Type anything to exit.");
         keyInput.nextLine();
+
+        //Replace player position with original tile
+        map.get(row).set(column, currentPosition);
 
     }//end of map
 
