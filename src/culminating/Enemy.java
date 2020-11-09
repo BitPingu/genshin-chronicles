@@ -172,8 +172,9 @@ public class Enemy extends Character {
 
             //enemy special - attacks everyone
             case 5:
-                if ((mp - 5) > 0) 
+                if ((currentMp - 5) > 0) 
                 {
+                    currentMp -= 5;
                     System.out.println("\n" + name + " uses a special!");
                     Thread.sleep(1000);
 

@@ -71,7 +71,7 @@ public class Party extends Character {
                     
                 //specials
                 case "2":
-                    if (currentMp > 0)
+                    if ((currentMp -5) > 0)
                     {
                         currentMp -= 5;
                         System.out.println();
@@ -120,9 +120,7 @@ public class Party extends Character {
                 default:
                     System.out.println("Please enter a command");
                     break;
-
             }
-
         } while (!flag);
 
         return entity.currentHealth == 0;
@@ -148,7 +146,7 @@ public class Party extends Character {
             //shows how many dices the player can use
             for (int i = 0; i < diceTotal; i++)
             {
-                dice.add(random.nextInt(8) + 1);
+                dice.add(random.nextInt(6) + 1);
                 System.out.println("DICE[" + (i + 1) + "]: " + dice.get(i));
             }
             System.out.println("What dice do you want to use?");

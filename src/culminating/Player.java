@@ -73,7 +73,7 @@ public class Player extends Character {
                     break;
                 //special
                 case "2":
-                    if (currentMp > 0)
+                    if ((currentMp - 5) > 0)
                     {
                         currentMp -= 5;
                         System.out.println();
