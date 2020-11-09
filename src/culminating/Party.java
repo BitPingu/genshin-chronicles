@@ -37,6 +37,7 @@ public class Party extends Character {
         //Variables in fight
         int damage =0;
         String prompt;
+        boolean flag = false;
 
         do
         {
@@ -50,8 +51,8 @@ public class Party extends Character {
             {
                 //attacking
                 case "1":
-                    damage = attack(getDices()) + getStrength();
-                    entity.currentHealth -= damage;
+                    damage = (attack(getDices()) + getStrength()) - entity.defence;
+                    entity.currentHealth -= (damage);
 
                     //makes sure that the enemy does not go below 0
                     if (entity.currentHealth < 0)
@@ -61,31 +62,50 @@ public class Party extends Character {
                     Thread.sleep(1000);
                     System.out.println(name + " deals " + damage + " damage!");
                     Thread.sleep(1000);
+                    flag = true;
                     break;
                     
                 //specials
                 case "2":
-                    System.out.println();
-                    for (int i=0; i<moveSet.size(); i++) {
-                        System.out.println(i+1 + ") " + moveSet.get(i));
-                    }
-                    prompt = keyInput.nextLine();
-                    for (int i=0; i<5; i++) {
-                        if (partyMembers.get(0).health == partyMembers.get(0).currentHealth) {
-                            break;
+                    if (currentMp > 0)
+                    {
+                        currentMp -= 5;
+                        System.out.println();
+                        for (int i=0; i<moveSet.size(); i++) {
+                            System.out.println(i+1 + ") " + moveSet.get(i));
                         }
-                        partyMembers.get(0).currentHealth++;
-                        damage++;
+                        
+                        prompt = keyInput.nextLine();
+                        for (int i=0; i < partyMembers.size(); i++) {
+                            if (partyMembers.get(i).health == partyMembers.get(i).currentHealth) {
+                                break;
+                            }
+                            partyMembers.get(i).currentHealth++;
+                            damage++;
+                        }
+                        System.out.println("\n" + name + " used Physic!");
+                        Thread.sleep(1000);
+                        
+                        for (int i=0; i < partyMembers.size(); i++)
+                        {
+                            System.out.println(name + " restored " + damage + " health to "
+                                    + partyMembers.get(i).name + ".");  
+                        }
+                        
+                        Thread.sleep(1000); 
+                        flag = true;
                     }
-                    System.out.println("\n" + name + " used Physic!");
-                    Thread.sleep(1000);
-                    System.out.println(name + " restored " + damage + " health to " + partyMembers.get(0).name + ".");
-                    Thread.sleep(1000);
+                    else
+                    {
+                        System.out.println("You are out of mp, you cant use your special");
+                    }
+                    
                     break;
                 
                 //running away
                 case "3":
                     System.out.println("Got away safely!");
+                    flag = true;
                     break;
                 //error handle
                 default:
@@ -94,7 +114,7 @@ public class Party extends Character {
 
             }
 
-        } while (!prompt.equals("1") && !prompt.equals("2") && !prompt.equals("3"));
+        } while (!flag);
 
         return entity.currentHealth == 0;
 
