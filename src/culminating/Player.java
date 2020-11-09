@@ -21,6 +21,9 @@ public class Player extends Character {
     }
 
     //Accessors
+    public ArrayList<ArrayList<String>> getInventory() {
+        return inventory;
+    }
 
     //Mutators
 
@@ -42,7 +45,7 @@ public class Player extends Character {
             System.out.println("1) Attack");
             System.out.println("2) Special");
             System.out.println("3) Run");
-            prompt = keyInput.nextLine());
+            prompt = keyInput.nextLine();
 
             switch (prompt) 
             {
@@ -95,8 +98,6 @@ public class Player extends Character {
             }
         } while (!flag);
 
-        
-
         return entity.health == 0;
     }//end of fight
     
@@ -127,15 +128,11 @@ public class Player extends Character {
         return dices.get(choice-1);
     }//end of attack
     
-    
-    
     /*************************
      * Method Name: checkInventory
      * Method Description: Display the player's inventory
      **************************/
     public void checkInventory(ArrayList<Character> partyMembers) {
-
-        String prompt;
 
         //Print inventory
         System.out.println();
@@ -165,7 +162,7 @@ public class Player extends Character {
         }
 
         System.out.println("Type anything to exit.");
-        keyInput.nextLine());
+        keyInput.nextLine();
 
     }//end of checkInventory
 
@@ -190,12 +187,13 @@ public class Player extends Character {
             inventory.add(new ArrayList<>());
             inventory.get(inventory.size()-1).add(item);
         }
+
     }//end of addInventory
     
-    /**
+    /*************************
      * checkLvl
      * THis method will check if the user can level up or not
-     */
+     *************************/
     @Override
     public void checkLvl()
     {
@@ -247,8 +245,7 @@ public class Player extends Character {
             
             
         }
+
     }//end of checkLvl
-    
-    
  
 }//end of class

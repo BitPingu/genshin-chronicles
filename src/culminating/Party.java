@@ -88,18 +88,19 @@ public class Party extends Character {
                     break;
 
             }
+
         } while (!prompt.equals("1") && !prompt.equals("2") && !prompt.equals("3"));
 
         return entity.health == 0;
 
     }//end of fight
     
-    /**
+    /***********************
      * attack 
      * This method will show the user their available attacks
      * @param diceTotal - how many dices the character has
      * @return - returns damage output
-     */
+     ***********************/
     @Override
     public int attack(int diceTotal)
     {
@@ -117,12 +118,13 @@ public class Party extends Character {
         choice = scanN.nextInt();
 
         return dice.get(choice-1);
+
     }//end of attack
     
-    /**
+    /*************************
      * checkLvl
      * THis method will check if the user can level up or not
-     */
+     *************************/
     @Override
     public void checkLvl()
     {

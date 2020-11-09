@@ -27,6 +27,7 @@ public class Enemy extends Character {
         prompt = random.nextInt(2) + 1;
 
         switch (prompt) {
+
             case 1:
                 diceRoll = random.nextInt(6) + 1;
                 damage = 0;

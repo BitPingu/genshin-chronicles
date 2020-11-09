@@ -9,8 +9,9 @@ import java.util.Scanner;
 
 public class World {
 
-    //Field objects
+    //Field objects in World
     private ArrayList<ArrayList<String>> world = new ArrayList<>();
+    private final ArrayList<ArrayList<String>> villagesVisited = new ArrayList<>();
     private final Scanner keyInput = new Scanner(System.in);
     private final Random random = new Random();
     private Clip clip;
@@ -34,11 +35,11 @@ public class World {
     private final Character skeleton = new Enemy("\uD83D\uDC80 Skeleton", 1, 50, 25, 10, 5, 5, 70, 4, 70);
     private final Character golem = new Enemy("\uD83E\uDD16 Golem", 1, 50, 25, 10, 5, 5, 80, 4, 80);
 
-    //Field variables
+    //Field variables in World
     private int row, column, xPos, yPos;
     private boolean finishTutorial;
 
-    //Constructor
+    //Constructors
     public World()
     {
         initWorld();
@@ -147,9 +148,6 @@ public class World {
         Thread.sleep(1000);
         System.out.println(healer.getName() + ": Someone please help me!");
         Thread.sleep(1000);
-        System.out.println("(Press the asdw keys to move)");
-        Thread.sleep(1000);
-        //Call music method
         music("overworld.wav");
         navigate();
 
@@ -195,22 +193,29 @@ public class World {
         String currentPosition;
         String movement;
         int spawn;
+        boolean safe;
 
         while (true) {
 
             clearScreen();
+
             //Get current tile of player location, replace it with player
             currentPosition = world.get(row).get(column);
             world.get(row).set(column, "\uD83E\uDDDD");//Elf
 
+            //Display player info
             System.out.println("Player: " + player.getName());
             System.out.println("Level: " + player.getLevel());
             System.out.println("Exp: " + player.getExp());
-            System.out.println("Mooney: " + player.getMoney());
-            System.out.println("[i]: Inventory ");
-            System.out.println("[m]: Map ");
-            System.out.println("[l]: save and quit ");
-            //Print player's field of vision
+            System.out.println("Money: " + player.getMoney());
+            System.out.println("[asdw]: Move");
+            if (finishTutorial) {
+                System.out.println("[i]: Inventory ");
+                System.out.println("[m]: Map ");
+                System.out.println("[l]: Save and Quit ");
+            }
+
+            //Display player's field of vision
             System.out.println();
             for (int i=row-2; i<row + 3; i++) {
                 for (int j=column-2; j<column+3; j++) {
@@ -228,6 +233,7 @@ public class World {
             world.get(row).set(column, currentPosition);
 
             switch (movement) {
+
                 case "a":
                     column--;
                     xPos--;
@@ -263,6 +269,7 @@ public class World {
                         return;
                     }
                 default:
+
             }
 
             //Generate world as player moves
@@ -290,6 +297,7 @@ public class World {
 
             //Prevent player from escaping during tutorial
             if (!finishTutorial && (xPos < -2 || yPos < -2 || xPos > 2 || yPos > 2)) {
+
                 if ("a".equals(movement)) {
                     column++;
                     xPos++;
@@ -305,10 +313,12 @@ public class World {
                 }
                 System.out.println("Where are you going? You can't leave the person!");
                 Thread.sleep(1000);
+
             }
 
             //Initiate event depending on player position
             switch (world.get(row).get(column)) {
+
                 case "\uD83C\uDFDB":
                     //Go to dungeon
                     dungeon();
@@ -443,10 +453,21 @@ public class World {
 
             }
 
-            //Spawn enemies and/or items when moving and outside of start
-            if (finishTutorial && ("a".equals(movement) || "s".equals(movement)
-                    || "d".equals(movement) || "w".equals(movement)) &&
-                    (xPos < -2 || yPos < -2 || xPos > 2 || yPos > 2)) {
+            //Check starting area and village within FOV
+            safe = false;
+            for (int i=row-2; i<row + 3; i++) {
+                for (int j=column-2; j<column+3; j++) {
+                    if (world.get(i).get(j).equals("\uD83D\uDFE9") || world.get(i).get(j).equals("\uD83C\uDFD8")) {
+                        safe = true;
+                        break;
+                    }
+                }
+            }
+
+            //Spawn enemies and/or items when moving and no starting area or village in FOV
+            if (finishTutorial && ("a".equals(movement) || "s".equals(movement) || "d".equals(movement) ||
+                    "w".equals(movement)) && !safe) {
+
                 spawn = random.nextInt(2);
                 if (spawn == 0) {
                     spawnEnemy();
@@ -455,6 +476,7 @@ public class World {
                 if (spawn == 0) {
                     spawnItem();
                 }
+
             }
 
         }
@@ -536,6 +558,7 @@ public class World {
         spawn = random.nextInt(24)+1;
 
         switch (spawn) {
+
             case 1:
                 enemyRow = row - 2;
                 enemyColumn = column - 2;
@@ -632,6 +655,7 @@ public class World {
                 enemyRow = row + 2;
                 enemyColumn = column + 2;
                 break;
+
         }
 
         //Spawn enemy in world
@@ -682,6 +706,7 @@ public class World {
         spawn = random.nextInt(24)+1;
 
         switch (spawn) {
+
             case 1:
                 itemRow = row - 2;
                 itemColumn = column - 2;
@@ -778,6 +803,7 @@ public class World {
                 itemRow = row + 2;
                 itemColumn = column + 2;
                 break;
+
         }
 
         //Spawn item in world
@@ -791,8 +817,6 @@ public class World {
      **************************/
     public void map() {
 
-        String prompt;
-
         //Print map
         System.out.println();
         for (int i=0; i<world.size(); i++) {
@@ -802,8 +826,8 @@ public class World {
             System.out.println();
         }
 
-        System.out.println("Type 'm' to exit.");
-        prompt = keyInput.nextLine();
+        System.out.println("Type anything to exit.");
+        keyInput.nextLine();
 
     }//end of map
 
@@ -820,7 +844,6 @@ public class World {
         clip.stop();
         music("battle.wav");
 
-        //tutorial
         if (!finishTutorial) {
             //First battle - no equipment only fists
             System.out.println(healer.getName() + ": Wait, you know how to fight?");
@@ -829,42 +852,44 @@ public class World {
             Thread.sleep(1000);
             partyMembers.add(healer);
         }
-        //goes through each party memeber and enemy
-        for (int i = 0;; i++) 
+
+        //Loops through Party Members' and Enemy turns
+        for (int i=0;; i++)
         {
-            //goes through each aprty member
+            //Loops through each Party Members' turn
             for (int j = 0; j < partyMembers.size(); j++) 
             {
-                
-                System.out.println();
+
                 clearScreen();
-                //prints all party emember info
+
+                //Print Party Members' battle info
                 for (int k = 0; k < partyMembers.size(); k++) 
                 {
                     System.out.println(partyMembers.get(k).getName() + " - HP: " + partyMembers.get(k).getHealth());
                 }
-                
-                //prints enemy info
+
+                //Print Enemy battle info
                 System.out.println();
                 System.out.println(entity.getName() + " - HP: " + entity.getHealth());
                 System.out.println();
                 
-                //if one of the characters defeats the enemy
+                //If one of the Party Members defeats the enemy
                 if (partyMembers.get(j).fight(partyMembers, entity)) 
                 {
-                    System.out.println(entity.name + " dies!");
-                    Thread.sleep(1000);
-                    world.get(row).set(column, "\uD83C\uDF33");
-                    entity.setHealth(entity.currentHealth);
                     win = true;
                     break;
                 }
+
             }
-            //if players won
+
             if (win) 
             {
-                System.out.println("You won!");
-                //distrobute exp to all your party members
+                //Player (and Team Members) win
+                System.out.println(entity.name + " dies!");
+                Thread.sleep(1000);
+
+                //Distribute exp to all Party Members
+                System.out.println();
                 for (int j = 0; j < partyMembers.size(); j++)
                 {
                     partyMembers.get(j).gainExpMoney(entity);
@@ -873,12 +898,18 @@ public class World {
                 Thread.sleep(2000);
                 break;
             }
-            //if one of your paty members die, you lose
+
+            //If a Party Member dies
             if (entity.fight(partyMembers, player)) {
                 System.out.println("Oh no you've died!");
                 System.exit(0);
             }
+
         }
+
+        //Replace enemy on map and reset their health
+        world.get(row).set(column, "\uD83C\uDF33");
+        entity.setHealth(entity.health);
 
         //Call music method
         clip.stop();
@@ -907,10 +938,19 @@ public class World {
      **************************/
     public void village() throws UnsupportedAudioFileException, IOException, LineUnavailableException, InterruptedException {
 
-        String prompt;
+        //ArrayList for available quests in current village
+        ArrayList<String> quests = null;
 
-        System.out.println("You arrived at a village. Will you enter? (y/n)");
-        prompt = keyInput.nextLine();
+        //Variables in village
+        String prompt;
+        int newQuests, questSelect;
+        boolean visitedVillage = false, enoughItems;
+
+        //User prompt to enter village
+        do {
+            System.out.println("You arrived at a village. Will you enter? (y/n)");
+            prompt = keyInput.nextLine();
+        } while (!prompt.equalsIgnoreCase("y") && !prompt.equalsIgnoreCase("n"));
 
         if (prompt.equalsIgnoreCase("y")) {
 
@@ -918,9 +958,40 @@ public class World {
             clip.stop();
             music("village.wav");
 
+            //Check if village is already visited
+            for (int i=0; i<villagesVisited.size(); i++) {
+
+                if (villagesVisited.get(i).contains(xPos + "," + yPos)) {
+                    //Retrieve available quests for specific village
+                    quests = villagesVisited.get(i);
+                    visitedVillage = true;
+                    break;
+                }
+
+            }
+
+            //If new village
+            if (!visitedVillage) {
+
+                //Add to villages visited
+                villagesVisited.add(new ArrayList<>());
+                villagesVisited.get(villagesVisited.size()-1).add(xPos + "," + yPos);
+
+                //Assign random number of quests to village
+                newQuests = random.nextInt(3) + 1;
+                for (int j=0; j<newQuests; j++) {
+                    villagesVisited.get(villagesVisited.size()-1).add(quest());
+                }
+                quests = villagesVisited.get(villagesVisited.size()-1);
+
+            }
+
             do {
 
-                System.out.println("\nWelcome to village.");
+                clearScreen();
+
+                //User prompt inside village
+                System.out.println("Welcome to village.");
                 System.out.println("1) Rest at Inn");//pay 50
                 System.out.println("2) Visit the Store");
                 System.out.println("3) Visit the Workshop");
@@ -928,16 +999,27 @@ public class World {
                 System.out.println("5) Exit");
                 prompt = keyInput.nextLine();
 
+                //Go to user selection
                 switch (prompt) {
+
                     case "1":
-                        System.out.println("Pay 50 rupees to rest at Inn? (y/n)");
-                        prompt = keyInput.nextLine();
+                        //Rest at Inn (recover health of all party members)
+                        do {
+                            System.out.println("Pay 50 rupees to rest at Inn? (y/n)");
+                            prompt = keyInput.nextLine();
+                        } while (!prompt.equalsIgnoreCase("y") && !prompt.equalsIgnoreCase("n"));
+
                         if (prompt.equalsIgnoreCase("y")) {
                             System.out.println("You and your team's health are fully restored!");
                             Thread.sleep(1000);
+                            for (int j=0; j<partyMembers.size(); j++) {
+                                partyMembers.get(j).setHealth(partyMembers.get(j).getHealth());
+                            }
                         }
                         break;
+
                     case "2":
+                        //Visit the Store (purchase equipment)
                         System.out.println("Store Clerk: Hey there! How may I help ya?");
                         System.out.println("1) Weapons and Armor");
                         System.out.println("2) Items");
@@ -946,22 +1028,86 @@ public class World {
                         System.out.println("Store Clerk: Come back soon!");
                         Thread.sleep(1000);
                         break;
+
                     case "3":
+                        //Visit the Workshop (crafting)
                         System.out.println(player.name + ": Hmm... what should I craft?");
                         System.out.println("Type 'r' to return.");
                         prompt = keyInput.nextLine();
                         break;
+
                     case "4":
-                        System.out.println("There are no available quests.");
-                        System.out.println("Villager: I need 5 wood in order to build a house.");
-                        System.out.println("Villager: I need 5 stone in order to build a well.");
-                        System.out.println("Villager: I need 2 apples and 2 mushrooms to make mushroom soup.");
-                        System.out.println("Villager: I need 10 berries to make a shake.");
-                        System.out.println("Villager: I need 5 critters to make elixirs.");
-                        System.out.println("Villager: I need 3 ore and 4 wood to make a weapon.");
-                        System.out.println("Type 'r' to return.");
-                        prompt = keyInput.nextLine();
+                        //Talk to Villagers (view available quests)
+                        do {
+
+                            enoughItems = false;
+
+                            //Print available quests for specific village
+                            if (quests.size() > 0) {
+                                for (int i = 1; i < quests.size(); i++) {
+                                    System.out.println(i + ") " + quests.get(i));
+                                }
+                            } else {
+                                System.out.println("There are no available quests.");
+                            }
+                            System.out.println("Type 0 to return.");
+                            questSelect = Integer.parseInt(keyInput.nextLine());
+
+                            //User prompt to select available quest
+                            if (questSelect > 0 && questSelect < quests.size()) {
+
+                                //Tokenize quest selected to get individual values
+                                String[] tokens = quests.get(questSelect).split(" ");
+                                String item = tokens[4] + " " + tokens[5];
+                                int amount = Integer.parseInt(tokens[3]);
+
+                                //Loop through each item in player's inventory
+                                for (int i=0; i<player.getInventory().size(); i++) {
+
+                                    //Check if player has enough of the item required
+                                    if (player.getInventory().get(i).contains(item) &&
+                                            player.getInventory().get(i).size() >= amount) {
+
+                                        enoughItems = true;
+
+                                        //User prompt to give item required
+                                        do {
+                                            System.out.println("Give " + amount + " " + item + " to " + tokens[0] + "? (y/n)");
+                                            prompt = keyInput.nextLine();
+                                        } while (!prompt.equalsIgnoreCase("y") && !prompt.equalsIgnoreCase("n"));
+
+                                        if (prompt.equalsIgnoreCase("y")) {
+
+                                            System.out.println(tokens[0] + " Thank you!");
+                                            Thread.sleep(1000);
+
+                                            //Give required item amount
+                                            for (int j=0; j<amount; j++) {
+                                                player.getInventory().get(i).remove(item);
+                                            }
+
+                                            //Remove quest from village and give reward
+                                            quests.remove(questSelect);
+                                            questReward();
+                                            break;
+
+                                        }
+
+                                    }
+
+                                }
+
+                                //Not enough items
+                                if (!enoughItems) {
+                                    System.out.println("You don't have enough of that item.");
+                                    Thread.sleep(1000);
+                                }
+
+                            }
+
+                        } while (questSelect != 0);
                         break;
+
                 }
 
             } while (!prompt.equalsIgnoreCase("5"));
@@ -973,6 +1119,72 @@ public class World {
         }
 
     }//end of village
+
+    /*************************
+     * Method Name: quests
+     * Method Description: Generates a random quest.
+     * @return occupation + ": I need " + amount + " " + material + " to " + reason - generated quest
+     **************************/
+    public String quest() {
+
+        //Variables in quest
+        String occupation = null, material = "", reason = "";
+        int villager, amount;
+
+        //Determine random villager
+        villager = random.nextInt(6) + 1;
+
+        switch (villager) {
+
+            case 1:
+                occupation = "Farmer";
+                material = "\uD83C\uDF44 Mushrooms";
+                reason = "feed the cows.";
+                break;
+            case 2:
+                occupation = "Miner";
+                material = "\uD83E\uDD4C Stone";
+                reason = "make a stone pickaxe.";
+                break;
+            case 3:
+                occupation = "Carpenter";
+                material = "\uD83E\uDD62 Wood";
+                reason = "build a house.";
+                break;
+            case 4:
+                occupation = "Blacksmith";
+                material = "\uD83D\uDC8E Ore";
+                reason = "craft a sword.";
+                break;
+            case 5:
+                occupation = "Alchemist";
+                material = "\uD83D\uDC1B Critters";
+                reason = "brew elixirs.";
+                break;
+            case 6:
+                occupation = "Cook";
+                material = "\uD83C\uDF52 Berries";
+                material = "\uD83C\uDF4E Apples";
+                reason = "make fruit salad.";
+                break;
+
+        }
+
+        //Determine random amount of item required
+        amount = random.nextInt(5) + 1;
+
+        //Return quest
+        return occupation + ": I need " + amount + " " + material + " to " + reason;
+
+    }
+
+    /*************************
+     * Method Name: questReward
+     * Method Description: Generates a quest reward.
+     **************************/
+    public void questReward() {
+
+    }
 
     /*************************
      * Method Name: clearScreen

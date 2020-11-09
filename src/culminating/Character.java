@@ -83,7 +83,10 @@ public class Character {
     {
         return money;
     }
-    
+
+    public ArrayList<ArrayList<String>> getInventory() {
+        return null;
+    }
 
     //Mutators
     public void setLevel(int l) {
@@ -122,7 +125,6 @@ public class Character {
     {
         currentMp = m;
     }
-    
 
     public void setName(String n) {
         name = n;
@@ -156,20 +158,21 @@ public class Character {
 
     }
     
-    /**
+    /**************************
      * gainExpMoney
- This method is a way to distubute the exp
+     * This method is a way to distubute the exp
      * @param entity 
-     */
+     **************************/
     public void gainExpMoney(Character entity)
     {
         //gives exp based on enemies level and exp hold
         exp += (entity.getExp() * entity.getLevel());
         money += (entity.getLevel() * entity.getMoney());
     }
-    
+
     public void checkLvl()
     {
+
     }//end of checkLvl
     
 }//end of class

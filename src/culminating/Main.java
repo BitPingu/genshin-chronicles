@@ -19,7 +19,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    //Create file object for database
+    //Global objects in main
     public static File file = new File("saveData.txt");
     public static World world;
     public static Clip clip;
@@ -35,6 +35,7 @@ public class Main {
         //Call music method
         music("title.wav");
 
+        //Print title screen
         System.out.println("\n" +
                 " ___     _       _  __  _       _     _   _    __  _       __     ___        \n" +
                 "  | |_| |_   |  |_ /__ |_ |\\ | | \\   / \\ |_   /__ |_ |\\ | (_  |_|  |  |\\ | o \n" +
@@ -47,61 +48,57 @@ public class Main {
 
         Scanner keyInput = new Scanner(System.in);
         Scanner checkSave = new Scanner(file);
-        boolean availableSave = false;
+        String prompt;
 
-        if (checkSave.hasNext()) {
-            availableSave = true;
-        }
+        //Print selection menu
+        do {
 
-        if (availableSave) {
-            System.out.println("1) Continue");
-            System.out.println("2) New Game");
-            System.out.println("3) Options");
-            int prompt = Integer.parseInt(keyInput.nextLine());
-            switch (prompt) {
-                case 1:
+            System.out.println("1) New Game");
+            if (checkSave.hasNext()) {
+                System.out.println("2) Continue");
+            }
+            prompt = keyInput.nextLine();
+
+        } while (!prompt.equalsIgnoreCase("1") && (!prompt.equalsIgnoreCase("2") || !checkSave.hasNext()));
+
+        //Go to user selection
+        switch (prompt) {
+
+            case "1":
+                clip.stop();
+                //create new save data
+                world = new World();
+                world.start();
+                break;
+            case "2":
+                if (checkSave.hasNext()) {
                     clip.stop();
+                    //load existing save data
                     loadSave();
                     world.music("overworld.wav");
                     world.navigate();
                     break;
-                case 2:
-                    clip.stop();
-                    world = new World();
-                    world.start();
-                    break;
-                case 3:
-                    break;
-            }
-        } else {
-            System.out.println("1) New Game");
-            System.out.println("2) Options");
-            int prompt = Integer.parseInt(keyInput.nextLine());
-            switch (prompt) {
-                case 1:
-                    clip.stop();
-                    world = new World();
-                    world.start();
-                    break;
-                case 2:
-                    break;
-            }
+                }
+
         }
 
+        //save progress (only world)
         save(world.getWorld(), world.getRow(), world.getColumn(), world.getxPos(), world.getyPos(), world.isFinishTutorial());
 
     }//end of main
 
     public static void loadSave() throws FileNotFoundException {
 
-        //Create string and scanner object to read from database
+        //Objects in loadSave
         ArrayList<ArrayList<String>> newMap = new ArrayList<>();
+        Scanner fileRead = new Scanner(file);
+
+        //Variables in loadSave
         String[] data;
         String dataLine;
         int mapRow = 0;
-        Scanner fileRead = new Scanner(file);
 
-        //Read from first line in the file
+        //Read from first line in the file and tokenize
         dataLine = fileRead.nextLine();
         data = dataLine.split(" ");
         int row = Integer.parseInt(data[0]);
@@ -110,19 +107,22 @@ public class Main {
         int yPos = Integer.parseInt(data[3]);
         boolean finishTutorial = Boolean.parseBoolean(data[4]);
 
-        //Read from current database in the file
+        //Read from following lines in the file that contain the map
         while (fileRead.hasNext()) {
-            //Store each row of map in string
+
+            //Store each row/line of map in string and tokenize
             dataLine = fileRead.nextLine();
-            //Tokenize string/row to get individual values/tiles
             data = dataLine.split(" ");
+
             //Add each tile to current row of loaded map
             newMap.add(new ArrayList<>());
             for (int i=0; i<data.length; i++) {
                 newMap.get(mapRow).add(data[i]);
             }
-            //Next row
+
+            //Next row/line
             mapRow++;
+
         }
 
         //Close scanner object
@@ -139,7 +139,7 @@ public class Main {
      **************************/
     public static void save(ArrayList<ArrayList<String>> w, int row, int column, int xPos, int yPos, boolean finishTutorial) throws FileNotFoundException {
 
-        //Create string and printWriter object to write to database
+        //Objects in save
         String newData = row + " " + column + " " + xPos + " " + yPos + " " + finishTutorial;
         PrintWriter fileWrite = new PrintWriter(file);
 
