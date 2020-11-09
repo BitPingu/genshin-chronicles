@@ -6,8 +6,109 @@ import java.util.Random;
 public class Enemy extends Character {
 
     //Constructor
-    public Enemy(String name, int level, int hp, int mp, int str, int def, int spd, int exp, int dice, int money) {
+    public Enemy(String name, int level, int hp, int mp, int str, int def, int spd, int exp, int dice, int money) 
+    {
+        //distrobutes stats using character(only used for name and level)
         super(name, level, hp, mp, str, def, spd, exp, dice, money);
+        
+        //distrobutes stats based on what enemy it is
+        switch(name)
+        {
+            //zombie
+            case "\uD83E\uDDDF Zombie":
+                this.health = 78;
+                this.mp = 25;
+                this.strength = 10;
+                this.defence = 5;
+                this.speed = 5;
+                this.exp = 10;
+                this.money = 10;
+                break;
+
+            //Goblin
+            case "\uD83D\uDC7A Goblin":
+                this.health = 78;
+                this.mp = 25;
+                this.strength = 10;
+                this.defence = 5;
+                this.speed = 5;
+                this.exp = 10;
+                this.money = 10;
+
+                break;
+
+            //Ogre
+            case "\uD83D\uDC79 Ogre":
+                this.health = 78;
+                this.mp = 25;
+                this.strength = 10;
+                this.defence = 5;
+                this.speed = 5;
+                this.exp = 10;
+                this.money = 10;
+
+                break;
+
+            //Ghost
+            case "\uD83D\uDC7B Ghost":
+                this.health = 78;
+                this.mp = 25;
+                this.strength = 10;
+                this.defence = 5;
+                this.speed = 5;
+                this.exp = 10;
+                this.money = 10;
+
+                break;
+
+            //Alien
+            case "\uD83D\uDC7D Alien":
+                this.health = 78;
+                this.mp = 25;
+                this.strength = 10;
+                this.defence = 5;
+                this.speed = 5;
+                this.exp = 10;
+                this.money = 10;
+
+                break;
+
+            //Octopus
+            case "\uD83D\uDC19 Octopus":
+                this.health = 78;
+                this.mp = 25;
+                this.strength = 10;
+                this.defence = 5;
+                this.speed = 5;
+                this.exp = 10;
+                this.money = 10;
+
+                break;
+
+            //Skeleton
+            case "\uD83D\uDC80 Skeleton":
+                this.health = 78;
+                this.mp = 25;
+                this.strength = 10;
+                this.defence = 5;
+                this.speed = 5;
+                this.exp = 10;
+                this.money = 10;
+
+                break;
+                
+            //Golem
+            case "\uD83E\uDD16 Golem":
+                this.health = 78;
+                this.mp = 25;
+                this.strength = 10;
+                this.defence = 5;
+                this.speed = 5;
+                this.exp = 10;
+                this.money = 10;
+
+                break;
+        }
     }
 
     //Accessors
@@ -34,7 +135,7 @@ public class Enemy extends Character {
             //enemy attack
             case 1:     
             case 2:
-                damage = random.nextInt(10) + 1;
+                damage = strength + random.nextInt(10) + 1;
                 for (int i = 0; i < partyMembers.size(); i++)
                 {
                     partyMembers.get(i).currentHealth -= damage;
@@ -72,7 +173,7 @@ public class Enemy extends Character {
 
         }
 
-        return entity.health == 0;
+        return entity.currentHealth == 0;
 
     }//end of fight
 
