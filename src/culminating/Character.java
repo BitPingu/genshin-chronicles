@@ -166,8 +166,8 @@ public class Character {
     public void gainExpMoney(Character entity)
     {
         //gives exp based on enemies level and exp hold
-        exp += (entity.getExp() * entity.getLevel());
-        money += (entity.getLevel() * entity.getMoney());
+        exp += entity.getExp();
+        money += entity.getMoney();
     }
 
     public void checkLvl()

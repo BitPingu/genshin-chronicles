@@ -51,8 +51,8 @@ public class Player extends Character {
             {
                 //attack
                 case "1":
-                    damage = attack(getDices()) + getStrength();
-                    entity.currentHealth -= damage;
+                    damage = (attack(getDices()) + getStrength()) - entity.defence;
+                    entity.currentHealth -= (damage);
 
                     //makes sure that the enemy does not go below 0
                     if (entity.currentHealth < 0)
@@ -67,23 +67,26 @@ public class Player extends Character {
                     break;
                 //special
                 case "2":
-                    if (mp >= 0)
+                    if (currentMp > 0)
                     {
+                        currentMp -= 5;
                         System.out.println();
                         for (int i=0; i<moveSet.size(); i++) {
                             System.out.println(i+1 + ") " + moveSet.get(i));
                         }
                         prompt = keyInput.nextLine();
-                        damage = 50;
-                        entity.health -= damage;
+                        
+                        damage = 1000 - entity.defence;//dont forget to change back to a reasonable number
+                        
+                        entity.currentHealth -= (damage);
                         System.out.println("\n" + name + " used Wrath Strike!");
                         Thread.sleep(1000);
                         System.out.println(name + " deals " + damage + " damage!");
                         Thread.sleep(1000);
                         
                         //makes sure that the enemy does not go below 0
-                        if (entity.health < 0)
-                        entity.health = 0;  
+                        if (entity.currentHealth < 0)
+                        entity.currentHealth = 0;  
                         flag = true;
                     }
                     else

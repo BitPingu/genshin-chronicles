@@ -16,99 +16,103 @@ public class Enemy extends Character {
         {
             //zombie
             case "\uD83E\uDDDF Zombie":
-                this.health = 78;
-                this.mp = 25;
-                this.strength = 10;
-                this.defence = 5;
-                this.speed = 5;
-                this.exp = 10;
-                this.money = 10;
+                this.health = (level * 38) + 40;
+                this.mp = (level * 5) + 10;
+                this.strength = (level * 5) + 5;
+                this.defence = (level * 5) + 5;
+                this.speed = (level * 3) + 2;
+                this.exp = (level * 10) + 10;
+                this.money = (level * 5) + 15;
+                
                 break;
 
             //Goblin
             case "\uD83D\uDC7A Goblin":
-                this.health = 78;
-                this.mp = 25;
-                this.strength = 10;
-                this.defence = 5;
-                this.speed = 5;
-                this.exp = 10;
-                this.money = 10;
+                this.health = (level * 25) + 33;
+                this.mp = (level * 5) + 10;
+                this.strength = (level * 5) + 5;
+                this.defence = (level * 5) + 5;
+                this.speed = (level * 3) + 2;
+                this.exp = (level * 10) + 10;
+                this.money = (level * 5) + 15;
 
                 break;
 
             //Ogre
             case "\uD83D\uDC79 Ogre":
-                this.health = 78;
-                this.mp = 25;
-                this.strength = 10;
-                this.defence = 5;
-                this.speed = 5;
-                this.exp = 10;
-                this.money = 10;
+                this.health = (level * 30) + 90;
+                this.mp = (level * 5) + 10;
+                this.strength = (level * 5) + 5;
+                this.defence = (level * 5) + 5;
+                this.speed = (level * 3) + 2;
+                this.exp = (level * 10) + 10;
+                this.money = (level * 5) + 15;
 
                 break;
 
             //Ghost
             case "\uD83D\uDC7B Ghost":
-                this.health = 78;
-                this.mp = 25;
-                this.strength = 10;
-                this.defence = 5;
-                this.speed = 5;
-                this.exp = 10;
-                this.money = 10;
-
+                this.health = (level * 23) + 23;
+                this.mp = (level * 5) + 10;
+                this.strength = (level * 5) + 5;
+                this.defence = (level * 5) + 5;
+                this.speed = (level * 3) + 2;
+                this.exp = (level * 10) + 10;
+                this.money = (level * 5) + 15;
+                
                 break;
 
             //Alien
             case "\uD83D\uDC7D Alien":
-                this.health = 78;
-                this.mp = 25;
-                this.strength = 10;
-                this.defence = 5;
-                this.speed = 5;
-                this.exp = 10;
-                this.money = 10;
+                this.health = (level * 40) + 61;
+                this.mp = (level * 5) + 10;
+                this.strength = (level * 5) + 5;
+                this.defence = (level * 5) + 5;
+                this.speed = (level * 3) + 2;
+                this.exp = (level * 10) + 10;
+                this.money = (level * 5) + 15;
 
                 break;
 
             //Octopus
             case "\uD83D\uDC19 Octopus":
-                this.health = 78;
-                this.mp = 25;
-                this.strength = 10;
-                this.defence = 5;
-                this.speed = 5;
-                this.exp = 10;
-                this.money = 10;
+                this.health = (level * 22) + 22;
+                this.mp = (level * 5) + 10;
+                this.strength = (level * 5) + 5;
+                this.defence = (level * 5) + 5;
+                this.speed = (level * 3) + 2;
+                this.exp = (level * 10) + 10;
+                this.money = (level * 5) + 15;
 
                 break;
 
             //Skeleton
             case "\uD83D\uDC80 Skeleton":
-                this.health = 78;
-                this.mp = 25;
-                this.strength = 10;
-                this.defence = 5;
-                this.speed = 5;
-                this.exp = 10;
-                this.money = 10;
+                this.health = (level * 24) + 90;
+                this.mp = (level * 5) + 10;
+                this.strength = (level * 5) + 5;
+                this.defence = (level * 5) + 5;
+                this.speed = (level * 3) + 2;
+                this.exp = (level * 10) + 10;
+                this.money = (level * 5) + 15;
 
                 break;
                 
             //Golem
             case "\uD83E\uDD16 Golem":
-                this.health = 78;
-                this.mp = 25;
-                this.strength = 10;
-                this.defence = 5;
-                this.speed = 5;
-                this.exp = 10;
-                this.money = 10;
+                this.health = (level * 65) + 120;
+                this.mp = (level * 5) + 10;
+                this.strength = (level * 5) + 5;
+                this.defence = (level * 5) + 5;
+                this.speed = (level * 3) + 2;
+                this.exp = (level * 10) + 10;
+                this.money = (level * 5) + 15;
 
                 break;
         }
+        
+        currentHealth = this.health;
+        currentMp = this.mp;
     }
 
     //Accessors
@@ -128,17 +132,19 @@ public class Enemy extends Character {
 
         Random random = new Random();
 
-        int diceRoll, damage;
+        int damage;
 
-        switch (random.nextInt(3) + 1) {
+        switch (random.nextInt(5) + 1) {
 
             //enemy attack
             case 1:     
             case 2:
-                damage = strength + random.nextInt(10) + 1;
+            case 3:
+            case 4:
+                damage = strength + random.nextInt(8) + 1;
                 for (int i = 0; i < partyMembers.size(); i++)
                 {
-                    partyMembers.get(i).currentHealth -= damage;
+                    partyMembers.get(i).currentHealth -= (damage - partyMembers.get(i).defence);
                     if (partyMembers.get(i).currentHealth < 0)
                     {
                         partyMembers.get(i).currentHealth = 0;
@@ -152,13 +158,13 @@ public class Enemy extends Character {
                 break;
 
             //enemy special
-            case 3:
+            case 5:
                 
                 damage = 20;
                 
                 for (int i = 0; i < partyMembers.size(); i++)
                 {
-                    partyMembers.get(i).currentHealth -= damage;
+                    partyMembers.get(i).currentHealth -= (damage - partyMembers.get(i).defence);
                     if (partyMembers.get(i).currentHealth < 0)
                     {
                         partyMembers.get(i).currentHealth = 0;
