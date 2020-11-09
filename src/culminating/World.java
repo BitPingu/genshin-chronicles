@@ -307,7 +307,7 @@ public class World {
             //Add explored area to map
             for (int i=row-2; i<row + 3; i++) {
                 for (int j=column-2; j<column+3; j++) {
-                    if (map.get(i).get(j).equalsIgnoreCase("?")) {
+                    if (map.get(i).get(j).equals("?")) {
                         map.get(i).set(j, world.get(i).get(j));
                     }
                 }
