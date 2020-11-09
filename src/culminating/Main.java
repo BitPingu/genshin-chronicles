@@ -26,7 +26,6 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException, IOException, UnsupportedAudioFileException, LineUnavailableException {
 
-        System.out.println("Test");
         //Check if file exists
         if (!file.exists()) {
             System.out.println("\u001B[31mError save file not found. Game cannot be runned.\u001B[0m");
