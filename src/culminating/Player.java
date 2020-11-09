@@ -141,11 +141,8 @@ public class Player extends Character {
      * Method Description: Display the player's inventory
      **************************/
     public void checkInventory(ArrayList<Character> partyMembers) {
-
-        //Print inventory
-        System.out.println();
         
-        //prints the party members and what they have
+        //Prints the party members and what they have
         for (int i=0; i<partyMembers.size(); i++) {
             System.out.println(partyMembers.get(i).getName());
             System.out.println("Lvl: " + partyMembers.get(i).getLevel());
@@ -161,10 +158,12 @@ public class Player extends Character {
             System.out.println();
         }
         
-        //prints out how much money you have
+        //Prints out how much money you have
         System.out.println("\nMoney: " + money +"\n");
 
-        //prints out what the user owns
+        sortInventory(inventory);
+
+        //Prints out what the user owns (sorted)
         for (int i=0; i<inventory.size(); i++) {
             System.out.println(inventory.get(i).get(0) + ": " + inventory.get(i).size());
         }
@@ -173,6 +172,39 @@ public class Player extends Character {
         keyInput.nextLine();
 
     }//end of checkInventory
+
+    /*************************
+     * Method Name: sortInventory
+     * Method Description: Sort the player's inventory
+     **************************/
+    public void sortInventory(ArrayList<ArrayList<String>> inventory) {
+
+        int minIndex;
+        ArrayList<String> minValue;
+        String[] tokens1, tokens2;
+
+        for (int i=0; i<inventory.size(); i++) {
+
+            minIndex = i;
+            minValue = inventory.get(i);
+            tokens1 = inventory.get(i).get(0).split(" ");
+
+            for (int j=i+1; j<inventory.size(); j++) {
+
+                tokens2 = inventory.get(j).get(0).split(" ");
+                if (tokens2[1].compareTo(tokens1[1]) < 0) {
+                    minIndex = j;
+                    minValue = inventory.get(j);
+                }
+
+            }
+
+            inventory.set(minIndex, inventory.get(i));
+            inventory.set(i, minValue);
+
+        }
+
+    }
 
     /*************************
      * Method Name: addInventory
@@ -250,8 +282,7 @@ public class Player extends Character {
             }
             else
                 System.out.println("Dices: " + dices + " -> " + dices);
-            
-            
+
         }
 
     }//end of checkLvl

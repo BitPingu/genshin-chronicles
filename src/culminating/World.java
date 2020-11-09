@@ -43,9 +43,7 @@ public class World {
     //Constructors
     public World()
     {
-        System.out.println("test");
         initWorld();
-        
     }
 
     public World(ArrayList<ArrayList<String>> w, int r, int c, int x, int y, boolean f) {
@@ -258,12 +256,14 @@ public class World {
                 case "i":
                     if (finishTutorial) {
                         //Use inventory
+                        clearScreen();
                         getPlayer().checkInventory(partyMembers);
                     }
                     break;
                 case "m":
                     if (finishTutorial) {
                         //Use map
+                        clearScreen();
                         world.get(row).set(column, "\uD83E\uDDDD");
                         map();
                         world.get(row).set(column, currentPosition);
@@ -428,7 +428,7 @@ public class World {
                     //Collect apples
                     System.out.println("You collected some apples.");
                     Thread.sleep(1000);
-                    getPlayer().addInventory("\uD83C\uDF4E Apple");
+                    getPlayer().addInventory("\uD83C\uDF4E Apples");
                     world.get(row).set(column, "\uD83C\uDF33");
                     break;
 
@@ -444,7 +444,7 @@ public class World {
                     //Collect mushrooms
                     System.out.println("You collected some mushrooms.");
                     Thread.sleep(1000);
-                    getPlayer().addInventory("\uD83C\uDF44 Mushroom");
+                    getPlayer().addInventory("\uD83C\uDF44 Mushrooms");
                     world.get(row).set(column, "\uD83C\uDF33");
                     break;
 
@@ -452,7 +452,7 @@ public class World {
                     //Collect critters
                     System.out.println("You caught some critters.");
                     Thread.sleep(1000);
-                    getPlayer().addInventory("\uD83D\uDC1B Critter");
+                    getPlayer().addInventory("\uD83D\uDC1B Critters");
                     world.get(row).set(column, "\uD83C\uDF33");
                     break;
 
@@ -520,7 +520,7 @@ public class World {
         if (generation <= 60) {
             //Tree
             chunk = "\uD83C\uDF33";
-        } else if (generation <= 90) {
+        } else if (generation <= 95) {
             //Alt Tree
             chunk = "\uD83C\uDF32";
         } else if (generation <= 99) {
@@ -703,16 +703,16 @@ public class World {
             //Stone
             item = "\uD83E\uDD4C";
         } else if (spawn <= 50) {
-            //Apple
+            //Apples
             item = "\uD83C\uDF4E";
         } else if (spawn <= 60) {
             //Ore
             item = "\uD83D\uDC8E";
         } else if (spawn <= 70) {
-            //Mushroom
+            //Mushrooms
             item = "\uD83C\uDF44";
         } else if (spawn <= 80) {
-            //Critter
+            //Critters
             item = "\uD83D\uDC1B";
         } else if (spawn <= 90) {
             //Berries
