@@ -18,6 +18,7 @@ public class World {
     private Clip clip;
 
     private ArrayList<Character> partyMembers = new ArrayList<>();
+    private Character[] currentPartyMembers = new Character[3];
     
     //name, level, hp, mp, str, def, spd, exp, dice
     private Character player;
