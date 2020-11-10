@@ -44,7 +44,7 @@ public class Enemy extends Character {
                 this.mp = (level * 5) + 10;
                 this.strength = (level * 5) + 5;
                 this.defence = (level * 5) + 5;
-                this.speed = (level * 3) + 2;
+                this.speed = (level * 3) + 3;
                 this.exp = (level * 10) + 10;
                 this.money = (level * 5) + 15;
 

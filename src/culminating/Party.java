@@ -16,7 +16,7 @@ public class Party extends Character {
         super(name, level, hp, mp, str, def, spd, exp, dice, money);
         weapon = "\uD83E\uDD4D Wooden Staff";
         armor = "\uD83D\uDC57 Leather Dress";
-        moveSet.add("Physic");
+        checkSpecialMoves();
     }
 
     //Accessors
@@ -35,7 +35,7 @@ public class Party extends Character {
     public boolean fight(ArrayList<Character> partyMembers, Character entity) throws InterruptedException {
 
         //Variables in fight
-        int damage =0;
+        int damage = 0, heal;
         String prompt;
         boolean flag = false;
 
@@ -51,7 +51,7 @@ public class Party extends Character {
             {
                 //attacking
                 case "1":
-                    damage = (attack(getDices()) + getStrength()) - entity.defence;
+                    damage = (attack(getDices()) + strength) - entity.defence;
                     if (damage < 0) 
                     {
                         damage = 0;
@@ -71,31 +71,62 @@ public class Party extends Character {
                     
                 //specials
                 case "2":
-                    if ((currentMp -5) > 0)
+                    if ((currentMp - 5) > 0)
                     {
-                        currentMp -= 5;
-                        for (int i=0; i<moveSet.size(); i++) {
-                            System.out.println(i+1 + ") " + moveSet.get(i));
-                        }
-                        
-                        prompt = keyInput.nextLine();
-                        for (int i=0; i < partyMembers.size(); i++) {
-                            if (partyMembers.get(i).health == partyMembers.get(i).currentHealth) {
-                                break;
-                            }
-                            partyMembers.get(i).currentHealth++;
-                            damage++;
-                        }
-                        System.out.println("\n" + name + " used Physic!");
-                        Thread.sleep(1000);
-                        
-                        for (int i=0; i < partyMembers.size(); i++)
+                        switch(useSpecialMoves())
                         {
-                            System.out.println(name + " restored " + damage + " health to "
-                                    + partyMembers.get(i).name + ".");  
+                            //Physic
+                            case "Physic":
+                                heal = random.nextInt(strength * 5) + strength;
+                                
+                                System.out.println("\n" + name + " used Physic!");
+                                Thread.sleep(1000);
+
+                                for (int i=0; i < partyMembers.size(); i++)
+                                {
+                                    partyMembers.get(i).currentHealth += heal;
+                                    if (partyMembers.get(i).currentHealth > partyMembers.get(i).health)
+                                    {
+                                        partyMembers.get(i).currentHealth = partyMembers.get(i).health;
+                                    }
+                                    System.out.println(name + " restored " + heal + " health to "
+                                            + partyMembers.get(i).name + ".");  
+                                }
+
+                                Thread.sleep(1000);  
+                                break;
+                                
+                            //Nosferatu
+                            case "Nosferatu":                                
+                                damage = strength + random.nextInt(50) + 30;
+                                
+                                entity.currentHealth -= damage;
+                                
+                                heal = damage / 5;
+                                
+                                System.out.println("\n" + name + " used Nosferatu!");
+                                Thread.sleep(1000);
+                                System.out.println(name + " deals " + damage + " damage!");
+                                Thread.sleep(1000);
+                                for (int i = 0; i < partyMembers.size(); i++)
+                                {
+                                    partyMembers.get(i).currentHealth += heal;
+                                    if (partyMembers.get(i).currentHealth > partyMembers.get(i).health)
+                                    {
+                                        partyMembers.get(i).currentHealth = partyMembers.get(i).health;
+                                    }
+                                    System.out.println(name + " restored " + heal + " health to "
+                                            + partyMembers.get(i).name + "."); 
+                                }
+                                
+                                Thread.sleep(1000);
+                                break;
+                                
+                            //error handle - there should be nothing here
+                            default:
+                                break;
                         }
-                        
-                        Thread.sleep(1000); 
+       
                         flag = true;
                     }
                     else
@@ -113,6 +144,7 @@ public class Party extends Character {
                     else
                     {
                         System.out.println("You tripped while trying to run");
+                        Thread.sleep(1000); 
                         flag = true;
                     }
                 //error handle
@@ -146,7 +178,7 @@ public class Party extends Character {
             for (int i = 0; i < diceTotal; i++)
             {
                 dice.add(random.nextInt(6) + 1);
-                System.out.println("DICE[" + (i + 1) + "]: " + dice.get(i));
+                System.out.println("DICE [" + (i + 1) + "]: " + dice.get(i));
             }
             System.out.println("What dice do you want to use?");
             System.out.print("Dice: ");
@@ -174,6 +206,77 @@ public class Party extends Character {
         } while (true);
 
     }//end of attack
+    
+    /**
+     * useSpecialMove
+     * TThis method will let used for fight
+     */
+    @Override
+    public String useSpecialMoves()
+    {
+        //declaring local variabels
+        int choice;
+        
+        //error handle
+        do 
+        {
+            for (int i = 0; i < moveSet.size(); i++)
+            {
+            System.out.println((i +1) +") " + moveSet.get(i));
+            }
+            
+            System.out.println("What special do you want to use?");
+            System.out.print("special: ");
+            //if user uses a number
+            if (scanN.hasNextInt()) 
+            {
+                choice = scanN.nextInt();
+                //if user tried to pick a nonExistant dice
+                if (choice > (moveSet.size())) 
+                {
+                    System.out.println("Please input a dice");
+                }
+                //player picks dice
+                else
+                {
+                    switch(choice)
+                    {
+                        //Physic
+                        case 1:
+                            if ((currentMp - 5) > 0)
+                            {
+                                currentMp -= 5;
+                                return moveSet.get(choice - 1);
+                            }
+                            else
+                            {
+                                System.out.println("You dont have enough mp");
+                                break;
+                            }
+                            
+                        //Nosferatu
+                        case 2:
+                            if ((currentMp - 15) > 0)
+                            {
+                                currentMp -= 15;
+                                return moveSet.get(choice - 1);
+                            }
+                            else
+                            {
+                                System.out.println("You dont have enough mp");
+                                break;
+                            }
+                    } 
+                }
+            }
+            //if a user picks anything but a number
+            else
+            {
+                scanN.nextLine();
+                System.out.println("Please input a special");
+            }
+        } while (true);
+    }//end of useSpecialMove
     
     /*************************
      * checkLvl
@@ -223,7 +326,7 @@ public class Party extends Character {
             System.out.println(speed);
             
             //shows new dices
-            if ((level % 2) == 0 && dices != 6)
+            if ((level % 2) == 0 && dices != 7)
             {
                 System.out.print("Dices: " + dices + " -> ");
                 dices++;
@@ -232,7 +335,30 @@ public class Party extends Character {
             else
                 System.out.println("Dices: " + dices + " -> " + dices);
             
+            checkSpecialMoves();
         }
     }//end of checkLvl
+    
+    /**
+     * specialMove
+     * This method is a way to show when part members and players will gain a special move(and possibly enemies)
+     */
+    @Override
+    public void checkSpecialMoves()
+    {
+        //makes sure that the user has WraithStrike
+        if (!moveSet.contains("Physic"))
+        {
+            moveSet.add("Physic");
+        }
+
+        //users second special
+        if (level >= 5 && !moveSet.contains("Nosferatu"))
+        {
+            moveSet.add("Nosferatu");
+        }
+    }//end of checkSpecialMoves
+    
+    
 
 }

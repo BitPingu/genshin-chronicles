@@ -336,5 +336,3 @@ public class Main {
     }//end of village
 
 }//end of class
-
-

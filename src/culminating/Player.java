@@ -11,13 +11,15 @@ public class Player extends Character {
     private final Scanner keyInput = new Scanner(System.in);
     private final Scanner scanN = new Scanner(System.in);
     private final Random random = new Random();
+    private int counter;
+    private boolean special = false;
 
     //Constructor
     public Player(String noName, int level, int hp, int mp, int str, int def, int spd, int exp, int dice, int money) {
         super(noName, level, hp, mp, str, def, spd, exp, dice, money);
         weapon = "\uD83E\uDD1B Fists";
         armor = "\uD83D\uDC55 Torn Shirt";
-        moveSet.add("Wrath Strike");
+        checkSpecialMoves();
     }
 
     //Accessors
@@ -40,6 +42,23 @@ public class Player extends Character {
         int damage;
         String prompt;
         boolean flag = false;
+        
+        //special counter for Combat Rally
+        if (special)
+        {
+            counter--;
+            if (counter == 0)
+            {
+                special = false;
+                for (int i = 0; i < partyMembers.size(); i++)
+                {
+                    partyMembers.get(i).strength += (strength / 4);
+                    partyMembers.get(i).defence += (defence / 4); 
+                }
+                
+                System.out.println("Everyone is back to normal");
+            }
+        }
         
         do
         {
@@ -78,31 +97,51 @@ public class Player extends Character {
                 case "2":
                     if ((currentMp - 5) > 0)
                     {
-                        currentMp -= 5;
-                        for (int i=0; i<moveSet.size(); i++) {
-                            System.out.println(i+1 + ") " + moveSet.get(i));
+                        switch(useSpecialMoves())
+                        {
+                            //wrath Strike
+                            case "Wrath Strike":
+                                damage = ((level * strength) + 20) - entity.defence;
+                        
+                                entity.currentHealth -= (damage);
+                                System.out.println("\n" + name + " used Wrath Strike!");
+                                Thread.sleep(1000);
+                                System.out.println(name + " deals " + damage + " damage!");
+                                Thread.sleep(1000);
+
+                                //makes sure that the enemy does not go below 0
+                                if (entity.currentHealth < 0)
+                                    entity.currentHealth = 0;  
+                                break;
+                                
+                            //combat rally
+                            case "Combat Rally":
+                                special = true;
+                                counter = 3;
+                                
+                                //gives stat buff to oeveryone in party
+                                for (int i = 0; i < partyMembers.size(); i++)
+                                { 
+                                    partyMembers.get(i).strength += (strength / 4);
+                                    partyMembers.get(i).defence += (defence / 4);
+                                }
+                                System.out.println("\n" + name + " used Combat Rally!");
+                                Thread.sleep(1000);
+                                System.out.println("Everyone was buffed\nStrength Up\nDefence Up");
+                                Thread.sleep(1000);
+                                break;
+                                
+                            //error handle - there should be nothing here
+                            default:
+                                break;
                         }
-                        prompt = keyInput.nextLine();
-                        
-                        damage = 1000 - entity.defence;//dont forget to change back to a reasonable number
-                        
-                        entity.currentHealth -= (damage);
-                        System.out.println("\n" + name + " used Wrath Strike!");
-                        Thread.sleep(1000);
-                        System.out.println(name + " deals " + damage + " damage!");
-                        Thread.sleep(1000);
-                        
-                        //makes sure that the enemy does not go below 0
-                        if (entity.currentHealth < 0)
-                        entity.currentHealth = 0;  
+       
                         flag = true;
                     }
                     else
                     {
                         System.out.println("You are out of mp, you cant use your special");
                     }
-                    System.out.println("You dont have enough mp");
-                    
                     break;
                 //running
                 case "3":
@@ -147,7 +186,7 @@ public class Player extends Character {
             for (int i = 0; i < diceTotal; i++)
             {
                 dice.add(random.nextInt(8) + 1);
-                System.out.println("DICE[" + (i + 1) + "]: " + dice.get(i));
+                System.out.println("DICE [" + (i + 1) + "]: " + dice.get(i));
             }
             System.out.println("What dice do you want to use?");
             System.out.print("Dice: ");
@@ -175,6 +214,73 @@ public class Player extends Character {
         } while (true);
     }//end of attack
     
+    @Override
+    public String useSpecialMoves()
+    {
+        //declaring local variabels
+        int choice;
+        
+        //error handle
+        do 
+        {
+            for (int i = 0; i < moveSet.size(); i++)
+            {
+            System.out.println((i +1) +") " + moveSet.get(i));
+            }
+            
+            System.out.println("What special do you want to use?");
+            System.out.print("special: ");
+            //if user uses a number
+            if (scanN.hasNextInt()) 
+            {
+                choice = scanN.nextInt();
+                //if user tried to pick a nonExistant dice
+                if (choice > (moveSet.size())) 
+                {
+                    System.out.println("Please input a dice");
+                }
+                //player picks dice
+                else
+                {
+                    switch(choice)
+                    {
+                        case 1:
+                            if ((currentMp - 5) > 0)
+                            {
+                                currentMp -= 5;
+                                return moveSet.get(choice - 1);
+                            }
+                            else
+                            {
+                                System.out.println("You dont have enough mp");
+                                break;
+                            }
+                            
+                        case 2:
+                            if ((currentMp - 15) > 0)
+                            {
+                                currentMp -= 15;
+                                return moveSet.get(choice - 1);
+                            }
+                            else
+                            {
+                                System.out.println("You dont have enough mp");
+                                break;
+                            }
+
+                    } 
+
+                }
+            }
+            //if a user picks anything but a number
+            else
+            {
+                scanN.nextLine();
+                System.out.println("Please input a special");
+            }
+        } while (true);
+    }//end of useSpecialMove
+     
     /*************************
      * Method Name: printInventory
      * Method Description: Display the player's inventory
@@ -392,9 +498,31 @@ public class Player extends Character {
             }
             else
                 System.out.println("Dices: " + dices + " -> " + dices);
-
+            
+            checkSpecialMoves();
         }
-
     }//end of checkLvl
+    
+    /**
+     * specialMove
+     * This method is a way to show when part members and players will gain a special move(and possibly enemies)
+     */
+    @Override
+    public void checkSpecialMoves()
+    {
+        //makes sure that the user has WraithStrike
+            if (!moveSet.contains("Wrath Strike"))
+            {
+                moveSet.add("Wrath Strike");
+            }
+
+            //users second special
+            if (level >= 5 && !moveSet.contains("Combat Rally"))
+            {
+                moveSet.add("Combat Rally");
+            }
+    }//end of checkSpecialMoves
+    
+    
  
 }//end of class

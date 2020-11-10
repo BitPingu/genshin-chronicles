@@ -190,9 +190,24 @@ public class Character {
 
     public void checkLvl()
     {
-
     }//end of checkLvl
-
+    
+    /**
+     * checkSpecialMoves
+     * This method is a way to show when part members and players will gain a special move(and possibly enemies)
+     */
+    public void checkSpecialMoves()
+    {
+    }//end of checkSpecialMoves
+    /**
+     * checkSpecialMoves
+     * This method is a way to show when part members and players will gain a special move(and possibly enemies)
+     */
+    public String useSpecialMoves()
+    {
+        return null;
+    }//end of checkSpecialMoves
+    
     public String toString() {
         return name + " " + level + " " +  health + " " +  mp + " " +  strength + " " +  defence + " " +  speed + " " +
                 exp + " " +  dices + " " +  money + " " +  currentHealth + " " +  currentMp + " " + weapon + " " +  armor;
