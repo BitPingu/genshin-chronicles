@@ -295,6 +295,7 @@ public class Party extends Character {
         //declaring base growth of each party member
         int bHp, bMp, bAtk, bDef, bSpd;
         //level up based on level * 20
+        
         if (getExp() >= (getLevel() * 20))
         {
             System.out.println("Level up! " + getName());
@@ -353,6 +354,7 @@ public class Party extends Character {
     @Override
     public void checkSpecialMoves()
     {
+        
         //makes sure that the user has WraithStrike
         if (!moveSet.contains("Physic"))
         {
