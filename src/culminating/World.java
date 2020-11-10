@@ -2,7 +2,9 @@ package culminating;
 
 import javax.sound.sampled.*;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -262,7 +264,7 @@ public class World {
 
         //Variables in navigate
         String currentPosition;
-        String movement;
+        String movement, confirm;
         int spawn;
         boolean safe;
 
@@ -347,7 +349,18 @@ public class World {
                     break;
                 case "l":
                     if (finishTutorial) {
-                        return;
+                        //Save progress
+                        save(partyMembers, partyMembers.get(0).getInventory(), world, map, villagesVisited, row, column,
+                                xPos, yPos, finishTutorial, finishVillage, finishDungeon);
+
+                        do {
+                            System.out.println("Game saved successfully. Continue? (y/n)");
+                            confirm = keyInput.nextLine();
+                        } while (!confirm.equalsIgnoreCase("y") && !confirm.equalsIgnoreCase("n"));
+
+                        if (confirm.equalsIgnoreCase("n")) {
+                            return;
+                        }
                     }
                 default:
 
@@ -1699,6 +1712,71 @@ public class World {
             System.out.println("");    
         }
     }//end of clearScreen
+
+    /*************************
+     * Method Name: save
+     * Method Description: Saves the progress of the game.
+     **************************/
+    public static void save(ArrayList<Character> p, ArrayList<ArrayList<String>> in, ArrayList<ArrayList<String>> w,
+                            ArrayList<ArrayList<String>> m, ArrayList<ArrayList<String>> v, int row, int column, int xPos,
+                            int yPos, boolean finishTutorial, boolean finishVillage, boolean finishDungeon)
+            throws FileNotFoundException {
+
+        //PrintWriter
+        File file = new File("saveData.txt");
+        PrintWriter fileWrite = new PrintWriter(file);
+
+        //Variables in save
+        String mapFields = row + " " + column + " " + xPos + " " + yPos + " " + finishTutorial + " " + finishVillage +
+                " " + finishDungeon;
+
+        //Save Party Data
+        fileWrite.println("Party Data");
+        for (int i=0; i<p.size(); i++) {
+            fileWrite.println(p.get(i));
+        }
+
+        //Save Inventory
+        fileWrite.println("Inventory");
+        for (int i=0; i<in.size(); i++) {
+            fileWrite.println(in.get(i).get(0) + " " + in.get(i).size());
+        }
+
+        //Save World Data
+        fileWrite.println("World Data");
+        fileWrite.println(mapFields);
+
+        //Save World
+        fileWrite.println("World");
+        for (int i=0; i<w.size(); i++) {
+            for (int j=0; j<w.get(i).size(); j++) {
+                fileWrite.print(w.get(i).get(j) + " ");
+            }
+            fileWrite.println();
+        }
+
+        //Save Map
+        fileWrite.println("Map");
+        for (int i=0; i<m.size(); i++) {
+            for (int j=0; j<m.get(i).size(); j++) {
+                fileWrite.print(m.get(i).get(j) + " ");
+            }
+            fileWrite.println();
+        }
+
+        //Save Villages Visited
+        fileWrite.println("Villages");
+        for (int i=0; i<v.size(); i++) {
+            for (int j=0; j<v.get(i).size(); j++) {
+                fileWrite.print(v.get(i).get(j) + "|");
+            }
+            fileWrite.println();
+        }
+
+        //Close printWriter object
+        fileWrite.close();
+
+    }
 
     /*************************
      * Method Name: music

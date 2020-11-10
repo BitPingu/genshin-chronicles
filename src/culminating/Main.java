@@ -93,11 +93,6 @@ public class Main {
 
         }
 
-        //save progress (only world)
-        save(world.getPartyMembers(), world.getPartyMembers().get(0).getInventory(), world.getWorld(), world.getMap(),
-                world.getVillagesVisited(), world.getRow(), world.getColumn(), world.getxPos(), world.getyPos(),
-                world.isFinishTutorial(), world.isFinishVillage(), world.isFinishDungeon());
-
     }//end of main
 
     public static void loadSave() throws FileNotFoundException {
@@ -162,7 +157,7 @@ public class Main {
             loadInventory.add(new ArrayList<>());
             String name = data[0] + " " + data[1];
             int amount = Integer.parseInt(data[2]);
-            for (int i=0; i<amount; i++) {
+            for (int i = 0; i < amount; i++) {
                 loadInventory.get(invRow).add(name);
             }
 
@@ -200,7 +195,7 @@ public class Main {
 
             //Add each tile to current row of loaded world
             loadWorld.add(new ArrayList<>());
-            for (int i=0; i<data.length; i++) {
+            for (int i = 0; i < data.length; i++) {
                 loadWorld.get(worldRow).add(data[i]);
             }
 
@@ -219,7 +214,7 @@ public class Main {
 
             //Add each tile to current row of loaded map
             loadMap.add(new ArrayList<>());
-            for (int i=0; i<data.length; i++) {
+            for (int i = 0; i < data.length; i++) {
                 loadMap.get(mapRow).add(data[i]);
             }
 
@@ -249,70 +244,6 @@ public class Main {
         //Load save data
         world = new World(loadParty, loadInventory, loadWorld, loadMap, loadVillages, row, column, xPos, yPos,
                 finishTutorial, finishVillage, finishDungeon);
-
-    }
-
-    /*************************
-     * Method Name: save
-     * Method Description: Saves the progress of the game.
-     **************************/
-    public static void save(ArrayList<Character> p, ArrayList<ArrayList<String>> in, ArrayList<ArrayList<String>> w,
-                            ArrayList<ArrayList<String>> m, ArrayList<ArrayList<String>> v, int row, int column, int xPos,
-                            int yPos, boolean finishTutorial, boolean finishVillage, boolean finishDungeon)
-            throws FileNotFoundException {
-
-        //PrintWriter
-        PrintWriter fileWrite = new PrintWriter(file);
-
-        //Variables in save
-        String mapFields = row + " " + column + " " + xPos + " " + yPos + " " + finishTutorial + " " + finishVillage +
-                " " + finishDungeon;
-
-        //Save Party Data
-        fileWrite.println("Party Data");
-        for (int i=0; i<p.size(); i++) {
-            fileWrite.println(p.get(i));
-        }
-
-        //Save Inventory
-        fileWrite.println("Inventory");
-        for (int i=0; i<in.size(); i++) {
-            fileWrite.println(in.get(i).get(0) + " " + in.get(i).size());
-        }
-
-        //Save World Data
-        fileWrite.println("World Data");
-        fileWrite.println(mapFields);
-
-        //Save World
-        fileWrite.println("World");
-        for (int i=0; i<w.size(); i++) {
-            for (int j=0; j<w.get(i).size(); j++) {
-                fileWrite.print(w.get(i).get(j) + " ");
-            }
-            fileWrite.println();
-        }
-
-        //Save Map
-        fileWrite.println("Map");
-        for (int i=0; i<m.size(); i++) {
-            for (int j=0; j<m.get(i).size(); j++) {
-                fileWrite.print(m.get(i).get(j) + " ");
-            }
-            fileWrite.println();
-        }
-
-        //Save Villages Visited
-        fileWrite.println("Villages");
-        for (int i=0; i<v.size(); i++) {
-            for (int j=0; j<v.get(i).size(); j++) {
-                fileWrite.print(v.get(i).get(j) + "|");
-            }
-            fileWrite.println();
-        }
-
-        //Close printWriter object
-        fileWrite.close();
 
     }
 
