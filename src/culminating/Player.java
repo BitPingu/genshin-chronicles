@@ -15,10 +15,9 @@ public class Player extends Character {
     private boolean special = false;
 
     //Constructor
-    public Player(String noName, int level, int hp, int mp, int str, int def, int spd, int exp, int dice, int money) {
-        super(noName, level, hp, mp, str, def, spd, exp, dice, money);
-        weapon = "\uD83E\uDD1B Fists";
-        armor = "\uD83D\uDC55 Torn Shirt";
+    public Player(String name, int level, int hp, int mp, int str, int def, int spd, int exp, int dice, int money,
+                  String weapon, String armor) {
+        super(name, level, hp, mp, str, def, spd, exp, dice, money, weapon, armor);
         checkSpecialMoves();
     }
 
@@ -324,33 +323,15 @@ public class Player extends Character {
      * Method Name: printInventory
      * Method Description: Display the player's inventory
      **************************/
-    public void printInventory(ArrayList<Character> partyMembers) {
-        
-        //Prints the party members and what they have
-        for (int i=0; i<partyMembers.size(); i++) {
-            System.out.println(partyMembers.get(i).getName());
-            System.out.println("Lvl: " + partyMembers.get(i).getLevel());
-            System.out.println("HP: " + partyMembers.get(i).getHealth());
-            System.out.println("MP: " + partyMembers.get(i).getMp());
-            System.out.println("Atk: " + partyMembers.get(i).getStrength());
-            System.out.println("Def: " + partyMembers.get(i).getDefence());
-            System.out.println("Spd: " + partyMembers.get(i).getSpeed());
-            System.out.println("Exp: " + (partyMembers.get(i).getLevel()*20) + " / " +partyMembers.get(i).getExp());
-            System.out.println("Dices: " + partyMembers.get(i).getDices());
-            System.out.println("Weapon: " + partyMembers.get(i).getWeapon());
-            System.out.println("Armor: " + partyMembers.get(i).getArmor());
-            System.out.println();
-        }
-        
-        //Prints out how much money you have
-        System.out.println("\nMoney: " + money +"\n");
+    public void printInventory() {
 
         //Prints out what the user owns (sorted)
+        System.out.println(name + "'s Inventory\n");
         for (int i=0; i<inventory.size(); i++) {
             System.out.println(inventory.get(i).get(0) + ": " + inventory.get(i).size());
         }
 
-        System.out.println("Type anything to exit.");
+        System.out.println("\nType anything to exit.");
         keyInput.nextLine();
 
     }//end of printInventory

@@ -6,10 +6,11 @@ import java.util.Random;
 public class Enemy extends Character {
 
     //Constructor
-    public Enemy(String name, int level, int hp, int mp, int str, int def, int spd, int exp, int dice, int money) 
+    public Enemy(String name, int level, int hp, int mp, int str, int def, int spd, int exp, int dice, int money,
+                 String weapon, String armor)
     {
         //distrobutes stats using character(only used for name and level)
-        super(name, level, hp, mp, str, def, spd, exp, dice, money);
+        super(name, level, hp, mp, str, def, spd, exp, dice, money, weapon, armor);
         
         //distrobutes stats based on what enemy it is
         switch(name)

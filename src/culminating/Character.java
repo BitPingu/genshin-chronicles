@@ -12,7 +12,8 @@ public class Character {
     protected String name, weapon, armor;
 
     //Constructor
-    public Character(String n, int l, int h, int m, int s, int d, int sp, int ep, int di, int mo) {
+    public Character(String n, int l, int h, int m, int s, int d, int sp, int ep, int di, int mo, String w,
+                     String a) {
         name = n;
         level = l;
         health = h;
@@ -25,6 +26,8 @@ public class Character {
         currentHealth = health;
         currentMp = mp;
         money = mo;
+        weapon = w;
+        armor = a;
     }
     
     //Accessors
@@ -183,7 +186,7 @@ public class Character {
         return 0;
     }
     
-    public void printInventory(ArrayList<Character> partyMembers) {
+    public void printInventory() {
 
     }
 

@@ -132,18 +132,20 @@ public class Main {
             //loadParty.get(partyRow).setArmor(data[13]);
 
             String name = data[0] + " " + data[1];
+            String weapon = data[13] + " " + data[14] + " " + data[15] + " " + data[16];
+            String armor = data[17] + " " + data[18] + " " + data[19] + " " + data[20];
 
             if (player) {
                 loadParty.add(new Player(name, Integer.parseInt(data[2]), Integer.parseInt(data[3]),
                         Integer.parseInt(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6]),
                         Integer.parseInt(data[7]), Integer.parseInt(data[8]), Integer.parseInt(data[9]),
-                        Integer.parseInt(data[10])));
+                        Integer.parseInt(data[10]), weapon, armor));
                 player = false;
             } else {
                 loadParty.add(new Party(name, Integer.parseInt(data[2]), Integer.parseInt(data[3]),
                         Integer.parseInt(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6]),
                         Integer.parseInt(data[7]), Integer.parseInt(data[8]), Integer.parseInt(data[9]),
-                        Integer.parseInt(data[10])));
+                        Integer.parseInt(data[10]), weapon, armor));
             }
         }
 

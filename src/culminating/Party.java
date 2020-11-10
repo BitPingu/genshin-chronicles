@@ -12,10 +12,9 @@ public class Party extends Character {
     private final Random random = new Random();
     
     //Constructor
-    public Party(String name, int level, int hp, int mp, int str, int def, int spd, int exp, int dice, int money) {
-        super(name, level, hp, mp, str, def, spd, exp, dice, money);
-        weapon = "\uD83E\uDD4D Wooden Staff";
-        armor = "\uD83D\uDC57 Leather Dress";
+    public Party(String name, int level, int hp, int mp, int str, int def, int spd, int exp, int dice, int money,
+                 String weapon, String armor) {
+        super(name, level, hp, mp, str, def, spd, exp, dice, money, weapon, armor);
         checkSpecialMoves();
     }
 
