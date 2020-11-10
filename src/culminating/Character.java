@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Character {
 
     //Fields
+    protected ArrayList<ArrayList<String>> inventory = new ArrayList<>();
     protected ArrayList<String> moveSet = new ArrayList<>();
     protected int level, health, strength, defence, speed, exp, mp, currentHealth, currentMp, dices, money;
     protected String name, weapon, armor;
@@ -142,6 +143,14 @@ public class Character {
         dices = di;
     }
 
+    public void setMoney(int m) {
+        money = m;
+    }
+
+    public void setInventory(ArrayList<ArrayList<String>> i) {
+        inventory = i;
+    }
+
     public boolean fight(ArrayList<Character> partyMembers, Character entity) throws InterruptedException {
         return false;
     }
@@ -183,5 +192,10 @@ public class Character {
     {
 
     }//end of checkLvl
+
+    public String toString() {
+        return name + " " + level + " " +  health + " " +  mp + " " +  strength + " " +  defence + " " +  speed + " " +
+                exp + " " +  dices + " " +  money + " " +  currentHealth + " " +  currentMp + " " + weapon + " " +  armor;
+    }
     
 }//end of class

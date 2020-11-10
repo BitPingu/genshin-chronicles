@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Player extends Character {
 
     //Fields
-    private final ArrayList<ArrayList<String>> inventory = new ArrayList<>();
+    private ArrayList<ArrayList<String>> inventory = new ArrayList<>();
     private final Scanner keyInput = new Scanner(System.in);
     private final Scanner scanN = new Scanner(System.in);
     private final Random random = new Random();
@@ -26,6 +26,9 @@ public class Player extends Character {
     }
 
     //Mutators
+    public void setInventory (ArrayList<ArrayList<String>> i) {
+        inventory = i;
+    }
 
     /*************************
      * Method Name: fight

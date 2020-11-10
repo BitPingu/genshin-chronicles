@@ -11,30 +11,21 @@ public class World {
 
     //Field objects in World
     private ArrayList<ArrayList<String>> world = new ArrayList<>();
-    private final ArrayList<ArrayList<String>> map = new ArrayList<>();
-    private final ArrayList<ArrayList<String>> villagesVisited = new ArrayList<>();
+    private ArrayList<ArrayList<String>> map = new ArrayList<>();
+    private ArrayList<ArrayList<String>> villagesVisited = new ArrayList<>();
     private final Scanner keyInput = new Scanner(System.in);
     private final Random random = new Random();
     private Clip clip;
 
-    private final ArrayList<Character> partyMembers = new ArrayList<>();
+    private ArrayList<Character> partyMembers = new ArrayList<>();
     
     //name, level, hp, mp, str, def, spd, exp, dice
-    private final Character player  = new Player("\uD83E\uDDDD Traveller", 1, 128, 15, 36, 5, 5, 0, 4, 0);
-    private final Character healer = new Party("\uD83E\uDDDA Girl", 1, 85, 20, 15, 12, 5, 0, 3, 0);
-    private final Character soldier = new Party("\uD83D\uDE4E Link", 1, 50, 12,10, 5, 5, 0, 4, 0);
-    private final Character mage = new Party("\uD83D\uDC70 Mona", 1, 50, 25,10, 5, 5, 0, 4, 0);
-    private final Character archer = new Party("\uD83D\uDC68 Claude", 1, 50, 25,10, 5, 5, 0, 4, 0);
-    private final Character rogue = new Party("\uD83D\uDC69 Keqing", 1, 50, 25,10, 5, 5, 0, 4, 0);
-
-    private final Character zombie = new Enemy("\uD83E\uDDDF Zombie", 1 , 78, 25, 10, 5, 5, 10, 4, 10);
-    private final Character ogre = new Enemy("\uD83D\uDC79 Ogre", 1, 120, 25, 10, 5, 5, 20, 4, 20);
-    private final Character goblin = new Enemy("\uD83D\uDC7A Goblin", 1, 58, 25, 10, 5, 5, 30, 4, 30);
-    private final Character ghost = new Enemy("\uD83D\uDC7B Ghost", 1, 69, 25, 10, 5, 5, 40, 4, 40);
-    private final Character alien = new Enemy("\uD83D\uDC7D Alien", 1, 101, 25, 10, 5, 5, 50, 4, 50);
-    private final Character octopus = new Enemy("\uD83D\uDC19 Octopus", 88, 50, 25, 10, 5, 5, 60, 4, 60);
-    private final Character skeleton = new Enemy("\uD83D\uDC80 Skeleton", 104, 50, 25, 10, 5, 5, 70, 4, 70);
-    private final Character golem = new Enemy("\uD83E\uDD16 Golem", 1, 185, 25, 10, 5, 5, 80, 4, 80);
+    private Character player;
+    private Character healer;
+    private Character soldier = new Party("\uD83D\uDE4E Link", 1, 50, 12,10, 5, 5, 0, 4, 0);
+    private Character mage = new Party("\uD83D\uDC70 Mona", 1, 50, 25,10, 5, 5, 0, 4, 0);
+    private Character archer = new Party("\uD83D\uDC68 Claude", 1, 50, 25,10, 5, 5, 0, 4, 0);
+    private Character rogue = new Party("\uD83D\uDC69 Keqing", 1, 50, 25,10, 5, 5, 0, 4, 0);
 
     //Field variables in World
     private int row, column, xPos, yPos;
@@ -46,8 +37,14 @@ public class World {
         initWorld();
     }
 
-    public World(ArrayList<ArrayList<String>> w, int r, int c, int x, int y, boolean f) {
+    public World(ArrayList<Character> p, ArrayList<ArrayList<String>> in, ArrayList<ArrayList<String>> w,
+                 ArrayList<ArrayList<String>> m, ArrayList<ArrayList<String>> v, int r, int c, int x,
+                 int y, boolean f) {
+        partyMembers = p;
+        partyMembers.get(0).setInventory(in);
         world = w;
+        map = m;
+        villagesVisited = v;
         row = r;
         column = c;
         xPos = x;
@@ -58,6 +55,18 @@ public class World {
     //Accessors
     public ArrayList<ArrayList<String>> getWorld() {
         return world;
+    }
+
+    public ArrayList<ArrayList<String>> getMap() {
+        return map;
+    }
+
+    public ArrayList<ArrayList<String>> getVillagesVisited() {
+        return villagesVisited;
+    }
+
+    public ArrayList<Character> getPartyMembers() {
+        return partyMembers;
     }
 
     public Character getPlayer() {
@@ -139,6 +148,8 @@ public class World {
      **************************/
     public void start() throws InterruptedException, UnsupportedAudioFileException, IOException, LineUnavailableException {
 
+        player = new Player("\uD83E\uDDDD Traveller", 1, 128, 15, 36, 5, 5, 0, 4, 0);
+        healer = new Party("\uD83E\uDDDA Girl", 1, 85, 20, 15, 12, 5, 0, 3, 0);
         partyMembers.add(player);
 
         world.get(0).set(2, "\uD83E\uDDDA");//Fairy
@@ -208,10 +219,10 @@ public class World {
             world.get(row).set(column, "\uD83E\uDDDD");//Elf
 
             //Display player info
-            System.out.println("Player: " + player.getName());
-            System.out.println("Level: " + player.getLevel());
-            System.out.println("Exp: " + player.getExp());
-            System.out.println("Money: " + player.getMoney());
+            System.out.println("Player: " + partyMembers.get(0).getName());
+            System.out.println("Level: " + partyMembers.get(0).getLevel());
+            System.out.println("Exp: " + partyMembers.get(0).getExp());
+            System.out.println("Money: " + partyMembers.get(0).getMoney());
             System.out.println("[asdw]: Move");
             if (finishTutorial) {
                 System.out.println("[i]: Inventory ");
@@ -258,7 +269,7 @@ public class World {
                     if (finishTutorial) {
                         //Use inventory
                         clearScreen();
-                        player.printInventory(partyMembers);
+                        partyMembers.get(0).printInventory(partyMembers);
                     }
                     break;
                 case "m":
@@ -419,7 +430,7 @@ public class World {
                     //Collect wood
                     System.out.println("You collected some wood.");
                     Thread.sleep(1000);
-                    player.addInventory("\uD83E\uDD62 Wood");
+                    partyMembers.get(0).addInventory("\uD83E\uDD62 Wood");
                     world.get(row).set(column, "\uD83C\uDF33");
                     break;
 
@@ -427,7 +438,7 @@ public class World {
                     //Collect stone
                     System.out.println("You collected some stone.");
                     Thread.sleep(1000);
-                    player.addInventory("\uD83E\uDD4C Stone");
+                    partyMembers.get(0).addInventory("\uD83E\uDD4C Stone");
                     world.get(row).set(column, "\uD83C\uDF33");
                     break;
 
@@ -435,7 +446,7 @@ public class World {
                     //Collect apples
                     System.out.println("You collected some apples.");
                     Thread.sleep(1000);
-                    player.addInventory("\uD83C\uDF4E Apples");
+                    partyMembers.get(0).addInventory("\uD83C\uDF4E Apples");
                     world.get(row).set(column, "\uD83C\uDF33");
                     break;
 
@@ -443,7 +454,7 @@ public class World {
                     //Collect ores
                     System.out.println("You collected some ore.");
                     Thread.sleep(1000);
-                    player.addInventory("\uD83D\uDC8E Ore");
+                    partyMembers.get(0).addInventory("\uD83D\uDC8E Ore");
                     world.get(row).set(column, "\uD83C\uDF33");
                     break;
 
@@ -451,7 +462,7 @@ public class World {
                     //Collect mushrooms
                     System.out.println("You collected some mushrooms.");
                     Thread.sleep(1000);
-                    player.addInventory("\uD83C\uDF44 Mushrooms");
+                    partyMembers.get(0).addInventory("\uD83C\uDF44 Mushrooms");
                     world.get(row).set(column, "\uD83C\uDF33");
                     break;
 
@@ -459,7 +470,7 @@ public class World {
                     //Collect critters
                     System.out.println("You caught some critters.");
                     Thread.sleep(1000);
-                    player.addInventory("\uD83D\uDC1B Critters");
+                    partyMembers.get(0).addInventory("\uD83D\uDC1B Critters");
                     world.get(row).set(column, "\uD83C\uDF33");
                     break;
 
@@ -467,7 +478,7 @@ public class World {
                     //Collect berries
                     System.out.println("You collected some berries.");
                     Thread.sleep(1000);
-                    player.addInventory("\uD83C\uDF52 Berries");
+                    partyMembers.get(0).addInventory("\uD83C\uDF52 Berries");
                     world.get(row).set(column, "\uD83C\uDF33");
                     break;
 
@@ -877,18 +888,13 @@ public class World {
     {
         Character enemy;
         
-        enemy = new Enemy(enemyType, player.getLevel() , 0, 0, 0, 0, 0, 0, 0, 0);
+        enemy = new Enemy(enemyType, partyMembers.get(0).getLevel() , 0, 0, 0, 0, 0, 0, 0, 0);
 
         boolean win = false;
 
         //Call music method
         clip.stop();
-        int theme = random.nextInt(2);
-        if (theme == 0) {
-            music("battle.wav");
-        } else {
-            music ("battle2.wav");
-        }
+        music("battle.wav");
 
         if (!finishTutorial) {
             //First battle - no equipment only fists
@@ -977,7 +983,7 @@ public class World {
             }
             
             //If a Party Member dies
-            if (enemy.fight(partyMembers, player)) {
+            if (enemy.fight(partyMembers, partyMembers.get(0))) {
                 System.out.println("Oh no you've died!");
                 System.exit(0);
             }
@@ -1109,7 +1115,7 @@ public class World {
 
                     case "3":
                         //Visit the Workshop (crafting)
-                        System.out.println(player.name + ": Hmm... what should I craft?");
+                        System.out.println(partyMembers.get(0).name + ": Hmm... what should I craft?");
                         System.out.println("Type 'r' to return.");
                         prompt = keyInput.nextLine();
                         break;
@@ -1151,7 +1157,7 @@ public class World {
                                 int amount = Integer.parseInt(tokens[3]);
 
                                 //Check if player has enough of the item required
-                                if (player.checkInventory(player.getInventory(), item, amount)) {
+                                if (partyMembers.get(0).checkInventory(partyMembers.get(0).getInventory(), item, amount)) {
 
                                     //User prompt to give item required
                                     do {
@@ -1165,7 +1171,7 @@ public class World {
                                         Thread.sleep(1000);
 
                                         //Give required item amount
-                                        player.removeInventory(item, amount);
+                                        partyMembers.get(0).removeInventory(item, amount);
 
                                         //Remove quest from village and give reward
                                         quests.remove(questSelect);
@@ -1183,7 +1189,7 @@ public class World {
                     case "i":
                         clearScreen();
                         //Print inventory
-                        player.printInventory(partyMembers);
+                        partyMembers.get(0).printInventory(partyMembers);
                         break;
 
                 }

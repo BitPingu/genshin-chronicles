@@ -83,71 +83,215 @@ public class Main {
         }
 
         //save progress (only world)
-        save(world.getWorld(), world.getRow(), world.getColumn(), world.getxPos(), world.getyPos(), world.isFinishTutorial());
+        save(world.getPartyMembers(), world.getPartyMembers().get(0).getInventory(), world.getWorld(), world.getMap(),
+                world.getVillagesVisited(), world.getRow(), world.getColumn(), world.getxPos(), world.getyPos(),
+                world.isFinishTutorial());
 
     }//end of main
 
     public static void loadSave() throws FileNotFoundException {
 
         //Objects in loadSave
-        ArrayList<ArrayList<String>> newMap = new ArrayList<>();
+        ArrayList<Character> loadParty = new ArrayList<>();
+        ArrayList<ArrayList<String>> loadInventory = new ArrayList<>();
+        ArrayList<ArrayList<String>> loadWorld = new ArrayList<>();
+        ArrayList<ArrayList<String>> loadMap = new ArrayList<>();
+        ArrayList<ArrayList<String>> loadVillages = new ArrayList<>();
         Scanner fileRead = new Scanner(file);
 
         //Variables in loadSave
         String[] data;
         String dataLine;
-        int mapRow = 0;
+        int row = 0, column = 0, xPos = 0, yPos = 0, partyRow = 0, invRow = 0, worldRow = 0, mapRow = 0, villageRow = 0;
+        boolean finishTutorial = false, player = true;
 
-        //Read from first line in the file and tokenize
-        dataLine = fileRead.nextLine();
-        data = dataLine.split(" ");
-        int row = Integer.parseInt(data[0]);
-        int column = Integer.parseInt(data[1]);
-        int xPos = Integer.parseInt(data[2]);
-        int yPos = Integer.parseInt(data[3]);
-        boolean finishTutorial = Boolean.parseBoolean(data[4]);
-
-        //Read from following lines in the file that contain the map
-        while (fileRead.hasNext()) {
-
-            //Store each row/line of map in string and tokenize
+        //Read Player and Party Data
+        fileRead.nextLine();
+        while (true) {
             dataLine = fileRead.nextLine();
+            if (dataLine.equals("Inventory")) {
+                break;
+            }
+            //Store each row/line of party members in string and tokenize
+            data = dataLine.split(" ");
+
+            //loadParty.get(partyRow).setCurrentHealth(Integer.parseInt(data[10]));
+            //loadParty.get(partyRow).setCurrentMp(Integer.parseInt(data[11]));
+            //loadParty.get(partyRow).setWeapon(data[12]);
+            //loadParty.get(partyRow).setArmor(data[13]);
+
+            String name = data[0] + " " + data[1];
+
+            if (player) {
+                loadParty.add(new Player(name, Integer.parseInt(data[2]), Integer.parseInt(data[3]),
+                        Integer.parseInt(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6]),
+                        Integer.parseInt(data[7]), Integer.parseInt(data[8]), Integer.parseInt(data[9]),
+                        Integer.parseInt(data[10])));
+                player = false;
+            } else {
+                loadParty.add(new Party(name, Integer.parseInt(data[2]), Integer.parseInt(data[3]),
+                        Integer.parseInt(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6]),
+                        Integer.parseInt(data[7]), Integer.parseInt(data[8]), Integer.parseInt(data[9]),
+                        Integer.parseInt(data[10])));
+            }
+
+            //Next row/line
+            partyRow++;
+        }
+
+        //Read Inventory Data
+        while (true) {
+            dataLine = fileRead.nextLine();
+            if (dataLine.equals("World Data")) {
+                break;
+            }
+            //Store each row/line of inventory in string and tokenize
+            data = dataLine.split(" ");
+
+            //Add respective item by their amount
+            loadInventory.add(new ArrayList<>());
+            String name = data[0] + " " + data[1];
+            int amount = Integer.parseInt(data[2]);
+            for (int i=0; i<amount; i++) {
+                loadInventory.get(invRow).add(name);
+            }
+
+            //Next row/line
+            invRow++;
+        }
+
+        //Read World Fields Data
+        while (true) {
+            dataLine = fileRead.nextLine();
+            if (dataLine.equals("World")) {
+                break;
+            }
+            //Store single line in string and tokenize
+            data = dataLine.split(" ");
+
+            row = Integer.parseInt(data[0]);
+            column = Integer.parseInt(data[1]);
+            xPos = Integer.parseInt(data[2]);
+            yPos = Integer.parseInt(data[3]);
+            finishTutorial = Boolean.parseBoolean(data[4]);
+        }
+
+        //Read World Data
+        while (true) {
+            dataLine = fileRead.nextLine();
+            if (dataLine.equals("Map")) {
+                break;
+            }
+            //Store each row/line of world in string and tokenize
+            data = dataLine.split(" ");
+
+            //Add each tile to current row of loaded world
+            loadWorld.add(new ArrayList<>());
+            for (int i=0; i<data.length; i++) {
+                loadWorld.get(worldRow).add(data[i]);
+            }
+
+            //Next row/line
+            worldRow++;
+        }
+
+        //Read Map Data
+        while (true) {
+            dataLine = fileRead.nextLine();
+            if (dataLine.equals("Villages")) {
+                break;
+            }
+            //Store each row/line of map in string and tokenize
             data = dataLine.split(" ");
 
             //Add each tile to current row of loaded map
-            newMap.add(new ArrayList<>());
+            loadMap.add(new ArrayList<>());
             for (int i=0; i<data.length; i++) {
-                newMap.get(mapRow).add(data[i]);
+                loadMap.get(mapRow).add(data[i]);
             }
 
             //Next row/line
             mapRow++;
+        }
 
+        //Read Villages Data
+        if (fileRead.hasNext()) {
+            while (fileRead.hasNext()) {
+                dataLine = fileRead.nextLine();
+                data = dataLine.split("[|]");
+                //Add each tile to current row of loaded map
+                loadVillages.add(new ArrayList<>());
+                for (int i = 0; i < data.length; i++) {
+                    loadVillages.get(villageRow).add(data[i]);
+                }
+
+                //Next row/line
+                villageRow++;
+            }
         }
 
         //Close scanner object
         fileRead.close();
 
         //Load save data
-        world = new World(newMap, row, column, xPos, yPos, finishTutorial);
+        world = new World(loadParty, loadInventory, loadWorld, loadMap, loadVillages, row, column, xPos, yPos,
+                finishTutorial);
 
     }
 
     /*************************
      * Method Name: save
-     * Method Description: Saves the progress of the player.
+     * Method Description: Saves the progress of the game.
      **************************/
-    public static void save(ArrayList<ArrayList<String>> w, int row, int column, int xPos, int yPos, boolean finishTutorial) throws FileNotFoundException {
+    public static void save(ArrayList<Character> p, ArrayList<ArrayList<String>> in, ArrayList<ArrayList<String>> w,
+                            ArrayList<ArrayList<String>> m, ArrayList<ArrayList<String>> v, int row, int column, int xPos,
+                            int yPos, boolean finishTutorial) throws FileNotFoundException {
 
-        //Objects in save
-        String newData = row + " " + column + " " + xPos + " " + yPos + " " + finishTutorial;
+        //PrintWriter
         PrintWriter fileWrite = new PrintWriter(file);
 
-        //Overwrite current database in the file
-        fileWrite.println(newData);
+        //Variables in save
+        String mapFields = row + " " + column + " " + xPos + " " + yPos + " " + finishTutorial;
+
+        //Save Party Data
+        fileWrite.println("Party Data");
+        for (int i=0; i<p.size(); i++) {
+            fileWrite.println(p.get(i));
+        }
+
+        //Save Inventory
+        fileWrite.println("Inventory");
+        for (int i=0; i<in.size(); i++) {
+            fileWrite.println(in.get(i).get(0) + " " + in.get(i).size());
+        }
+
+        //Save World Data
+        fileWrite.println("World Data");
+        fileWrite.println(mapFields);
+
+        //Save World
+        fileWrite.println("World");
         for (int i=0; i<w.size(); i++) {
             for (int j=0; j<w.get(i).size(); j++) {
                 fileWrite.print(w.get(i).get(j) + " ");
+            }
+            fileWrite.println();
+        }
+
+        //Save Map
+        fileWrite.println("Map");
+        for (int i=0; i<m.size(); i++) {
+            for (int j=0; j<m.get(i).size(); j++) {
+                fileWrite.print(m.get(i).get(j) + " ");
+            }
+            fileWrite.println();
+        }
+
+        //Save Villages Visited
+        fileWrite.println("Villages");
+        for (int i=0; i<v.size(); i++) {
+            for (int j=0; j<v.get(i).size(); j++) {
+                fileWrite.print(v.get(i).get(j) + "|");
             }
             fileWrite.println();
         }
