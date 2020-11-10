@@ -26,7 +26,7 @@ public class World {
     private Character soldier = new Party("\uD83D\uDE4E Link", 1, 50, 12,10, 5, 5, 0, 4, 0);
     private Character mage = new Party("\uD83D\uDC70 Mona", 1, 50, 25,10, 5, 5, 0, 4, 0);
     private Character archer = new Party("\uD83D\uDC68 Claude", 1, 50, 25,10, 5, 5, 0, 4, 0);
-    private Character rogue = new Party("\uD83D\uDC69 Keqing", 1, 50, 25,10, 5, 5, 0, 4, 0);
+    private Character rogue;
 
     //Field variables in World
     private int row, column, xPos, yPos;
@@ -151,6 +151,7 @@ public class World {
 
         player = new Player("\uD83E\uDDDD Traveller", 1, 128, 15, 36, 5, 5, 0, 4, 0);
         healer = new Party("\uD83E\uDDDA Girl", 1, 85, 20, 15, 12, 5, 0, 3, 0);
+        rogue = new Party("\uD83D\uDC69 Keqing", 1, 70, 20, 15, 12, 5, 0, 3, 0);
         partyMembers.add(player);
 
         world.get(0).set(2, "\uD83E\uDDDA");//Fairy
@@ -188,6 +189,8 @@ public class World {
         //Robin introduces the player to the world, and the goal of the game
 
         finishTutorial = true;
+        
+        partyMembers.add(rogue);    //temperary character
 
         //Replace with grass
         world.get(row).set(column-1, "\uD83D\uDFE9");
