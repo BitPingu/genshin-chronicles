@@ -128,6 +128,11 @@ public class Player extends Character {
                             //wrath Strike
                             case "Wrath Strike":
                                 damage = ((level * strength) + 20) - entity.defence;
+
+                                if (damage < 0)
+                                {
+                                    damage = 0;
+                                }
                         
                                 entity.currentHealth -= (damage);
                                 System.out.println("\n" + name + " used Wrath Strike!");

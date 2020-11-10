@@ -937,7 +937,7 @@ public class World {
 
     /*************************
      * Method Name: battle
-     * Method Description: Displays the battle system.
+     * Method Description: Displays the system.
      * @param enemyType - Enemy to be fought.
      **************************/
     public void battle(String enemyType) throws InterruptedException, UnsupportedAudioFileException, IOException, 
