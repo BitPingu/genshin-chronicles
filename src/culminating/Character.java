@@ -99,6 +99,7 @@ public class Character {
     {
         return specialAtk;
     }
+
     public int getSpecialDef()
     {
         return specialDef;

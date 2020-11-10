@@ -92,7 +92,8 @@ public class Party extends Character {
                                     }
                                     
                                     System.out.println(name + " restored " + heal + " health to "
-                                            + partyMembers.get(i).name + ".");  
+                                            + partyMembers.get(i).name + ".");
+                                    Thread.sleep(1000);
                                 }
 
                                 Thread.sleep(1000);  
@@ -298,7 +299,7 @@ public class Party extends Character {
         
         if (getExp() >= (getLevel() * 20))
         {
-            System.out.println("Level up! " + getName());
+            System.out.println("Level Up! " + getName());
             setExp(0);
             
             //shows new level

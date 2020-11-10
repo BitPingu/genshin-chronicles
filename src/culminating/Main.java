@@ -63,7 +63,7 @@ public class Main {
             if (prompt.equals("1") && checkSave.hasNext()) {
                 //Confirm overwriting previous save
                 do {
-                    System.out.println("Existing save found. Are you sure you want to overwrite? (y/n)");
+                    System.out.println("Existing save data found. Are you sure you want to overwrite? (y/n)");
                     confirm = keyInput.nextLine();
                 } while (!confirm.equalsIgnoreCase("y") && !confirm.equalsIgnoreCase("n"));
             }
@@ -96,7 +96,7 @@ public class Main {
         //save progress (only world)
         save(world.getPartyMembers(), world.getPartyMembers().get(0).getInventory(), world.getWorld(), world.getMap(),
                 world.getVillagesVisited(), world.getRow(), world.getColumn(), world.getxPos(), world.getyPos(),
-                world.isFinishTutorial());
+                world.isFinishTutorial(), world.isFinishVillage(), world.isFinishDungeon());
 
     }//end of main
 
@@ -114,7 +114,7 @@ public class Main {
         String[] data;
         String dataLine;
         int row = 0, column = 0, xPos = 0, yPos = 0, invRow = 0, worldRow = 0, mapRow = 0, villageRow = 0;
-        boolean finishTutorial = false, player = true;
+        boolean finishTutorial = false, finishVillage = false, finishDungeon = false, player = true;
 
         //Read Player and Party Data
         fileRead.nextLine();
@@ -182,6 +182,9 @@ public class Main {
             xPos = Integer.parseInt(data[2]);
             yPos = Integer.parseInt(data[3]);
             finishTutorial = Boolean.parseBoolean(data[4]);
+            finishVillage = Boolean.parseBoolean(data[5]);
+            finishDungeon = Boolean.parseBoolean(data[6]);
+
         }
 
         //Read World Data
@@ -243,7 +246,7 @@ public class Main {
 
         //Load save data
         world = new World(loadParty, loadInventory, loadWorld, loadMap, loadVillages, row, column, xPos, yPos,
-                finishTutorial);
+                finishTutorial, finishVillage, finishDungeon);
 
     }
 
@@ -253,13 +256,15 @@ public class Main {
      **************************/
     public static void save(ArrayList<Character> p, ArrayList<ArrayList<String>> in, ArrayList<ArrayList<String>> w,
                             ArrayList<ArrayList<String>> m, ArrayList<ArrayList<String>> v, int row, int column, int xPos,
-                            int yPos, boolean finishTutorial) throws FileNotFoundException {
+                            int yPos, boolean finishTutorial, boolean finishVillage, boolean finishDungeon)
+            throws FileNotFoundException {
 
         //PrintWriter
         PrintWriter fileWrite = new PrintWriter(file);
 
         //Variables in save
-        String mapFields = row + " " + column + " " + xPos + " " + yPos + " " + finishTutorial;
+        String mapFields = row + " " + column + " " + xPos + " " + yPos + " " + finishTutorial + " " + finishVillage +
+                " " + finishDungeon;
 
         //Save Party Data
         fileWrite.println("Party Data");

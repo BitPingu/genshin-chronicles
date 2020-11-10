@@ -109,6 +109,18 @@ public class Enemy extends Character {
                 this.money = (level * 5) + 15;
 
                 break;
+
+            //Dragon
+            case "\uD83D\uDC32 Dragon":
+                this.health = (level * 100) + 120;
+                this.mp = (level * 100) + 10;
+                this.strength = (level * 100) + 5;
+                this.defence = (level * 100) + 5;
+                this.speed = (level * 100) + 2;
+                this.exp = (level * 100) + 10;
+                this.money = (level * 100) + 15;
+
+                break;
         }
         
         currentHealth = this.health;
@@ -164,7 +176,7 @@ public class Enemy extends Character {
                 }
                 
                 System.out.println("\n" + name + " is attacking " 
-                        + partyMembers.get(target).name);
+                        + partyMembers.get(target).name + ".");
                 Thread.sleep(1000);
                 System.out.println(name + " dealt " + damage + " damage!");
                 Thread.sleep(1000);
@@ -195,8 +207,7 @@ public class Enemy extends Character {
                         //fallen message
                         if (partyMembers.get(i).currentHealth <= 0)
                         {
-                            System.out.println("Oh no " 
-                                    +  partyMembers.get(i).getName() + " has fallen");
+                            System.out.println(partyMembers.get(i).getName() + " has fallen!");
                             partyMembers.get(i).currentHealth = 0;
                         }
                         Thread.sleep(1000);

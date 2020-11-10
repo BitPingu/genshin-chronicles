@@ -150,15 +150,15 @@ public class Player extends Character {
                                 System.out.println(specialDef);
                                 
                                 //gives stat buff to oeveryone in party
+                                System.out.println("\n" + name + " used Combat Rally!");
+                                Thread.sleep(1000);
                                 for (int i = 0; i < partyMembers.size(); i++)
-                                {                                    
+                                {
+                                    System.out.println(partyMembers.get(i).name + "'s Strength and Defense Increased.");
+                                    Thread.sleep(1000);
                                     partyMembers.get(i).strength += specialAtk;
                                     partyMembers.get(i).defence += specialDef; 
                                 }
-                                System.out.println("\n" + name + " used Combat Rally!");
-                                Thread.sleep(1000);
-                                System.out.println("Everyone was buffed\nStrength Up\nDefence Up");
-                                Thread.sleep(1000);
                                 break;
                                 
                             //error handle - there should be nothing here
@@ -170,7 +170,7 @@ public class Player extends Character {
                     }
                     else
                     {
-                        System.out.println("You are out of mp, you cant use your special");
+                        System.out.println("You are out of mp, you can't use your special!");
                     }
                     break;
                 //running
@@ -181,13 +181,13 @@ public class Player extends Character {
                     }
                     else
                     {
-                        System.out.println("You tripped while trying to run");
+                        System.out.println("Couldn't get away!");
                         flag = true;
                     }
                 
                 //Error handleing
                 default:
-                    System.out.println("Please enter a command");
+                    System.out.println("Please enter a command.");
                     break;
 
             }
@@ -227,7 +227,7 @@ public class Player extends Character {
                 //if user tried to pick a nonExistant dice
                 if (choice > dice.size()) 
                 {
-                    System.out.println("Please input a dice");
+                    System.out.println("Please input a dice.");
                 }
                 //player picks dice
                 else
@@ -239,7 +239,7 @@ public class Player extends Character {
             else
             {
                 scanN.nextLine();
-                System.out.println("Please input a dice");
+                System.out.println("Please input a dice.");
             }
         } while (true);
     }//end of attack
@@ -267,7 +267,7 @@ public class Player extends Character {
                 //if user tried to pick a nonExistant dice
                 if (choice > (moveSet.size())) 
                 {
-                    System.out.println("Please input a dice");
+                    System.out.println("Please input a dice.");
                 }
                 //player picks dice
                 else
@@ -282,7 +282,7 @@ public class Player extends Character {
                             }
                             else
                             {
-                                System.out.println("You dont have enough mp");
+                                System.out.println("You don't have enough mp.");
                                 break;
                             }
                             
@@ -294,11 +294,11 @@ public class Player extends Character {
                             }
                             else if(special)
                             {
-                                System.out.println("You currently already have a buff");
+                                System.out.println("You already have a buff.");
                             }
                             else
                             {
-                                System.out.println("You dont have enough mp");
+                                System.out.println("You don't have enough mp.");
                                 break;
                             }
 
@@ -310,7 +310,7 @@ public class Player extends Character {
             else
             {
                 scanN.nextLine();
-                System.out.println("Please input a special");
+                System.out.println("Please input a special.");
             }
         } while (true);
     }//end of useSpecialMove
