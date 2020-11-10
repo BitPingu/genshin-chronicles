@@ -104,6 +104,9 @@ public class Party extends Character {
                                 
                                 entity.currentHealth -= damage;
                                 
+                                if (entity.currentHealth < 0)
+                                    entity.currentHealth = 0;
+                                
                                 heal = damage / 5;
                                 
                                 System.out.println("\n" + name + " used Nosferatu!");
