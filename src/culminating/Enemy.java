@@ -224,3 +224,4 @@ public class Enemy extends Character {
     }//end of fight
 
 }//end of enemy
+ 
