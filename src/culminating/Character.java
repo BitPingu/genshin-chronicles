@@ -7,7 +7,8 @@ public class Character {
     //Fields
     protected ArrayList<ArrayList<String>> inventory = new ArrayList<>();
     protected ArrayList<String> moveSet = new ArrayList<>();
-    protected int level, health, strength, defence, speed, exp, mp, currentHealth, currentMp, dices, money;
+    protected int level, health, strength, defence, speed, exp, mp, currentHealth, currentMp, dices, money, specialDef,
+            specialAtk;
     protected String name, weapon, armor;
 
     //Constructor
@@ -88,6 +89,20 @@ public class Character {
     public ArrayList<ArrayList<String>> getInventory() {
         return null;
     }
+    
+    public boolean getSpecial()
+    {
+        return false;
+    }
+    
+    public int getSpecialAtk()
+    {
+        return specialAtk;
+    }
+    public int getSpecialDef()
+    {
+        return specialDef;
+    }
 
     //Mutators
     public void setLevel(int l) {
@@ -150,7 +165,14 @@ public class Character {
     public void setInventory(ArrayList<ArrayList<String>> i) {
         inventory = i;
     }
+    
+    public void setCounter(int count)
+    {
+    }
 
+    public void setSpecial(boolean sp)
+    {
+    }
     public boolean fight(ArrayList<Character> partyMembers, Character entity) throws InterruptedException {
         return false;
     }

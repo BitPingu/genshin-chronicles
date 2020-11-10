@@ -85,10 +85,12 @@ public class Party extends Character {
                                 for (int i=0; i < partyMembers.size(); i++)
                                 {
                                     partyMembers.get(i).currentHealth += heal;
+                                    //makes sure that the heal does not over heal
                                     if (partyMembers.get(i).currentHealth > partyMembers.get(i).health)
                                     {
                                         partyMembers.get(i).currentHealth = partyMembers.get(i).health;
                                     }
+                                    
                                     System.out.println(name + " restored " + heal + " health to "
                                             + partyMembers.get(i).name + ".");  
                                 }
@@ -111,10 +113,12 @@ public class Party extends Character {
                                 for (int i = 0; i < partyMembers.size(); i++)
                                 {
                                     partyMembers.get(i).currentHealth += heal;
+                                    //makes sure that the heal does not over heal
                                     if (partyMembers.get(i).currentHealth > partyMembers.get(i).health)
                                     {
                                         partyMembers.get(i).currentHealth = partyMembers.get(i).health;
                                     }
+                                    
                                     System.out.println(name + " restored " + heal + " health to "
                                             + partyMembers.get(i).name + "."); 
                                 }

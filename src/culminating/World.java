@@ -960,6 +960,23 @@ public class World {
             if (win && enemy.getCurrentHealth() > 0) 
             {
                 System.out.println("You ran safely");
+                
+                //returns normal stats to all the party embers if stat distro is still active
+                if (partyMembers.get(0).getSpecial())
+                {
+                    partyMembers.get(0).setSpecial(false);
+                    partyMembers.get(0).setCounter(0);
+                    
+                    //nuturalizes the stats for all party members
+                    for (int j = 0; j < partyMembers.size(); j++)
+                    {
+                        partyMembers.get(j).strength -= partyMembers.get(0).getSpecialAtk();
+                        partyMembers.get(j).defence -= partyMembers.get(0).getSpecialDef();
+//                        partyMembers.get(j).setStrength(partyMembers.get(j).getStrength() - partyMembers.get(0).getSpecialAtk());
+//                        partyMembers.get(j).setDefence(partyMembers.get(j).getDefence() - partyMembers.get(0).getSpecialDef());
+                    }
+ 
+                }
                 break;
             }
             
@@ -969,6 +986,22 @@ public class World {
                 //Player (and Team Members) win
                 System.out.println(enemy.name + " dies!");
                 Thread.sleep(1000);
+                
+                //returns normal stats to all the party embers if stat distro is still active
+                if (partyMembers.get(0).getSpecial())
+                {
+                    partyMembers.get(0).setSpecial(false);
+                    partyMembers.get(0).setCounter(0);
+                    
+                    //nuturalizes the stats for all party members
+                    for (int j = 0; j < partyMembers.size(); j++)
+                    {
+                        partyMembers.get(j).strength -= partyMembers.get(0).getSpecialAtk();
+                        partyMembers.get(j).defence -= partyMembers.get(0).getSpecialDef();
+//                        partyMembers.get(j).setStrength(partyMembers.get(j).getStrength() - partyMembers.get(0).getSpecialAtk());
+//                        partyMembers.get(j).setDefence(partyMembers.get(j).getDefence() - partyMembers.get(0).getSpecialDef());
+                    }
+                }
 
                 //Distribute exp to all Party Members
                 System.out.println();

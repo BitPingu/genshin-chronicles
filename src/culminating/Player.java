@@ -11,7 +11,7 @@ public class Player extends Character {
     private final Scanner keyInput = new Scanner(System.in);
     private final Scanner scanN = new Scanner(System.in);
     private final Random random = new Random();
-    private int counter;
+    private int counter, specialAtk, specialDef;
     private boolean special = false;
 
     //Constructor
@@ -27,10 +27,35 @@ public class Player extends Character {
         return inventory;
     }
 
+    public boolean getSpecial()
+    {
+        return special;
+    }
+    public int getSpecialAtk()
+    {
+        return specialAtk;
+    }
+    public int getSpecialDef()
+    {
+        return specialDef;
+    }
+    
     //Mutators
-    public void setInventory (ArrayList<ArrayList<String>> i) {
+    public void setInventory (ArrayList<ArrayList<String>> i) 
+    {
         inventory = i;
     }
+
+    public void setCounter(int count)
+    {
+        counter = count;
+    }
+
+    public void setSpecial(boolean sp)
+    {
+        special = sp;
+    }
+    
 
     /*************************
      * Method Name: fight
@@ -52,8 +77,9 @@ public class Player extends Character {
                 special = false;
                 for (int i = 0; i < partyMembers.size(); i++)
                 {
-                    partyMembers.get(i).strength += (strength / 4);
-                    partyMembers.get(i).defence += (defence / 4); 
+                    partyMembers.get(i).strength -= specialAtk;
+                    partyMembers.get(i).defence -= specialDef; 
+
                 }
                 
                 System.out.println("Everyone is back to normal");
@@ -118,12 +144,16 @@ public class Player extends Character {
                             case "Combat Rally":
                                 special = true;
                                 counter = 3;
+                                specialAtk = (strength / 4);
+                                System.out.println(specialAtk);
+                                specialDef = (defence / 4);
+                                System.out.println(specialDef);
                                 
                                 //gives stat buff to oeveryone in party
                                 for (int i = 0; i < partyMembers.size(); i++)
-                                { 
-                                    partyMembers.get(i).strength += (strength / 4);
-                                    partyMembers.get(i).defence += (defence / 4);
+                                {                                    
+                                    partyMembers.get(i).strength += specialAtk;
+                                    partyMembers.get(i).defence += specialDef; 
                                 }
                                 System.out.println("\n" + name + " used Combat Rally!");
                                 Thread.sleep(1000);
@@ -257,10 +287,14 @@ public class Player extends Character {
                             }
                             
                         case 2:
-                            if ((currentMp - 15) > 0)
+                            if ((currentMp - 15) > 0 && !special)
                             {
                                 currentMp -= 15;
                                 return moveSet.get(choice - 1);
+                            }
+                            else if(special)
+                            {
+                                System.out.println("You currently already have a buff");
                             }
                             else
                             {
