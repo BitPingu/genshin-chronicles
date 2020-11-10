@@ -35,50 +35,61 @@ public class Main {
         //Call music method
         music("title.wav");
 
-        //Print title screen
-        System.out.println("\n" +
-                " ___     _       _  __  _       _     _   _    __  _       __     ___        \n" +
-                "  | |_| |_   |  |_ /__ |_ |\\ | | \\   / \\ |_   /__ |_ |\\ | (_  |_|  |  |\\ | o \n" +
-                "  | | | |_   |_ |_ \\_| |_ | \\| |_/   \\_/ |    \\_| |_ | \\| __) | | _|_ | \\| o");
-        System.out.println("" +
-                "  _   _  __ ___           ___       __    _   _   ___     _           _   _      _  \n" +
-                " |_) |_ /__  |  |\\ | |\\ |  |  |\\ | /__   / \\ |_    | |_| |_   \\    / / \\ |_) |  | \\ \n" +
-                " |_) |_ \\_| _|_ | \\| | \\| _|_ | \\| \\_|   \\_/ |     | | | |_    \\/\\/  \\_/ | \\ |_ |_/ \n" +
-                "                                                                                    \n");
-
+        //Scanner objects and string
         Scanner keyInput = new Scanner(System.in);
         Scanner checkSave = new Scanner(file);
-        String prompt;
+        String prompt, confirm = null;
 
-        //Print selection menu
         do {
 
+            //Print title screen
+            System.out.println("\n" +
+                    " ___     _       _  __  _       _     _   _    __  _       __     ___        \n" +
+                    "  | |_| |_   |  |_ /__ |_ |\\ | | \\   / \\ |_   /__ |_ |\\ | (_  |_|  |  |\\ | o \n" +
+                    "  | | | |_   |_ |_ \\_| |_ | \\| |_/   \\_/ |    \\_| |_ | \\| __) | | _|_ | \\| o");
+            System.out.println("" +
+                    "  _   _  __ ___           ___       __    _   _   ___     _           _   _      _  \n" +
+                    " |_) |_ /__  |  |\\ | |\\ |  |  |\\ | /__   / \\ |_    | |_| |_   \\    / / \\ |_) |  | \\ \n" +
+                    " |_) |_ \\_| _|_ | \\| | \\| _|_ | \\| \\_|   \\_/ |     | | | |_    \\/\\/  \\_/ | \\ |_ |_/ \n" +
+                    "                                                                                    \n");
+
+            //Print selection menu
             System.out.println("1) New Game");
             if (checkSave.hasNext()) {
                 System.out.println("2) Continue");
             }
             prompt = keyInput.nextLine();
 
-        } while (!prompt.equalsIgnoreCase("1") && (!prompt.equalsIgnoreCase("2") || !checkSave.hasNext()));
+            if (prompt.equals("1") && checkSave.hasNext()) {
+                //Confirm overwriting previous save
+                do {
+                    System.out.println("Existing save found. Are you sure you want to overwrite? (y/n)");
+                    confirm = keyInput.nextLine();
+                } while (!confirm.equalsIgnoreCase("y") && !confirm.equalsIgnoreCase("n"));
+            }
+
+        } while ((!prompt.equals("1") || checkSave.hasNext()) && (!prompt.equals("1") || !confirm.equalsIgnoreCase("y")) &&
+                (!prompt.equals("2") || !checkSave.hasNext()));
 
         //Go to user selection
         switch (prompt) {
 
             case "1":
+                //delete existing save data
+                PrintWriter delete = new PrintWriter(file);
+                delete.close();
                 clip.stop();
                 //create new save data
                 world = new World();
                 world.start();
                 break;
             case "2":
-                if (checkSave.hasNext()) {
-                    clip.stop();
-                    //load existing save data
-                    loadSave();
-                    world.music("overworld.wav");
-                    world.navigate();
-                    break;
-                }
+                clip.stop();
+                //load existing save data
+                loadSave();
+                world.music("overworld.wav");
+                world.navigate();
+                break;
 
         }
 
@@ -102,7 +113,7 @@ public class Main {
         //Variables in loadSave
         String[] data;
         String dataLine;
-        int row = 0, column = 0, xPos = 0, yPos = 0, partyRow = 0, invRow = 0, worldRow = 0, mapRow = 0, villageRow = 0;
+        int row = 0, column = 0, xPos = 0, yPos = 0, invRow = 0, worldRow = 0, mapRow = 0, villageRow = 0;
         boolean finishTutorial = false, player = true;
 
         //Read Player and Party Data
@@ -134,9 +145,6 @@ public class Main {
                         Integer.parseInt(data[7]), Integer.parseInt(data[8]), Integer.parseInt(data[9]),
                         Integer.parseInt(data[10])));
             }
-
-            //Next row/line
-            partyRow++;
         }
 
         //Read Inventory Data

@@ -171,8 +171,10 @@ public class World {
         System.out.println(healer.getName() + ": Thanks for saving me! My name is Robin. What is yours?");
         Thread.sleep(1000);
         healer.setName("\uD83E\uDDDA Robin");
-        System.out.println(healer.getName() + ": What?! You don't remember your name? Then I should call you...");
-
+        System.out.println(player.getName() + ": ...");
+        Thread.sleep(1000);
+        System.out.println(healer.getName() + ": What?! You don't know your own name? Then I should call you...");
+        Thread.sleep(1000);
         System.out.print("My name is: ");
         player.setName("\uD83E\uDDDD " + keyInput.nextLine());
 
@@ -182,12 +184,23 @@ public class World {
 
         System.out.println(healer.getName() + ": I shall call you " + player.getName() + "!");
         Thread.sleep(1000);
+
+        //Robin introduces the player to the world, and the goal of the game
+        System.out.println(healer.getName() + ": So what are you doing out here all alone?");
+        Thread.sleep(1000);
+        System.out.println(healer.getName() + ": So you are saying that you just woke up and found yourself here with " +
+                "no recollection of anything? That's strange...");
+        Thread.sleep(1000);
+        System.out.println(healer.getName() + ": Tell you what, I'll show you around the world of Genshin!");
+        Thread.sleep(1000);
         System.out.println(healer.getName() + ": Here is a map...");
         System.out.println(player.name + " received a map!");
         Thread.sleep(1000);
         getPlayer().addInventory("\uD83D\uDDFA Map");
-        //Robin introduces the player to the world, and the goal of the game
-
+        System.out.println(healer.getName() + ": Let's look for a village where we can stay for the night.");
+        Thread.sleep(1000);
+        System.out.println(healer.getName() + ": Onwards!");
+        Thread.sleep(1000);
         finishTutorial = true;
         
         partyMembers.add(rogue);    //temperary character
@@ -227,11 +240,12 @@ public class World {
             System.out.println("Level: " + partyMembers.get(0).getLevel());
             System.out.println("Exp: " + partyMembers.get(0).getExp());
             System.out.println("Money: " + partyMembers.get(0).getMoney());
-            System.out.println("[asdw]: Move");
+            System.out.println("[wasd]: Move");
             if (finishTutorial) {
-                System.out.println("[i]: Inventory ");
-                System.out.println("[m]: Map ");
-                System.out.println("[l]: Save and Quit ");
+                System.out.println("[e]: Party & Equipment");
+                System.out.println("[i]: Inventory");
+                System.out.println("[m]: Map");
+                System.out.println("[l]: Save and Quit");
             }
 
             //Display player's field of vision
@@ -331,8 +345,9 @@ public class World {
                 }
             }
 
-            //Prevent player from escaping during tutorial
-            if (!finishTutorial && (xPos < -2 || yPos < -2 || xPos > 2 || yPos > 2)) {
+            //Prevent player from escaping during tutorial or exceeding map limit
+            if ((!finishTutorial && (xPos < -2 || yPos < -2 || xPos > 2 || yPos > 2)) ||
+                    xPos < -100 || yPos < -100 || xPos > 100 || yPos > 100) {
 
                 if ("a".equals(movement)) {
                     column++;
@@ -347,8 +362,14 @@ public class World {
                     row++;
                     yPos--;
                 }
-                System.out.println("Where are you going? You can't leave the girl!");
-                Thread.sleep(1000);
+
+                if (!finishTutorial) {
+                    System.out.println("Where are you going? You can't leave the girl!");
+                    Thread.sleep(1000);
+                } else {
+                    System.out.println("You can't go any further!");
+                    Thread.sleep(1000);
+                }
 
             }
 
@@ -486,10 +507,19 @@ public class World {
                     world.get(row).set(column, "\uD83C\uDF33");
                     break;
 
+                case "\uD83C\uDF3F":
+                    //Collect herbs
+                    System.out.println("You collected some herbs.");
+                    Thread.sleep(1000);
+                    partyMembers.get(0).addInventory("\uD83C\uDF3F Herbs");
+                    world.get(row).set(column, "\uD83C\uDF33");
+                    break;
+
                 case "\uD83E\uDDF0":
-                    //Collect open chest
+                    //Open chest
                     System.out.println("You opened a chest.");
                     Thread.sleep(1000);
+                    reward();
                     world.get(row).set(column, "\uD83C\uDF33");
                     break;
 
@@ -718,27 +748,30 @@ public class World {
         //Determine random enemy
         spawn = random.nextInt(100)+1;
 
-        if (spawn <= 30) {
+        if (spawn <= 12) {
             //Wood
             item = "\uD83E\uDD62";
-        } else if (spawn <= 40) {
+        } else if (spawn <= 24) {
             //Stone
             item = "\uD83E\uDD4C";
-        } else if (spawn <= 50) {
+        } else if (spawn <= 36) {
             //Apples
             item = "\uD83C\uDF4E";
-        } else if (spawn <= 60) {
+        } else if (spawn <= 48) {
             //Ore
             item = "\uD83D\uDC8E";
-        } else if (spawn <= 70) {
+        } else if (spawn <= 60) {
             //Mushrooms
             item = "\uD83C\uDF44";
-        } else if (spawn <= 80) {
+        } else if (spawn <= 72) {
             //Critters
             item = "\uD83D\uDC1B";
-        } else if (spawn <= 90) {
+        } else if (spawn <= 84) {
             //Berries
             item = "\uD83C\uDF52";
+        } else if (spawn <= 96) {
+            //Herbs
+            item = "\uD83C\uDF3F";
         } else {
             //Chest
             item = "\uD83E\uDDF0";
@@ -904,7 +937,7 @@ public class World {
             //First battle - no equipment only fists
             System.out.println(healer.getName() + ": Wait, you know how to fight?");
             Thread.sleep(1000);
-            System.out.println(healer.getName() + ": Ok! I'm a healer, so I can help you when you're injured.");
+            System.out.println(healer.getName() + ": Ok! I'm a Cleric, so I can heal you if you get injured.");
             Thread.sleep(1000);
             partyMembers.add(healer);
         }
@@ -1212,7 +1245,7 @@ public class World {
 
                                         //Remove quest from village and give reward
                                         quests.remove(questSelect);
-                                        questReward();
+                                        reward();
 
                                     }
 
@@ -1250,43 +1283,102 @@ public class World {
 
         //Variables in quest
         String occupation = null, material = "", reason = "";
-        int villager, amount;
+        int villager, chooseReason, amount;
 
-        //Determine random villager
+        //Determine random villager and reason
         villager = random.nextInt(6) + 1;
+        chooseReason = random.nextInt(2);
+
+        partyMembers.get(0).addInventory("\uD83E\uDD62 Wood");
+        partyMembers.get(0).addInventory("\uD83E\uDD4C Stone");
+        partyMembers.get(0).addInventory("\uD83C\uDF4E Apples");
+        partyMembers.get(0).addInventory("\uD83D\uDC8E Ore");
+        partyMembers.get(0).addInventory("\uD83C\uDF44 Mushrooms");
+        partyMembers.get(0).addInventory("\uD83D\uDC1B Critters");
+        partyMembers.get(0).addInventory("\uD83C\uDF52 Berries");
+        partyMembers.get(0).addInventory("\uD83C\uDF3F Herbs");
 
         switch (villager) {
 
             case 1:
                 occupation = "Farmer";
-                material = "\uD83C\uDF44 Mushrooms";
-                reason = "feed the cows.";
+                if (chooseReason == 0) {
+                    material = "\uD83C\uDF4E Apples";
+                    reason = "feed the cows.";
+                } else {
+                    material = "\uD83C\uDF44 Mushrooms";
+                    reason = "make fertilizers.";
+                }
                 break;
             case 2:
                 occupation = "Miner";
-                material = "\uD83E\uDD4C Stone";
-                reason = "make a stone pickaxe.";
+                if (chooseReason == 0) {
+                    material = "\uD83E\uDD4C Stone";
+                    reason = "extract ore.";
+                } else {
+                    material = "\uD83D\uDC8E Ore";
+                    reason = "craft a pickaxe.";
+                }
                 break;
             case 3:
-                occupation = "Carpenter";
-                material = "\uD83E\uDD62 Wood";
-                reason = "build a house.";
+                occupation = "Architect";
+                if (chooseReason == 0) {
+                    material = "\uD83E\uDD62 Wood";
+                    reason = "build a house.";
+                } else {
+                    material = "\uD83E\uDD4C Stone";
+                    reason = "build a well.";
+                }
                 break;
             case 4:
                 occupation = "Blacksmith";
-                material = "\uD83D\uDC8E Ore";
-                reason = "craft a sword.";
+                if (chooseReason == 0) {
+                    material = "\uD83D\uDC8E Ore";
+                    reason = "forge a sword.";
+                } else {
+                    material = "\uD83C\uDF52 Berries";
+                    reason = "eat.";
+                }
                 break;
             case 5:
                 occupation = "Alchemist";
-                material = "\uD83D\uDC1B Critters";
-                reason = "brew elixirs.";
+                if (chooseReason == 0) {
+                    material = "\uD83C\uDF44 Mushrooms";
+                    reason = "brew elixirs.";
+                } else {
+                    material = "\uD83C\uDF3F Herbs";
+                    reason = "make medicine.";
+                }
                 break;
             case 6:
                 occupation = "Cook";
-                material = "\uD83C\uDF52 Berries";
-                material = "\uD83C\uDF4E Apples";
-                reason = "make fruit salad.";
+                if (chooseReason == 0) {
+                    material = "\uD83C\uDF52 Berries";
+                    reason = "make simmered fruit.";
+                } else {
+                    material = "\uD83C\uDF4E Apples";
+                    reason = "make apple pie.";
+                }
+                break;
+            case 7:
+                occupation = "Environmentalist";
+                if (chooseReason == 0) {
+                    material = "\uD83C\uDF3F Herbs";
+                    reason = "plant.";
+                } else {
+                    material = "\uD83D\uDC1B Critters";
+                    reason = "save.";
+                }
+                break;
+            case 8:
+                occupation = "Student";
+                if (chooseReason == 0) {
+                    material = "\uD83D\uDC1B Critters";
+                    reason = "study entomology.";
+                } else {
+                    material = "\uD83E\uDD62 Wood";
+                    reason = "learn woodworking.";
+                }
                 break;
 
         }
@@ -1300,12 +1392,11 @@ public class World {
     }//end of quest
 
     /*************************
-     * Method Name: questReward
-     * Method Description: Generates a quest reward.
+     * Method Name: reward
+     * Method Description: Generates a random reward from opening chests or completing quests.
      **************************/
-    public void questReward() 
+    public void reward()
     {
-        
         
     }
 
