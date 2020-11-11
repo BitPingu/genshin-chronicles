@@ -123,21 +123,20 @@ public class Main {
             data = dataLine.split(" ");
 
             String name = data[0] + " " + data[1];
-            String weapon = data[14] + " " + data[15] + " " + data[16] + " " + data[17];
-            String armor = data[18] + " " + data[19] + " " + data[20] + " " + data[21];
-
+            String weapon = data[13] + " " + data[14] + " " + data[15] + " " + data[16];
+            String armor = data[17] + " " + data[18] + " " + data[19] + " " + data[20];
             if (player) {
                 loadParty.add(new Player(name, Integer.parseInt(data[2]), Integer.parseInt(data[3]),
                         Integer.parseInt(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6]),
                         Integer.parseInt(data[7]), Integer.parseInt(data[8]), Integer.parseInt(data[9]),
-                        Integer.parseInt(data[10]), Integer.parseInt(data[12]), Integer.parseInt(data[13]),
+                        Integer.parseInt(data[10]), Integer.parseInt(data[11]), Integer.parseInt(data[12]),
                         weapon, armor));
                 player = false;
             } else {
                 loadParty.add(new Party(name, Integer.parseInt(data[2]), Integer.parseInt(data[3]),
                         Integer.parseInt(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6]),
                         Integer.parseInt(data[7]), Integer.parseInt(data[8]), Integer.parseInt(data[9]),
-                        Integer.parseInt(data[10]), Integer.parseInt(data[12]), Integer.parseInt(data[13]),
+                        Integer.parseInt(data[10]), Integer.parseInt(data[11]), Integer.parseInt(data[12]),
                         weapon, armor));
             }
         }
@@ -153,21 +152,21 @@ public class Main {
             data = dataLine.split(" ");
 
             String name = data[0] + " " + data[1];
-            String weapon = data[14] + " " + data[15] + " " + data[16] + " " + data[17];
-            String armor = data[18] + " " + data[19] + " " + data[20] + " " + data[21];
+            String weapon = data[13] + " " + data[14] + " " + data[15] + " " + data[16];
+            String armor = data[17] + " " + data[18] + " " + data[19] + " " + data[20];
 
             if (player) {
                 loadCurrentParty.add(new Player(name, Integer.parseInt(data[2]), Integer.parseInt(data[3]),
                         Integer.parseInt(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6]),
                         Integer.parseInt(data[7]), Integer.parseInt(data[8]), Integer.parseInt(data[9]),
-                        Integer.parseInt(data[10]), Integer.parseInt(data[12]), Integer.parseInt(data[13]),
+                        Integer.parseInt(data[10]), Integer.parseInt(data[11]), Integer.parseInt(data[12]),
                         weapon, armor));
                 player = false;
             } else {
                 loadCurrentParty.add(new Party(name, Integer.parseInt(data[2]), Integer.parseInt(data[3]),
                         Integer.parseInt(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6]),
                         Integer.parseInt(data[7]), Integer.parseInt(data[8]), Integer.parseInt(data[9]),
-                        Integer.parseInt(data[10]), Integer.parseInt(data[12]), Integer.parseInt(data[13]),
+                        Integer.parseInt(data[10]), Integer.parseInt(data[11]), Integer.parseInt(data[12]),
                         weapon, armor));
             }
         }

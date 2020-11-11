@@ -217,8 +217,14 @@ public class World {
         Thread.sleep(1000);
         System.out.println(healer.getName() + ": What?! You don't know your own name? Then I should call you...");
         Thread.sleep(1000);
-        System.out.print("My name is: ");
-        player.setName("\uD83E\uDDDD " + keyInput.nextLine());
+
+        do {
+            System.out.print("My name is: ");
+            player.setName("\uD83E\uDDDD " + keyInput.nextLine());
+            if (player.name.length() > 11) {
+                System.out.println("Name is too long. Please use a different name.");
+            }
+        } while (player.name.length() > 11);
 
         if (player.name.equals("\uD83E\uDDDD ")) {
             player.setName("\uD83E\uDDDD ...");
@@ -291,7 +297,7 @@ public class World {
                 System.out.println("[e]: Party");
                 System.out.println("[i]: Inventory");
                 System.out.println("[m]: Map");
-                System.out.println("[l]: Save and Quit");
+                System.out.println("[l]: Save");
             }
 
             //Display player's field of vision
@@ -411,7 +417,7 @@ public class World {
 
             //Prevent player from escaping during tutorial or exceeding map limit
             if ((!finishTutorial && (xPos < -2 || yPos < -2 || xPos > 2 || yPos > 2)) ||
-                    xPos < -100 || yPos < -100 || xPos > 100 || yPos > 100) {
+                    xPos < -50 || yPos < -50 || xPos > 50 || yPos > 50) {
 
                 if ("a".equals(movement)) {
                     column++;
@@ -449,6 +455,12 @@ public class World {
                 case "\uD83C\uDFDB":
                     //Go to dungeon
                     dungeon();
+                    break;
+
+                case "\uD83D\uDEA8":
+                    //Completed dungeon
+                    System.out.println("You have already explored this dungeon.");
+                    Thread.sleep(1000);
                     break;
 
                 case "\uD83C\uDFD8":
@@ -589,11 +601,12 @@ public class World {
 
             }
 
-            //Check starting area and village within FOV
+            //Check starting area, village, dungeon, and completed dungeon within FOV
             safe = false;
             for (int i=row-2; i<row + 3; i++) {
                 for (int j=column-2; j<column+3; j++) {
-                    if (world.get(i).get(j).equals("\uD83D\uDFE9") || world.get(i).get(j).equals("\uD83C\uDFD8")) {
+                    if (world.get(i).get(j).equals("\uD83D\uDFE9") || world.get(i).get(j).equals("\uD83C\uDFD8") ||
+                            world.get(i).get(j).equals("\uD83C\uDFDB") || world.get(i).get(j).equals("\uD83D\uDEA8")) {
                         safe = true;
                         break;
                     }
@@ -659,36 +672,11 @@ public class World {
 
         //Variables in spawnEnemy
         int spawn, enemyRow = 0, enemyColumn = 0;
-        String enemy;
+        String enemy, enemyIcon;
 
-        //Determine random enemy
-        spawn = random.nextInt(100)+1;
-
-        if (spawn <= 30) {
-            //Zombie
-            enemy = "\uD83E\uDDDF";
-        } else if (spawn <= 40) {
-            //Goblin
-            enemy = "\uD83D\uDC7A";
-        } else if (spawn <= 50) {
-            //Ogre
-            enemy = "\uD83D\uDC79";
-        } else if (spawn <= 60) {
-            //Ghost
-            enemy = "\uD83D\uDC7B";
-        } else if (spawn <= 70) {
-            //Alien
-            enemy = "\uD83D\uDC7D";
-        } else if (spawn <= 80) {
-            //Octopus
-            enemy = "\uD83D\uDC19";
-        } else if (spawn <= 90) {
-            //Skeleton
-            enemy = "\uD83D\uDC80";
-        } else {
-            //Golem
-            enemy = "\uD83E\uDD16";
-        }
+        enemy = genEnemy();
+        String[] tokens = enemy.split(" ");
+        enemyIcon = tokens[0];
 
         //Determine random spawn coordinates
         spawn = random.nextInt(24)+1;
@@ -795,7 +783,7 @@ public class World {
         }
 
         //Spawn enemy in world
-        world.get(enemyRow).set(enemyColumn, enemy);
+        world.get(enemyRow).set(enemyColumn, enemyIcon);
 
     }//end of spawnEnemy
 
@@ -1066,10 +1054,10 @@ public class World {
             LineUnavailableException 
     {
         Character enemy;
-        
-        enemy = new Enemy(enemyType, currentPartyMembers.get(0).getLevel(), weapons[0][0], armor[0][0]);
-
         boolean win = false;
+
+        //Create enemy object based on type
+        enemy = new Enemy(enemyType, currentPartyMembers.get(0).getLevel(), weapons[0][0], armor[0][0]);
 
         //Call music method
         if (!enemyType.equals("\uD83D\uDC32 Dragon")) {
@@ -1298,8 +1286,49 @@ public class World {
             }
 
             System.out.println("Floor 1");
+            battle(genEnemy());
+
             System.out.println("Floor 2");
+            battle(genEnemy());
+
             System.out.println("Floor 3");
+            battle(genEnemy());
+
+            reward();
+
+            //Call music method
+            clip.stop();
+            music("dungeon.wav");
+
+            if (!finishDungeon) {
+                System.out.println(partyMembers.get(1).getName() + ": Huff... puff... I can't believe we got through " +
+                        "all of that alive...");
+                Thread.sleep(1000);
+                System.out.println(partyMembers.get(2).getName() + ": Wow, great job guys! I have to admit I was a " +
+                        "little doubtful that you guys would've been able to make it out...");
+                Thread.sleep(1000);
+                System.out.println(partyMembers.get(2).getName() + ": But here we are!");
+                Thread.sleep(1000);
+                System.out.println(partyMembers.get(2).getName() + ": And now that I have sufficient data on your " +
+                        "combat abilities, I think you are worthy of having me in your team!");
+                Thread.sleep(1000);
+                System.out.println(partyMembers.get(1).getName() + ": Woah really?! Its an honor!");
+                Thread.sleep(1000);
+                System.out.println(partyMembers.get(0).getName() + ": ...");
+                Thread.sleep(1000);
+                System.out.println(partyMembers.get(2).getName() + ": Alright, so our next objective should be finding " +
+                        "and taking down that dragon once and for all.");
+                Thread.sleep(1000);
+                System.out.println(partyMembers.get(2).getName() + ": That dragon has caused enough malice in this " +
+                        "world, so we shall banish it!");
+                Thread.sleep(1000);
+                System.out.println(partyMembers.get(2).getName() + ": Lets go!");
+                Thread.sleep(1000);
+                finishDungeon = true;
+            }
+
+            //Set player position as completed dungeon
+            world.get(row).set(column, "\uD83D\uDEA8");
 
             //Call music method
             clip.stop();
@@ -1308,6 +1337,48 @@ public class World {
         }
 
     }//end of dungeon
+
+    /*************************
+     * Method Name: genEnemy
+     * Method Description: Generates a random enemy.
+     **************************/
+    public String genEnemy() {
+
+        int generation;
+        String enemy;
+
+        //Determine random enemy
+        generation = random.nextInt(100)+1;
+
+        if (generation <= 30) {
+            //Zombie
+            enemy = "\uD83E\uDDDF Zombie";
+        } else if (generation <= 40) {
+            //Goblin
+            enemy = "\uD83D\uDC7A Goblin";
+        } else if (generation <= 50) {
+            //Ogre
+            enemy = "\uD83D\uDC79 Ogre";
+        } else if (generation <= 60) {
+            //Ghost
+            enemy = "\uD83D\uDC7B Ghost";
+        } else if (generation <= 70) {
+            //Alien
+            enemy = "\uD83D\uDC7D Alien";
+        } else if (generation <= 80) {
+            //Octopus
+            enemy = "\uD83D\uDC19 Octopus";
+        } else if (generation <= 90) {
+            //Skeleton
+            enemy = "\uD83D\uDC80 Skeleton";
+        } else {
+            //Golem
+            enemy = "\uD83E\uDD16 Golem";
+        }
+
+        return enemy;
+
+    }
 
     /*************************
      * Method Name: village
@@ -1453,10 +1524,16 @@ public class World {
                             System.out.println("You and Robin ran towards the giant creature engulfing the village " +
                                     "into flames.");
                             Thread.sleep(1000);
-                            
                             battle("\uD83D\uDC32 Dragon");
 
                             //Claude joins
+                            archer = new Party("\uD83D\uDC68 Claude", 1, 50, 25, 10, 5, 5, 0, 4, 0, 50, 25, weapons[2][0], armor[0][1]);
+                            partyMembers.add(archer);
+                            //adds to currentPartymembers if there are not 3 party members in it yet
+                            if (partyMembers.size() <= 3)
+                            {
+                                currentPartyMembers.add(partyMembers.get(partyMembers.size()-1));
+                            }
 
                             System.out.println("???: You guys ok?");
                             Thread.sleep(1000);
@@ -1498,16 +1575,9 @@ public class World {
                             System.out.println(archer.getName() + ": We can make preparations for now, so let me know " +
                                     "when you are ready to go out.");
                             Thread.sleep(1000);
-                            
-                            archer = new Party("\uD83D\uDC68 Claude", 1, 50, 25, 10, 5, 5, 0, 4, 0, 50, 25, weapons[2][0], armor[0][1]);
-                            partyMembers.add(archer);
-                            //adds to currentPartymembers if there are not 3 party members in it yet
-                            if (partyMembers.size() <= 3)
-                            {
-                                currentPartyMembers.add(partyMembers.get(partyMembers.size()-1));
+                            for (int j = 0; j < partyMembers.size(); j++) {
+                                partyMembers.get(j).setCurrentHealth(partyMembers.get(j).getHealth());
                             }
-                            
-                            
                             finishVillage = true;
                         }
                         break;

@@ -258,8 +258,7 @@ public class Character {
     
     public String toString() {
         return name + " " + level + " " +  health + " " +  mp + " " +  strength + " " +  defence + " " +  speed + " " +
-                exp + " " +  dices + " " +  money + " " + " " + + currentHealth + " " + currentMp + " " + weapon + " " +
-                armor;
+                exp + " " +  dices + " " +  money + " " + currentHealth + " " + currentMp + " " + weapon + " " + armor;
     }
     
 }//end of class

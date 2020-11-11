@@ -389,8 +389,8 @@ public class Party extends Character {
     @Override
     public void checkSpecialMoves()
     {
-        //Robin
-        if (name.equals("\uD83E\uDDDA Robin"))
+        //Robin or Girl
+        if (name.equals("\uD83E\uDDDA Robin") || name.equals("\uD83E\uDDDA Girl"))
         {
             //makes sure that the user has Physic
             if (!moveSet.contains("Physic"))
