@@ -21,9 +21,8 @@ public class World {
 
     private ArrayList<Character> partyMembers = new ArrayList<>();
     private ArrayList<Character> currentPartyMembers = new ArrayList<>();
-    //private Character[] currentPartyMembers = new Character[3];
     
-    //name, level, hp, mp, str, def, spd, exp, dice
+    //initializing the partyMembers and characterss
     private Character player;
     private Character healer;
     private Character archer;
@@ -193,6 +192,7 @@ public class World {
         if (partyMembers.size() <= 3)
         {
             currentPartyMembers.add(partyMembers.get(partyMembers.size()-1));
+            //currentPartyMemebrs.get(partyMembers.size()-1)).setCurrentPartyState(true);
         }
 
         world.get(0).set(2, "\uD83E\uDDDA");//Fairy
@@ -1100,6 +1100,7 @@ public class World {
             System.out.println(partyMembers.get(1).getName() + ": But with the two of us, I believe " +
                     "we can defeat it!");
             Thread.sleep(1000);
+            enemy.setDefence(99999999);
         }
 
         //Loops through Party Members' and Enemy turns
@@ -1476,7 +1477,7 @@ public class World {
                             battle("\uD83D\uDC32 Dragon");
 
                             //Claude joins
-                            archer = new Party("\uD83D\uDC68 Claude", 1, 50, 25, 10, 5, 5, 0, 4, 0, weapons[2][0], armor[0][1]);
+                            
                             System.out.println("???: You guys ok?");
                             Thread.sleep(1000);
                             System.out.println("Villager Girl: " + archer.getName() + " our hero!");
@@ -1518,6 +1519,7 @@ public class World {
                                     "when you are ready to go out.");
                             Thread.sleep(1000);
                             
+                            archer = new Party("\uD83D\uDC68 Claude", 1, 50, 25, 10, 5, 5, 0, 4, 0, weapons[2][0], armor[0][1]);
                             partyMembers.add(archer);
                             //adds to currentPartymembers if there are not 3 party members in it yet
                             if (partyMembers.size() <= 3)
