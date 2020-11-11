@@ -16,8 +16,8 @@ public class Player extends Character {
 
     //Constructor
     public Player(String name, int level, int hp, int mp, int str, int def, int spd, int exp, int dice, int money,
-                  int cHealth, int cMp, String weapon, String armor) {
-        super(name, level, hp, mp, str, def, spd, exp, dice, money, cHealth, cMp, weapon, armor);
+                  int cHealth, int cMp, String weapon, String armor, boolean inCurrentParty) {
+        super(name, level, hp, mp, str, def, spd, exp, dice, money, cHealth, cMp, weapon, armor, inCurrentParty);
         state = true;
         checkSpecialMoves();
     }

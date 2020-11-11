@@ -10,11 +10,11 @@ public class Character {
     protected int level, health, strength, defence, speed, exp, mp, currentHealth, currentMp, dices, money, specialDef,
             specialAtk;
     protected String name, weapon, armor;
-    protected boolean state;
+    protected boolean state, inCurrentParty;
 
     //Constructor
     public Character(String n, int l, int h, int m, int s, int d, int sp, int ep, int di, int mo, int ch, int cm,
-                     String w, String a) {
+                     String w, String a, boolean ic) {
         name = n;
         level = l;
         health = h;
@@ -29,6 +29,7 @@ public class Character {
         currentMp = cm;
         weapon = w;
         armor = a;
+        inCurrentParty = ic;
         calcEquipment(w, a);
     }
 
@@ -115,6 +116,10 @@ public class Character {
     public int getSpecialDef()
     {
         return specialDef;
+    }
+
+    public boolean getInCurrentParty() {
+        return inCurrentParty;
     }
 
     //Mutators
@@ -211,6 +216,10 @@ public class Character {
 
     }
 
+    public void setInCurrentParty(boolean i) {
+        inCurrentParty = i;
+    }
+
     /**************************
      * calcEquipment
      * This method calculates and adds stats based on equipment
@@ -258,7 +267,8 @@ public class Character {
     
     public String toString() {
         return name + " " + level + " " +  health + " " +  mp + " " +  strength + " " +  defence + " " +  speed + " " +
-                exp + " " +  dices + " " +  money + " " + currentHealth + " " + currentMp + " " + weapon + " " + armor;
+                exp + " " +  dices + " " +  money + " " + currentHealth + " " + currentMp + " " + weapon + " " + armor +
+                " " + inCurrentParty;
     }
     
 }//end of class

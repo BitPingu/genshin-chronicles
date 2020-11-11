@@ -109,14 +109,15 @@ public class Main {
         //Variables in loadSave
         String[] data;
         String dataLine;
-        int row = 0, column = 0, xPos = 0, yPos = 0, invRow = 0, worldRow = 0, mapRow = 0, villageRow = 0;
+        int row = 0, column = 0, xPos = 0, yPos = 0, partyRow = 0, invRow = 0, worldRow = 0, mapRow = 0, villageRow = 0;
         boolean finishTutorial = false, finishVillage = false, finishDungeon = false, player = true;
 
         //Read Player and Party Data
         fileRead.nextLine();
         while (true) {
+
             dataLine = fileRead.nextLine();
-            if (dataLine.equals("Current Party")) {
+            if (dataLine.equals("Inventory")) {
                 break;
             }
             //Store each row/line of party members in string and tokenize
@@ -130,45 +131,23 @@ public class Main {
                         Integer.parseInt(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6]),
                         Integer.parseInt(data[7]), Integer.parseInt(data[8]), Integer.parseInt(data[9]),
                         Integer.parseInt(data[10]), Integer.parseInt(data[11]), Integer.parseInt(data[12]),
-                        weapon, armor));
+                        weapon, armor, Boolean.parseBoolean(data[21])));
                 player = false;
             } else {
                 loadParty.add(new Party(name, Integer.parseInt(data[2]), Integer.parseInt(data[3]),
                         Integer.parseInt(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6]),
                         Integer.parseInt(data[7]), Integer.parseInt(data[8]), Integer.parseInt(data[9]),
                         Integer.parseInt(data[10]), Integer.parseInt(data[11]), Integer.parseInt(data[12]),
-                        weapon, armor));
+                        weapon, armor, Boolean.parseBoolean(data[21])));
             }
-        }
 
-        //Read Current Party Data
-        player = true;
-        while (true) {
-            dataLine = fileRead.nextLine();
-            if (dataLine.equals("Inventory")) {
-                break;
+            if (Boolean.parseBoolean(data[21])) {
+                loadCurrentParty.add(loadParty.get(partyRow));
             }
-            //Store each row/line of party members in string and tokenize
-            data = dataLine.split(" ");
 
-            String name = data[0] + " " + data[1];
-            String weapon = data[13] + " " + data[14] + " " + data[15] + " " + data[16];
-            String armor = data[17] + " " + data[18] + " " + data[19] + " " + data[20];
+            //Next row/line
+            partyRow++;
 
-            if (player) {
-                loadCurrentParty.add(new Player(name, Integer.parseInt(data[2]), Integer.parseInt(data[3]),
-                        Integer.parseInt(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6]),
-                        Integer.parseInt(data[7]), Integer.parseInt(data[8]), Integer.parseInt(data[9]),
-                        Integer.parseInt(data[10]), Integer.parseInt(data[11]), Integer.parseInt(data[12]),
-                        weapon, armor));
-                player = false;
-            } else {
-                loadCurrentParty.add(new Party(name, Integer.parseInt(data[2]), Integer.parseInt(data[3]),
-                        Integer.parseInt(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6]),
-                        Integer.parseInt(data[7]), Integer.parseInt(data[8]), Integer.parseInt(data[9]),
-                        Integer.parseInt(data[10]), Integer.parseInt(data[11]), Integer.parseInt(data[12]),
-                        weapon, armor));
-            }
         }
 
         //Read Inventory Data

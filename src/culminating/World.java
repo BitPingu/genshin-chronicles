@@ -185,15 +185,16 @@ public class World {
      **************************/
     public void start() throws InterruptedException, UnsupportedAudioFileException, IOException, LineUnavailableException {
 
-        player = new Player("\uD83E\uDDDD Traveller", 1, 128, 15, 36, 5, 5, 0, 4, 0, 128, 15, "\uD83E\uDD1B Mighty Fists 3", armor[0][0]);
-        healer = new Party("\uD83E\uDDDA Girl", 1, 85, 20, 15, 12, 5, 0, 3, 0, 85, 20, weapons[1][0], armor[1][0]);
+        player = new Player("\uD83E\uDDDD Traveller", 1, 128, 15, 36, 5, 5, 0, 4, 0, 128, 15, "\uD83E\uDD1B Mighty Fists 3", armor[0][0], false);
+        healer = new Party("\uD83E\uDDDA Girl", 1, 85, 20, 15, 12, 5, 0, 3, 0, 85, 20, weapons[1][0], armor[1][0], false);
         
         partyMembers.add(player);
+
         //adds to current party if its not already maxed
         if (partyMembers.size() <= 3)
         {
             currentPartyMembers.add(partyMembers.get(partyMembers.size()-1));
-            //currentPartyMemebrs.get(partyMembers.size()-1)).setCurrentPartyState(true);
+            currentPartyMembers.get(partyMembers.size()-1).setInCurrentParty(true);
         }
 
         world.get(0).set(2, "\uD83E\uDDDA");//Fairy
@@ -1077,6 +1078,7 @@ public class World {
             if (partyMembers.size() <= 3)
             {
                 currentPartyMembers.add(partyMembers.get(partyMembers.size()-1));
+                currentPartyMembers.get(partyMembers.size()-1).setInCurrentParty(true);
             }
             
         } else if (enemyType.equals("\uD83D\uDC32 Dragon")) {
@@ -1281,6 +1283,7 @@ public class World {
                 if (partyMembers.size() < 3)
                 {
                     currentPartyMembers.add(partyMembers.get(partyMembers.size()-1));
+                    currentPartyMembers.get(partyMembers.size()-1).setInCurrentParty(true);
                 }
                 /**************TEMPERARY****************/
             }
@@ -1527,12 +1530,13 @@ public class World {
                             battle("\uD83D\uDC32 Dragon");
 
                             //Claude joins
-                            archer = new Party("\uD83D\uDC68 Claude", 1, 50, 25, 10, 5, 5, 0, 4, 0, 50, 25, weapons[2][0], armor[0][1]);
+                            archer = new Party("\uD83D\uDC68 Claude", 1, 50, 25, 10, 5, 5, 0, 4, 0, 50, 25, weapons[2][0], armor[0][1], false);
                             partyMembers.add(archer);
                             //adds to currentPartymembers if there are not 3 party members in it yet
                             if (partyMembers.size() <= 3)
                             {
                                 currentPartyMembers.add(partyMembers.get(partyMembers.size()-1));
+                                currentPartyMembers.get(partyMembers.size()-1).setInCurrentParty(true);
                             }
 
                             System.out.println("???: You guys ok?");
@@ -1839,12 +1843,6 @@ public class World {
         fileWrite.println("Party Data");
         for (int i=0; i<p.size(); i++) {
             fileWrite.println(p.get(i));
-        }
-
-        //Save Current Party Members
-        fileWrite.println("Current Party");
-        for (int i=0; i<c.size(); i++) {
-            fileWrite.println(c.get(i));
         }
 
         //Save Inventory
