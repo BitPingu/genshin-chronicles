@@ -525,21 +525,21 @@ public class World {
 
                 case "\uD83E\uDDDF":
                     //Fight Zombie
-                    System.out.println("You encountered a \uD83E\uDDDF Zombie!");
+                    System.out.println(partyMembers.get(0).getName() + " encountered a \uD83E\uDDDF Zombie!");
                     Thread.sleep(1000);
                     battle("\uD83E\uDDDF Zombie");
                     break;
 
                 case "\uD83D\uDC7A":
                     //Fight Goblin
-                    System.out.println("You encountered a \uD83D\uDC7A Goblin!");
+                    System.out.println(partyMembers.get(0).getName() + " encountered a \uD83D\uDC7A Goblin!");
                     Thread.sleep(1000);
                     battle("\uD83D\uDC7A Goblin");
                     break;
 
                 case "\uD83D\uDC79":
                     //Fight Ogre
-                    System.out.println("You encountered a \uD83D\uDC79 Ogre!");
+                    System.out.println(partyMembers.get(0).getName() + " encountered a \uD83D\uDC79 Ogre!");
                     Thread.sleep(1000);
                     battle("\uD83D\uDC79 Ogre");
                     if (!finishTutorial) {
@@ -549,42 +549,42 @@ public class World {
 
                 case "\uD83D\uDC7B":
                     //Fight Ghost
-                    System.out.println("You encountered a \uD83D\uDC7B Ghost!");
+                    System.out.println(partyMembers.get(0).getName() + " encountered a \uD83D\uDC7B Ghost!");
                     Thread.sleep(1000);
                     battle("\uD83D\uDC7B Ghost");
                     break;
 
                 case "\uD83D\uDC7D":
                     //Fight Alien
-                    System.out.println("You encountered a \uD83D\uDC7D Alien!");
+                    System.out.println(partyMembers.get(0).getName() + " encountered a \uD83D\uDC7D Alien!");
                     Thread.sleep(1000);
                     battle("\uD83D\uDC7D Alien");
                     break;
 
                 case "\uD83D\uDC19":
                     //Fight Octopus
-                    System.out.println("You encountered a \uD83D\uDC19 Octopus!");
+                    System.out.println(partyMembers.get(0).getName() + " encountered a \uD83D\uDC19 Octopus!");
                     Thread.sleep(1000);
                     battle("\uD83D\uDC19 Octopus");
                     break;
 
                 case "\uD83D\uDC80":
                     //Fight Skeleton
-                    System.out.println("You encountered a \uD83D\uDC80 Skeleton!");
+                    System.out.println(partyMembers.get(0).getName() + " encountered a \uD83D\uDC80 Skeleton!");
                     Thread.sleep(1000);
                     battle("\uD83D\uDC80 Skeleton");
                     break;
 
                 case "\uD83E\uDD16":
                     //Fight Golem
-                    System.out.println("You encountered a \uD83E\uDD16 Golem!");
+                    System.out.println(partyMembers.get(0).getName() + " encountered a \uD83E\uDD16 Golem!");
                     Thread.sleep(1000);
                     battle("\uD83E\uDD16 Golem");
                     break;
 
                 case "\uD83E\uDD62":
                     //Collect wood
-                    System.out.println("You collected some wood.");
+                    System.out.println(partyMembers.get(0).getName() + " collected some \uD83E\uDD62 Wood");
                     Thread.sleep(1000);
                     partyMembers.get(0).addInventory("\uD83E\uDD62 Wood");
                     world.get(row).set(column, "\uD83C\uDF33");
@@ -592,7 +592,7 @@ public class World {
 
                 case "\uD83E\uDD4C":
                     //Collect stone
-                    System.out.println("You collected some stone.");
+                    System.out.println(partyMembers.get(0).getName() + " collected some \uD83E\uDD4C Stone");
                     Thread.sleep(1000);
                     partyMembers.get(0).addInventory("\uD83E\uDD4C Stone");
                     world.get(row).set(column, "\uD83C\uDF33");
@@ -600,7 +600,7 @@ public class World {
 
                 case "\uD83C\uDF4E":
                     //Collect apples
-                    System.out.println("You collected some apples.");
+                    System.out.println(partyMembers.get(0).getName() + " collected some \uD83C\uDF4E Apples");
                     Thread.sleep(1000);
                     partyMembers.get(0).addInventory("\uD83C\uDF4E Apples");
                     world.get(row).set(column, "\uD83C\uDF33");
@@ -608,7 +608,7 @@ public class World {
 
                 case "\uD83D\uDC8E":
                     //Collect ores
-                    System.out.println("You collected some ore.");
+                    System.out.println(partyMembers.get(0).getName() + " collected some \uD83D\uDC8E Ore");
                     Thread.sleep(1000);
                     partyMembers.get(0).addInventory("\uD83D\uDC8E Ore");
                     world.get(row).set(column, "\uD83C\uDF33");
@@ -616,7 +616,7 @@ public class World {
 
                 case "\uD83C\uDF44":
                     //Collect mushrooms
-                    System.out.println("You collected some mushrooms.");
+                    System.out.println(partyMembers.get(0).getName() + " collected some \uD83C\uDF44 Mushrooms");
                     Thread.sleep(1000);
                     partyMembers.get(0).addInventory("\uD83C\uDF44 Mushrooms");
                     world.get(row).set(column, "\uD83C\uDF33");
@@ -624,7 +624,7 @@ public class World {
 
                 case "\uD83D\uDC1B":
                     //Collect critters
-                    System.out.println("You caught some critters.");
+                    System.out.println(partyMembers.get(0).getName() + " caught some \uD83D\uDC1B Critters");
                     Thread.sleep(1000);
                     partyMembers.get(0).addInventory("\uD83D\uDC1B Critters");
                     world.get(row).set(column, "\uD83C\uDF33");
@@ -632,7 +632,7 @@ public class World {
 
                 case "\uD83C\uDF52":
                     //Collect berries
-                    System.out.println("You collected some berries.");
+                    System.out.println(partyMembers.get(0).getName() + " collected some \uD83C\uDF52 Berries");
                     Thread.sleep(1000);
                     partyMembers.get(0).addInventory("\uD83C\uDF52 Berries");
                     world.get(row).set(column, "\uD83C\uDF33");
@@ -640,7 +640,7 @@ public class World {
 
                 case "\uD83C\uDF3F":
                     //Collect herbs
-                    System.out.println("You collected some herbs.");
+                    System.out.println(partyMembers.get(0).getName() + " collected some \uD83C\uDF3F Herbs");
                     Thread.sleep(1000);
                     partyMembers.get(0).addInventory("\uD83C\uDF3F Herbs");
                     world.get(row).set(column, "\uD83C\uDF33");
@@ -648,9 +648,9 @@ public class World {
 
                 case "\uD83E\uDDF0":
                     //Open chest
-                    System.out.println("You opened a chest.");
+                    System.out.println(partyMembers.get(0).getName() + " found a chest!");
                     Thread.sleep(1000);
-                    reward();
+                    reward("chest");
                     world.get(row).set(column, "\uD83C\uDF33");
                     break;
 
@@ -1326,7 +1326,7 @@ public class World {
             System.out.println("Floor 3");
             battle(genEnemy());
 
-            reward();
+            reward("quest");
 
             //Call music method
             clip.stop();
@@ -1687,7 +1687,7 @@ public class World {
 
                                             //Remove quest from village and give reward
                                             quests.remove(questSelect);
-                                            reward();
+                                            reward("quest");
 
                                         }
 
@@ -1833,9 +1833,61 @@ public class World {
      * Method Name: reward
      * Method Description: Generates a random reward from opening chests or completing quests.
      **************************/
-    public void reward()
-    {
-        
+    public void reward(String method) throws InterruptedException {
+
+        int earnedMoney, itemChance;
+        String itemGet, obtain;
+
+        if (method.equals("chest")) {
+            obtain = "found";
+        } else {
+            obtain = "received";
+        }
+
+        earnedMoney = random.nextInt(500) + 100;
+
+        itemChance = random.nextInt(100) + 1;
+
+        if (itemChance <= 50) {
+            //Common Items
+            itemGet = weapons[0][0];
+            itemGet = weapons[1][0];
+            itemGet = weapons[2][0];
+            itemGet = armor[0][0];
+            itemGet = armor[1][0];
+        } else if (itemChance <= 75) {
+            //Uncommon Items
+            itemGet = weapons[0][1];
+            itemGet = weapons[1][1];
+            itemGet = weapons[2][1];
+            itemGet = armor[0][1];
+            itemGet = armor[1][1];
+        } else if (itemChance <= 90) {
+            //Rare Items
+            itemGet = weapons[0][2];
+            itemGet = weapons[1][2];
+            itemGet = weapons[2][2];
+            itemGet = armor[0][2];
+            itemGet = armor[1][2];
+        } else if (itemChance <= 97) {
+            //Legendary Items
+            itemGet = weapons[0][3];
+            itemGet = weapons[1][3];
+            itemGet = weapons[2][3];
+            itemGet = armor[0][3];
+            itemGet = armor[1][3];
+        } else {
+            //Mythical Items
+            itemGet = weapons[0][4];
+            itemGet = weapons[1][4];
+            itemGet = weapons[2][4];
+            itemGet = armor[0][4];
+            itemGet = armor[1][4];
+        }
+
+        System.out.println(partyMembers.get(0).getName() + " " + obtain + earnedMoney);
+        Thread.sleep(1000);
+
     }
 
     /*************************
