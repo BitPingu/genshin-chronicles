@@ -149,6 +149,7 @@ public class Enemy extends Character {
 
         do
         {
+            clearScreen();
             switch (random.nextInt(5) + 1) 
             {
 
@@ -234,8 +235,6 @@ public class Enemy extends Character {
                     break;
             }
         } while (!flag);
-        
-        
 
         return entity.currentHealth == 0;
 

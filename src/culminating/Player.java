@@ -93,8 +93,8 @@ public class Player extends Character {
             //Print Enemy battle info
             System.out.println("Enemy:");
             System.out.println(entity.getName());
-            System.out.println("HP: " + entity.getHealth() + "/" + entity.getCurrentHealth());
-            System.out.println("MP: " + entity.getMp() + "/" + entity.getCurrentMp());
+            System.out.println("HP: " + entity.getCurrentHealth() + "/" + entity.getHealth());
+            System.out.println("MP: " + entity.getCurrentMp() + "/" + entity.getMp());
 
             //Print Party Members' battle info
             System.out.println("\nTeam:");
@@ -103,13 +103,13 @@ public class Player extends Character {
             }
             System.out.println();
             for (int k = 0; k < partyMembers.size(); k++) {
-                System.out.format("%-15s", "HP: " + partyMembers.get(k).getHealth() + "/"
-                        + partyMembers.get(k).getCurrentHealth());
+                System.out.format("%-15s", "HP: " + partyMembers.get(k).getCurrentHealth() + "/"
+                        + partyMembers.get(k).getHealth());
             }
             System.out.println();
             for (int k = 0; k < partyMembers.size(); k++) {
-                System.out.format("%-15s", "MP: " + partyMembers.get(k).getMp() + "/"
-                        + partyMembers.get(k).getCurrentMp());
+                System.out.format("%-15s", "MP: " + partyMembers.get(k).getCurrentMp() + "/"
+                        + partyMembers.get(k).getMp());
             }
             System.out.println("\n");
             
@@ -145,13 +145,11 @@ public class Player extends Character {
                     break;
                 //special
                 case "2":
-                    if ((currentMp - 5) >= 0)
-                    {
                         switch(useSpecialMoves())
                         {
                             //wrath Strike
                             case "Wrath Strike":
-                                damage = ((level * strength) + 20) - entity.defence;
+                                damage = ((level * 20) + strength) - entity.defence;
 
                                 if (damage < 0)
                                 {
@@ -195,12 +193,7 @@ public class Player extends Character {
                             //error handle - there should be nothing here
                             default:
                                 break;
-                        }
-                    }
-                    else
-                    {
-                        System.out.println("You are out of mp, you can't use your special!");
-                    }
+                        }                  
                     break;
                 
                 //Error handleing
@@ -274,7 +267,7 @@ public class Player extends Character {
             clearScreen();
             for (int i = 0; i < moveSet.size(); i++)
             {
-                System.out.println((i +1) +") " + moveSet.get(i));
+                System.out.println((i +1) +") " + moveSet.get(i) + " - " + ((i + 1) * 10));
             }
             System.out.println("0) Back");
             System.out.println("What special do you want to use?");
@@ -300,9 +293,9 @@ public class Player extends Character {
                             clearScreen();
                             return "";
                         case 1:
-                            if ((currentMp - 5) >= 0)
+                            if ((currentMp - 10) >= 0)
                             {
-                                currentMp -= 5;
+                                currentMp -= 10;
                                 return moveSet.get(choice - 1);
                             }
                             else
@@ -314,7 +307,7 @@ public class Player extends Character {
                             }
                             
                         case 2:
-                            if ((currentMp - 15) >= 0 && !special)
+                            if ((currentMp - 20) >= 0 && !special)
                             {
                                 currentMp -= 15;
                                 return moveSet.get(choice - 1);
