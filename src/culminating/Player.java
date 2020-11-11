@@ -526,7 +526,7 @@ public class Player extends Character {
             }
 
             //users second special
-            if (level >= 5 && !moveSet.contains("Combat Rally"))
+            if (level >= 8 && !moveSet.contains("Combat Rally"))
             {
                 moveSet.add("Combat Rally");
             }

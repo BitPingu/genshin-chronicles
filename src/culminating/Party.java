@@ -297,9 +297,40 @@ public class Party extends Character {
     public void checkLvl()
     {
         //declaring base growth of each party member
-        int bHp, bMp, bAtk, bDef, bSpd;
-        //level up based on level * 20
+        int hpRate = 0, mpRate = 0, strRate = 0, defRate = 0, spdRate = 0, diceLimit = 0;
         
+        //Robin
+        if (name.equals("\uD83E\uDDDA Robin"))
+        {
+            hpRate = random.nextInt(10) + 5;
+            mpRate = random.nextInt(15) + 5;
+            strRate = random.nextInt(8) + 3;
+            defRate = random.nextInt(8) + 3;
+            spdRate = random.nextInt(9) + 4;
+            diceLimit = 5;
+        }
+        //Claude
+        if (name.equals("\uD83D\uDC68 Claude"))
+        {
+            hpRate = random.nextInt(10) + 5;
+            mpRate = random.nextInt(15) + 5;
+            strRate = random.nextInt(8) + 3;
+            defRate = random.nextInt(8) + 3;
+            spdRate = random.nextInt(9) + 4;
+            diceLimit = 5;
+        }
+        //Keqing
+        if (name.equals("\uD83D\uDC69 Keqing"))
+        {
+            hpRate = random.nextInt(10) + 5;
+            mpRate = random.nextInt(15) + 5;
+            strRate = random.nextInt(8) + 3;
+            defRate = random.nextInt(8) + 3;
+            spdRate = random.nextInt(9) + 4;
+            diceLimit = 5;
+        }
+
+        //level up based on level * 20
         if (getExp() >= (getLevel() * 20))
         {
             System.out.println("Level Up! " + getName());
@@ -312,33 +343,33 @@ public class Party extends Character {
             
             //shows new heatlh
             System.out.print("HP: " + health + " -> ");
-            health += random.nextInt(10) + 5;
+            health += hpRate;
             System.out.println(health);
             currentHealth = health;
             
             //shows new MP
             System.out.print("MP: " + mp + " -> ");
-            mp += random.nextInt(15) + 5;
+            mp += mpRate;
             System.out.println(mp);
             currentMp = mp;
             
             //shows new strength
             System.out.print("Atk: " + strength + " -> ");
-            strength += random.nextInt(8) + 1;
+            strength += strRate;
             System.out.println(strength);
             
             //shows new defence
             System.out.print("Def: " + defence + " -> ");
-            defence += random.nextInt(8) + 3;
+            defence += defRate;
             System.out.println(defence);
             
             //shows new speed
             System.out.print("Spd: " + speed + " -> ");
-            speed += random.nextInt(9) + 4;
+            speed += spdRate;
             System.out.println(speed);
             
             //shows new dices
-            if ((level % 2) == 0 && dices != 7)
+            if ((level % 2) == 0 && dices != diceLimit)
             {
                 System.out.print("Dices: " + dices + " -> ");
                 dices++;
@@ -358,20 +389,50 @@ public class Party extends Character {
     @Override
     public void checkSpecialMoves()
     {
-        
-        //makes sure that the user has WraithStrike
-        if (!moveSet.contains("Physic"))
+        //Robin
+        if (name.equals("\uD83E\uDDDA Robin"))
         {
-            moveSet.add("Physic");
-        }
+            //makes sure that the user has Physic
+            if (!moveSet.contains("Physic"))
+            {
+                moveSet.add("Physic");
+            }
 
-        //users second special
-        if (level >= 5 && !moveSet.contains("Nosferatu"))
-        {
-            moveSet.add("Nosferatu");
+            //Party Members second special
+            if (level >= 8 && !moveSet.contains("Nosferatu"))
+            {
+                moveSet.add("Nosferatu");
+            }
         }
+        //Claude
+        if (name.equals("\uD83D\uDC68 Claude"))
+        {
+            //makes sure that the user has Thunder Bullet
+            if (!moveSet.contains("Thunder Bullet"))
+            {
+                moveSet.add("Thunder Bullet");
+            }
+
+            //Party Members second special
+            if (level >= 8 && !moveSet.contains("Final Gambit"))
+            {
+                moveSet.add("Final Gambit");
+            }
+        }
+        //Keqing
+        if (name.equals("\uD83D\uDC69 Keqing"))
+        {
+            //makes sure that the user has Leap Of Faith
+            if (!moveSet.contains("Leap of Faith"))
+            {
+                moveSet.add("Leap of Faith");
+            }
+
+            //Party Members second special
+            if (level >= 8 && !moveSet.contains("Assassinate"))
+            {
+                moveSet.add("Assassinate");
+            }
+        }  
     }//end of checkSpecialMoves
-    
-    
-
-}
+}//end of class
