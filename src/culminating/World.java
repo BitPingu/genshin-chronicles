@@ -982,55 +982,55 @@ public class World {
         //Prints the party members and what they have
         System.out.println("In Your Party\n");
         for (int i=0; i<partyMembers.size(); i++) {
-            System.out.format("%-20s", partyMembers.get(i).getName());
+            System.out.format("%-30s", partyMembers.get(i).getName());
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
-            System.out.format("%-20s", "Lvl: " + partyMembers.get(i).getLevel());
+            System.out.format("%-30s", "Lvl: " + partyMembers.get(i).getLevel());
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
-            System.out.format("%-20s", "HP: " + partyMembers.get(i).getHealth());
+            System.out.format("%-30s", "HP: " + partyMembers.get(i).getHealth());
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
-            System.out.format("%-20s", "MP: " + partyMembers.get(i).getMp());
+            System.out.format("%-30s", "MP: " + partyMembers.get(i).getMp());
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
-            System.out.format("%-20s", "Atk: " + partyMembers.get(i).getStrength());
+            System.out.format("%-30s", "Atk: " + partyMembers.get(i).getStrength());
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
-            System.out.format("%-20s", "Def: " + partyMembers.get(i).getDefence());
+            System.out.format("%-30s", "Def: " + partyMembers.get(i).getDefence());
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
-            System.out.format("%-20s", "Spd: " + partyMembers.get(i).getSpeed());
+            System.out.format("%-30s", "Spd: " + partyMembers.get(i).getSpeed());
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
-            System.out.format("%-20s", "Exp: " + (partyMembers.get(i).getLevel() * 20) + "/" + partyMembers.get(i).getExp());
+            System.out.format("%-30s", "Exp: " + (partyMembers.get(i).getLevel() * 20) + "/" + partyMembers.get(i).getExp());
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
-            System.out.format("%-20s", "Dices: " + partyMembers.get(i).getDices());
+            System.out.format("%-30s", "Dices: " + partyMembers.get(i).getDices());
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
-            System.out.format("%-20s", "Weapon:");
+            System.out.format("%-30s", "Weapon:");
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
-            System.out.format("%-20s", partyMembers.get(i).getWeapon());
+            System.out.format("%-30s", partyMembers.get(i).getWeapon());
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
-            System.out.format("%-20s", "Armor:");
+            System.out.format("%-30s", "Armor:");
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
-            System.out.format("%-20s", partyMembers.get(i).getArmor());
+            System.out.format("%-30s", partyMembers.get(i).getArmor());
         }
         System.out.println();
 
