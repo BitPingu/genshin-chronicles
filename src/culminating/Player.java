@@ -121,7 +121,7 @@ public class Player extends Character {
                     break;
                 //special
                 case "2":
-                    if ((currentMp - 5) > 0)
+                    if ((currentMp - 5) >= 0)
                     {
                         switch(useSpecialMoves())
                         {
@@ -178,18 +178,6 @@ public class Player extends Character {
                         System.out.println("You are out of mp, you can't use your special!");
                     }
                     break;
-                //running
-                case "3":
-                    if (speed > (random.nextInt(entity.speed) + 2)) 
-                    {
-                        return true; 
-                    }
-                    else
-                    {
-                        System.out.println("You tripped while trying to run");
-                            Thread.sleep(1000);
-                        flag = true;
-                    }
                 
                 //Error handleing
                 default:

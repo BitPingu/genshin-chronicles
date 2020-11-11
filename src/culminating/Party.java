@@ -85,7 +85,7 @@ public class Party extends Character {
 
                     //specials
                     case "2":
-                        if ((currentMp - 5) > 0)
+                        if ((currentMp - 5) >= 0)
                         {
                             switch(useSpecialMoves())
                             {
@@ -157,18 +157,6 @@ public class Party extends Character {
                         }
                         break;
 
-                    //running away
-                    case "3":
-                        if (speed > (random.nextInt(entity.speed) + 2)) 
-                        {
-                            return true; 
-                        }
-                        else
-                        {
-                            System.out.println("You tripped while trying to run");
-                            Thread.sleep(1000); 
-                            flag = true;
-                        }
                     //error handle
                     default:
                         System.out.println("Please enter a command");
