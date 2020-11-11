@@ -29,9 +29,17 @@ public class Character {
         money = mo;
         weapon = w;
         armor = a;
+        calcEquipment(w, a);
     }
-    
-    //Accessors
+
+    public Character(String n, int l, String w, String a) {
+        name = n;
+        level = l;
+        weapon = w;
+        armor = a;
+    }
+
+        //Accessors
     public int getLevel() {
         return level;
     }
@@ -201,6 +209,19 @@ public class Character {
 
     public void removeInventory(String item, int amount) {
 
+    }
+
+    /**************************
+     * calcEquipment
+     * This method calculates and adds stats based on equipment
+     * @param w - weapon
+     * @param a - armor
+     **************************/
+    public void calcEquipment (String w, String a) {
+        String[] tokens1 = w.split(" ");
+        strength += Integer.parseInt(tokens1[3]);
+        String[] tokens2 = a.split(" ");
+        defence += Integer.parseInt(tokens2[3]);
     }
     
     /**************************

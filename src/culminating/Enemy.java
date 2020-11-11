@@ -5,13 +5,11 @@ import java.util.Random;
 
 public class Enemy extends Character {
 
-    //Constructor
-    public Enemy(String name, int level, int hp, int mp, int str, int def, int spd, int exp, int dice, int money,
-                 String weapon, String armor)
-    {
-        //distrobutes stats using character(only used for name and level)
-        super(name, level, hp, mp, str, def, spd, exp, dice, money, weapon, armor);
-        
+    //Constructors
+
+    public Enemy(String name, int level, String weapon, String armor) {
+        super(name, level, weapon, armor);
+
         //distrobutes stats based on what enemy it is
         switch(name)
         {
@@ -24,7 +22,7 @@ public class Enemy extends Character {
                 this.speed = (level * 3) + 2;
                 this.exp = (level * 10) + 10;
                 this.money = (level * 5) + 15;
-                
+
                 break;
 
             //Goblin
@@ -60,7 +58,7 @@ public class Enemy extends Character {
                 this.speed = (level * 3) + 2;
                 this.exp = (level * 10) + 10;
                 this.money = (level * 5) + 15;
-                
+
                 break;
 
             //Alien
@@ -98,7 +96,7 @@ public class Enemy extends Character {
                 this.money = (level * 5) + 15;
 
                 break;
-                
+
             //Golem
             case "\uD83E\uDD16 Golem":
                 this.health = (level * 65) + 120;
@@ -123,9 +121,10 @@ public class Enemy extends Character {
 
                 break;
         }
-        
+
         currentHealth = this.health;
         currentMp = this.mp;
+
     }
 
     //Accessors

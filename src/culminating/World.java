@@ -27,8 +27,8 @@ public class World {
     private Character player;
     private Character healer;
     private Character archer;
-    private Character soldier = new Party("\uD83D\uDE4E Link", 1, 50, 12,10, 5, 5, 0, 4, 0, "", "");
-    private Character mage = new Party("\uD83D\uDC70 Mona", 1, 50, 25,10, 5, 5, 0, 4, 0, "", "");
+    //private Character soldier = new Party("\uD83D\uDE4E Link", 1, 50, 12,10, 5, 5, 0, 4, 0, "", "");
+    //private Character mage = new Party("\uD83D\uDC70 Mona", 1, 50, 25,10, 5, 5, 0, 4, 0, "", "");
     private Character rogue;
 
     //Field variables in World
@@ -185,12 +185,12 @@ public class World {
      **************************/
     public void start() throws InterruptedException, UnsupportedAudioFileException, IOException, LineUnavailableException {
 
-        player = new Player("\uD83E\uDDDD Traveller", 1, 128, 15, 36, 5, 5, 0, 4, 0, "", armor[0][0]);
+        player = new Player("\uD83E\uDDDD Traveller", 1, 128, 15, 36, 5, 5, 0, 4, 0, "\uD83E\uDD1B Mighty Fists 3", armor[0][0]);
         healer = new Party("\uD83E\uDDDA Girl", 1, 85, 20, 15, 12, 5, 0, 3, 0, weapons[1][0], armor[1][0]);
         
         partyMembers.add(player);
         //adds to current party if its not already maxed
-        if (partyMembers.size() != 3)
+        if (partyMembers.size() <= 3)
         {
             currentPartyMembers.add(partyMembers.get(partyMembers.size()-1));
         }
@@ -1066,7 +1066,7 @@ public class World {
     {
         Character enemy;
         
-        enemy = new Enemy(enemyType, currentPartyMembers.get(0).getLevel() , 0, 0, 0, 0, 0, 0, 0, 0, "", "");
+        enemy = new Enemy(enemyType, currentPartyMembers.get(0).getLevel(), weapons[0][0], armor[0][0]);
 
         boolean win = false;
 

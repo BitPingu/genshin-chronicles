@@ -58,7 +58,6 @@ public class Party extends Character {
                 System.out.println("What will " + name + " do?");
                 System.out.println("1) Attack");
                 System.out.println("2) Special");
-                System.out.println("3) Run");
                 prompt = keyInput.nextLine();
 
                 switch (prompt) 
