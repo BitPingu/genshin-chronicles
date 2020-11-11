@@ -21,6 +21,16 @@ public class Main {
 
     //Global objects in main
     public static File file = new File("saveData.txt");
+    public static Scanner fileRead;
+
+    static {
+        try {
+            fileRead = new Scanner(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static World world;
     public static Clip clip;
 
@@ -39,11 +49,12 @@ public class Main {
         Scanner keyInput = new Scanner(System.in);
         Scanner checkSave = new Scanner(file);
         String prompt, confirm = null;
+        boolean finishGame = Boolean.parseBoolean(fileRead.nextLine());
 
         do {
 
             //Print title screen
-            System.out.println("\n" +
+            System.out.println("" +
                     " ___     _       _  __  _       _     _   _    __  _       __     ___        \n" +
                     "  | |_| |_   |  |_ /__ |_ |\\ | | \\   / \\ |_   /__ |_ |\\ | (_  |_|  |  |\\ | o \n" +
                     "  | | | |_   |_ |_ \\_| |_ | \\| |_/   \\_/ |    \\_| |_ | \\| __) | | _|_ | \\| o");
@@ -51,7 +62,22 @@ public class Main {
                     "  _   _  __ ___           ___       __    _   _   ___     _           _   _      _  \n" +
                     " |_) |_ /__  |  |\\ | |\\ |  |  |\\ | /__   / \\ |_    | |_| |_   \\    / / \\ |_) |  | \\ \n" +
                     " |_) |_ \\_| _|_ | \\| | \\| _|_ | \\| \\_|   \\_/ |     | | | |_    \\/\\/  \\_/ | \\ |_ |_/ \n" +
-                    "                                                                                    \n");
+                    "");
+            if (finishGame) {
+                System.out.println("" +
+                        "                     /   ))     |\\         )               ).           \n" +
+                        "               c--. (\\  ( `.    / )  (\\   ( `.     ).     ( (           \n" +
+                        "               | |   ))  ) )   ( (   `.`.  ) )    ( (      ) )          \n" +
+                        "               | |  ( ( / _..----.._  ) | ( ( _..----.._  ( (           \n" +
+                        " ,-.           | |---) V.'-------.. `-. )-/.-' ..------ `--) \\._        \n" +
+                        " | /===========| |  (   |      ) ( ``-.`\\/'.-''           (   ) ``-._   \n" +
+                        " | | / / / / / | |--------------------->  <-------------------------_>=-\n" +
+                        " | \\===========| |                 ..-'./\\.`-..                _,,-'    \n" +
+                        " `-'           | |-------._------''_.-'----`-._``------_.-----'         \n" +
+                        "               | |         ``----''            ``----''                  \n" +
+                        "               | |                                                       \n" +
+                        "               c--`          ");
+            }
 
             //Print selection menu
             System.out.println("1) New Game");
@@ -104,13 +130,13 @@ public class Main {
         ArrayList<ArrayList<String>> loadWorld = new ArrayList<>();
         ArrayList<ArrayList<String>> loadMap = new ArrayList<>();
         ArrayList<ArrayList<String>> loadVillages = new ArrayList<>();
-        Scanner fileRead = new Scanner(file);
 
         //Variables in loadSave
         String[] data;
         String dataLine;
-        int row = 0, column = 0, xPos = 0, yPos = 0, partyRow = 0, invRow = 0, worldRow = 0, mapRow = 0, villageRow = 0;
-        boolean finishTutorial = false, finishVillage = false, finishDungeon = false, player = true;
+        int row = 0, column = 0, xPos = 0, yPos = 0, dragonX = 0, dragonY = 0, partyRow = 0, invRow = 0, worldRow = 0,
+                mapRow = 0, villageRow = 0;
+        boolean finishTutorial = false, finishVillage = false, finishDungeon = false, towerSpawn = false, player = true;
 
         //Read Player and Party Data
         fileRead.nextLine();
@@ -184,10 +210,12 @@ public class Main {
             column = Integer.parseInt(data[1]);
             xPos = Integer.parseInt(data[2]);
             yPos = Integer.parseInt(data[3]);
-            finishTutorial = Boolean.parseBoolean(data[4]);
-            finishVillage = Boolean.parseBoolean(data[5]);
-            finishDungeon = Boolean.parseBoolean(data[6]);
-
+            dragonX = Integer.parseInt(data[4]);
+            dragonY = Integer.parseInt(data[5]);
+            finishTutorial = Boolean.parseBoolean(data[6]);
+            finishVillage = Boolean.parseBoolean(data[7]);
+            finishDungeon = Boolean.parseBoolean(data[8]);
+            towerSpawn = Boolean.parseBoolean(data[9]);
         }
 
         //Read World Data
@@ -249,7 +277,7 @@ public class Main {
 
         //Load save data
         world = new World(loadParty, loadCurrentParty, loadInventory, loadWorld, loadMap, loadVillages, row, column,
-                xPos, yPos, finishTutorial, finishVillage, finishDungeon);
+                xPos, yPos, dragonX, dragonY, finishTutorial, finishVillage, finishDungeon, towerSpawn);
 
     }
 
