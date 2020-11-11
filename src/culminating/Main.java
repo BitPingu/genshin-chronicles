@@ -99,6 +99,7 @@ public class Main {
 
         //Objects in loadSave
         ArrayList<Character> loadParty = new ArrayList<>();
+        ArrayList<Character> loadCurrentParty = new ArrayList<>();
         ArrayList<ArrayList<String>> loadInventory = new ArrayList<>();
         ArrayList<ArrayList<String>> loadWorld = new ArrayList<>();
         ArrayList<ArrayList<String>> loadMap = new ArrayList<>();
@@ -115,32 +116,59 @@ public class Main {
         fileRead.nextLine();
         while (true) {
             dataLine = fileRead.nextLine();
+            if (dataLine.equals("Current Party")) {
+                break;
+            }
+            //Store each row/line of party members in string and tokenize
+            data = dataLine.split(" ");
+
+            String name = data[0] + " " + data[1];
+            String weapon = data[14] + " " + data[15] + " " + data[16] + " " + data[17];
+            String armor = data[18] + " " + data[19] + " " + data[20] + " " + data[21];
+
+            if (player) {
+                loadParty.add(new Player(name, Integer.parseInt(data[2]), Integer.parseInt(data[3]),
+                        Integer.parseInt(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6]),
+                        Integer.parseInt(data[7]), Integer.parseInt(data[8]), Integer.parseInt(data[9]),
+                        Integer.parseInt(data[10]), Integer.parseInt(data[12]), Integer.parseInt(data[13]),
+                        weapon, armor));
+                player = false;
+            } else {
+                loadParty.add(new Party(name, Integer.parseInt(data[2]), Integer.parseInt(data[3]),
+                        Integer.parseInt(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6]),
+                        Integer.parseInt(data[7]), Integer.parseInt(data[8]), Integer.parseInt(data[9]),
+                        Integer.parseInt(data[10]), Integer.parseInt(data[12]), Integer.parseInt(data[13]),
+                        weapon, armor));
+            }
+        }
+
+        //Read Current Party Data
+        player = true;
+        while (true) {
+            dataLine = fileRead.nextLine();
             if (dataLine.equals("Inventory")) {
                 break;
             }
             //Store each row/line of party members in string and tokenize
             data = dataLine.split(" ");
 
-            //loadParty.get(partyRow).setCurrentHealth(Integer.parseInt(data[10]));
-            //loadParty.get(partyRow).setCurrentMp(Integer.parseInt(data[11]));
-            //loadParty.get(partyRow).setWeapon(data[12]);
-            //loadParty.get(partyRow).setArmor(data[13]);
-
             String name = data[0] + " " + data[1];
-            String weapon = data[13] + " " + data[14] + " " + data[15] + " " + data[16];
-            String armor = data[17] + " " + data[18] + " " + data[19] + " " + data[20];
+            String weapon = data[14] + " " + data[15] + " " + data[16] + " " + data[17];
+            String armor = data[18] + " " + data[19] + " " + data[20] + " " + data[21];
 
             if (player) {
-                loadParty.add(new Player(name, Integer.parseInt(data[2]), Integer.parseInt(data[3]),
+                loadCurrentParty.add(new Player(name, Integer.parseInt(data[2]), Integer.parseInt(data[3]),
                         Integer.parseInt(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6]),
                         Integer.parseInt(data[7]), Integer.parseInt(data[8]), Integer.parseInt(data[9]),
-                        Integer.parseInt(data[10]), weapon, armor));
+                        Integer.parseInt(data[10]), Integer.parseInt(data[12]), Integer.parseInt(data[13]),
+                        weapon, armor));
                 player = false;
             } else {
-                loadParty.add(new Party(name, Integer.parseInt(data[2]), Integer.parseInt(data[3]),
+                loadCurrentParty.add(new Party(name, Integer.parseInt(data[2]), Integer.parseInt(data[3]),
                         Integer.parseInt(data[4]), Integer.parseInt(data[5]), Integer.parseInt(data[6]),
                         Integer.parseInt(data[7]), Integer.parseInt(data[8]), Integer.parseInt(data[9]),
-                        Integer.parseInt(data[10]), weapon, armor));
+                        Integer.parseInt(data[10]), Integer.parseInt(data[12]), Integer.parseInt(data[13]),
+                        weapon, armor));
             }
         }
 
@@ -242,8 +270,8 @@ public class Main {
         fileRead.close();
 
         //Load save data
-        world = new World(loadParty, loadInventory, loadWorld, loadMap, loadVillages, row, column, xPos, yPos,
-                finishTutorial, finishVillage, finishDungeon);
+        world = new World(loadParty, loadCurrentParty, loadInventory, loadWorld, loadMap, loadVillages, row, column,
+                xPos, yPos, finishTutorial, finishVillage, finishDungeon);
 
     }
 

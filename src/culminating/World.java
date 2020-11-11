@@ -55,10 +55,11 @@ public class World {
         initWorld();
     }
 
-    public World(ArrayList<Character> p, ArrayList<ArrayList<String>> in, ArrayList<ArrayList<String>> w,
-                 ArrayList<ArrayList<String>> m, ArrayList<ArrayList<String>> v, int r, int c, int x,
-                 int y, boolean f, boolean fv, boolean fd) {
+    public World(ArrayList<Character> p, ArrayList<Character> cp, ArrayList<ArrayList<String>> in,
+                 ArrayList<ArrayList<String>> w, ArrayList<ArrayList<String>> m, ArrayList<ArrayList<String>> v, int r,
+                 int c, int x, int y, boolean f, boolean fv, boolean fd) {
         partyMembers = p;
+        currentPartyMembers = cp;
         partyMembers.get(0).setInventory(in);
         world = w;
         map = m;
@@ -184,8 +185,8 @@ public class World {
      **************************/
     public void start() throws InterruptedException, UnsupportedAudioFileException, IOException, LineUnavailableException {
 
-        player = new Player("\uD83E\uDDDD Traveller", 1, 128, 15, 36, 5, 5, 0, 4, 0, "\uD83E\uDD1B Mighty Fists 3", armor[0][0]);
-        healer = new Party("\uD83E\uDDDA Girl", 1, 85, 20, 15, 12, 5, 0, 3, 0, weapons[1][0], armor[1][0]);
+        player = new Player("\uD83E\uDDDD Traveller", 1, 128, 15, 36, 5, 5, 0, 4, 0, 128, 15, "\uD83E\uDD1B Mighty Fists 3", armor[0][0]);
+        healer = new Party("\uD83E\uDDDA Girl", 1, 85, 20, 15, 12, 5, 0, 3, 0, 85, 20, weapons[1][0], armor[1][0]);
         
         partyMembers.add(player);
         //adds to current party if its not already maxed
@@ -354,8 +355,8 @@ public class World {
                 case "l":
                     if (finishTutorial) {
                         //Save progress
-                        save(partyMembers, partyMembers.get(0).getInventory(), world, map, villagesVisited, row, column,
-                                xPos, yPos, finishTutorial, finishVillage, finishDungeon);
+                        save(partyMembers, currentPartyMembers, partyMembers.get(0).getInventory(), world, map,
+                                villagesVisited, row, column, xPos, yPos, finishTutorial, finishVillage, finishDungeon);
 
                         do {
                             System.out.println("Game saved successfully. Continue? (y/n)");
@@ -987,27 +988,27 @@ public class World {
         System.out.println("In Your Party\n");
         for (int i=0; i<partyMembers.size(); i++) {
             //System.out.format("%-50s", partyMembers.get(i).getName());
-            System.out.print(partyMembers.get(i).getName() + "\t\t");
+            System.out.print(partyMembers.get(i).getName() + "\t\t\t");
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
             //System.out.format("%-50s", "Lvl: " + partyMembers.get(i).getLevel());
-            System.out.print("Lvl: " + partyMembers.get(i).getLevel() + "\t\t");
+            System.out.print("Lvl: " + partyMembers.get(i).getLevel() + "\t\t\t");
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
             //System.out.format("%-50s", "HP: " + partyMembers.get(i).getHealth());
-            System.out.print("HP: " + partyMembers.get(i).getHealth() + "\t\t");
+            System.out.print("HP: " + partyMembers.get(i).getHealth() + "/" + partyMembers.get(i).getCurrentHealth() + "\t\t\t");
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
             //System.out.format("%-50s", "MP: " + partyMembers.get(i).getMp());
-            System.out.print("MP: " + partyMembers.get(i).getMp() + "\t\t");
+            System.out.print("MP: " + partyMembers.get(i).getMp() + "/" + partyMembers.get(i).getCurrentMp() + "\t\t\t");
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
             //System.out.format("%-50s", "Atk: " + partyMembers.get(i).getStrength());
-            System.out.print("Atk: " + partyMembers.get(i).getStrength() + "\t\t");
+            System.out.print("Atk: " + partyMembers.get(i).getStrength() + "\t\t\t");
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
@@ -1022,33 +1023,33 @@ public class World {
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
             //System.out.format("%-50s", "Exp: " + (partyMembers.get(i).getLevel() * 20) + "/" + partyMembers.get(i).getExp());
-            System.out.print("Exp: " + (partyMembers.get(i).getLevel() * 20) + "/" + partyMembers.get(i).getExp() + "\t\t");
+            System.out.print("Exp: " + (partyMembers.get(i).getLevel() * 20) + "/" + partyMembers.get(i).getExp() + "\t\t\t");
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
            // System.out.format("%-50s", "Dices: " + partyMembers.get(i).getDices());
-            System.out.print("Dices: " + partyMembers.get(i).getDices() + "\t\t");
+            System.out.print("Dices: " + partyMembers.get(i).getDices() + "\t\t\t");
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
             //System.out.format("%-50s", "Weapon:");
-            System.out.print("Weapon:\t\t");
+            System.out.print("Weapon:\t\t\t");
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
             //System.out.format("%-50s", partyMembers.get(i).getWeapon());
-            System.out.print(partyMembers.get(i).getWeapon() + "\t");
+            System.out.print(partyMembers.get(i).getWeapon() + "\t\t");
             
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
             //System.out.format("%-50s", "Armor:");
-            System.out.print("Armour:\t\t");
+            System.out.print("Armour:\t\t\t");
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
             //System.out.format("%-50s", partyMembers.get(i).getArmor());
-            System.out.print(partyMembers.get(i).getArmor() + "\t");
+            System.out.print(partyMembers.get(i).getArmor() + "\t\t");
         }
         System.out.println();
 
@@ -1143,38 +1144,17 @@ public class World {
                 }
             }
             
-            //user runs
-            if (win && enemy.getCurrentHealth() > 0) 
-            {
-                System.out.println("You ran safely");
-                
-                //returns normal stats to all the party embers if stat distro is still active
-                if (currentPartyMembers.get(0).getSpecial())
-                {
-                    currentPartyMembers.get(0).setSpecial(false);
-                    currentPartyMembers.get(0).setCounter(0);
-                    
-                    //nuturalizes the stats for all party members
-                    for (int j = 0; j < partyMembers.size(); j++)
-                    {
-                        currentPartyMembers.get(j).strength -= currentPartyMembers.get(0).getSpecialAtk();
-                        currentPartyMembers.get(j).defence -= currentPartyMembers.get(0).getSpecialDef();
-//                        partyMembers.get(j).setStrength(partyMembers.get(j).getStrength() - partyMembers.get(0).getSpecialAtk());
-//                        partyMembers.get(j).setDefence(partyMembers.get(j).getDefence() - partyMembers.get(0).getSpecialDef());
-                    }
- 
-                }
-                
-                Thread.sleep(1000);
-                break;
-            }
-            
             //team wins
-            if (win && enemy.getCurrentHealth() == 0) 
+            if (win)
             {
                 //Player (and Team Members) win
                 System.out.println(enemy.name + " dies!");
                 Thread.sleep(1000);
+
+                //Reset mp of current party
+                for (int j = 0; j < currentPartyMembers.size(); j++) {
+                    currentPartyMembers.get(j).setCurrentMp(currentPartyMembers.get(j).getMp());
+                }
                 
                 //returns normal stats to all the party embers if stat distro is still active
                 if (currentPartyMembers.get(0).getSpecial())
@@ -1308,8 +1288,8 @@ public class World {
                 Thread.sleep(1000);
                 
                 /**************TEMPERARY****************/
-                rogue = new Party("\uD83D\uDC69 Keqing", 1, 70, 20, 15, 12, 5, 0, 3, 0, "", "");
-                partyMembers.add(rogue);    //temperary character
+                //rogue = new Party("\uD83D\uDC69 Keqing", 1, 70, 20, 15, 12, 5, 0, 3, 0, "", "");
+                //partyMembers.add(rogue);    //temperary character
                 if (partyMembers.size() <= 3)
                 {
                     currentPartyMembers.add(partyMembers.get(partyMembers.size()-1));
@@ -1477,7 +1457,7 @@ public class World {
                             battle("\uD83D\uDC32 Dragon");
 
                             //Claude joins
-                            
+
                             System.out.println("???: You guys ok?");
                             Thread.sleep(1000);
                             System.out.println("Villager Girl: " + archer.getName() + " our hero!");
@@ -1519,7 +1499,7 @@ public class World {
                                     "when you are ready to go out.");
                             Thread.sleep(1000);
                             
-                            archer = new Party("\uD83D\uDC68 Claude", 1, 50, 25, 10, 5, 5, 0, 4, 0, weapons[2][0], armor[0][1]);
+                            archer = new Party("\uD83D\uDC68 Claude", 1, 50, 25, 10, 5, 5, 0, 4, 0, 50, 25, weapons[2][0], armor[0][1]);
                             partyMembers.add(archer);
                             //adds to currentPartymembers if there are not 3 party members in it yet
                             if (partyMembers.size() <= 3)
@@ -1771,9 +1751,10 @@ public class World {
      * Method Name: save
      * Method Description: Saves the progress of the game.
      **************************/
-    public static void save(ArrayList<Character> p, ArrayList<ArrayList<String>> in, ArrayList<ArrayList<String>> w,
-                            ArrayList<ArrayList<String>> m, ArrayList<ArrayList<String>> v, int row, int column, int xPos,
-                            int yPos, boolean finishTutorial, boolean finishVillage, boolean finishDungeon)
+    public static void save(ArrayList<Character> p, ArrayList<Character> c, ArrayList<ArrayList<String>> in,
+                            ArrayList<ArrayList<String>> w, ArrayList<ArrayList<String>> m,
+                            ArrayList<ArrayList<String>> v, int row, int column, int xPos, int yPos,
+                            boolean finishTutorial, boolean finishVillage, boolean finishDungeon)
             throws FileNotFoundException {
 
         //PrintWriter
@@ -1788,6 +1769,12 @@ public class World {
         fileWrite.println("Party Data");
         for (int i=0; i<p.size(); i++) {
             fileWrite.println(p.get(i));
+        }
+
+        //Save Current Party Members
+        fileWrite.println("Current Party");
+        for (int i=0; i<c.size(); i++) {
+            fileWrite.println(c.get(i));
         }
 
         //Save Inventory

@@ -13,8 +13,8 @@ public class Character {
     protected boolean state;
 
     //Constructor
-    public Character(String n, int l, int h, int m, int s, int d, int sp, int ep, int di, int mo, String w,
-                     String a) {
+    public Character(String n, int l, int h, int m, int s, int d, int sp, int ep, int di, int mo, int ch, int cm,
+                     String w, String a) {
         name = n;
         level = l;
         health = h;
@@ -24,9 +24,9 @@ public class Character {
         speed = sp;
         exp = ep;
         dices = di;
-        currentHealth = health;
-        currentMp = mp;
         money = mo;
+        currentHealth = ch;
+        currentMp = cm;
         weapon = w;
         armor = a;
         calcEquipment(w, a);
@@ -258,7 +258,8 @@ public class Character {
     
     public String toString() {
         return name + " " + level + " " +  health + " " +  mp + " " +  strength + " " +  defence + " " +  speed + " " +
-                exp + " " +  dices + " " +  money + " " +  currentHealth + " " +  currentMp + " " + weapon + " " +  armor;
+                exp + " " +  dices + " " +  money + " " + " " + + currentHealth + " " + currentMp + " " + weapon + " " +
+                armor;
     }
     
 }//end of class
