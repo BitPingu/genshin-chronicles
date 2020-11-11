@@ -1194,7 +1194,7 @@ public class World {
                 System.out.println();
                 for (int j = 0; j < currentPartyMembers.size(); j++)
                 {
-                    currentPartyMembers.get(j).gainExpMoney(enemy);
+                    currentPartyMembers.get(j).gainExpMoney(enemy.getExp(), enemy.getMoney());
                     currentPartyMembers.get(j).checkLvl();
                     System.out.println();
                 }

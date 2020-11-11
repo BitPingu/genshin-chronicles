@@ -252,11 +252,11 @@ public class Character {
      * This method is a way to distubute the exp
      * @param entity 
      **************************/
-    public void gainExpMoney(Character entity)
+    public void gainExpMoney(int ex, int mo)
     {
         //gives exp based on enemies level and exp hold
-        exp += entity.getExp();
-        money += entity.getMoney();
+        exp += ex;
+        money += mo;
     }
 
     public void checkLvl()

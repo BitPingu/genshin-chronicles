@@ -232,32 +232,22 @@ public class Party extends Character {
                                 break;
 
                             //Assassinate
-                            case "Assassinate":                                
-                                damage = strength + random.nextInt(50) + 30;
+                            case "Assassinate":          
+                                //one to 100
+                                int killChance = random.nextInt(100) + 1;
 
-                                entity.currentHealth -= damage;
+                                
 
                                 if (entity.currentHealth < 0)
                                     entity.currentHealth = 0;
 
-                                heal = damage / 5;
+                               
 
                                 System.out.println("\n" + name + " used Nosferatu!");
                                 Thread.sleep(1000);
-                                System.out.println(name + " deals " + damage + " damage!");
+                                System.out.println(name + " deals " + " damage!");
                                 Thread.sleep(1000);
-                                for (int i = 0; i < partyMembers.size(); i++)
-                                {
-                                    partyMembers.get(i).currentHealth += heal;
-                                    //makes sure that the heal does not over heal
-                                    if (partyMembers.get(i).currentHealth > partyMembers.get(i).health)
-                                    {
-                                        partyMembers.get(i).currentHealth = partyMembers.get(i).health;
-                                    }
-
-                                    System.out.println(name + " restored " + heal + " health to "
-                                            + partyMembers.get(i).name + "."); 
-                                }
+                                
 
                                 Thread.sleep(1000);
                                 flag = true;
