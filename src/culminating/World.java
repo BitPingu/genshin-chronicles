@@ -1278,7 +1278,7 @@ public class World {
                 /**************TEMPERARY****************/
                 //rogue = new Party("\uD83D\uDC69 Keqing", 1, 70, 20, 15, 12, 5, 0, 3, 0, "", "");
                 //partyMembers.add(rogue);    //temperary character
-                if (partyMembers.size() <= 3)
+                if (partyMembers.size() < 3)
                 {
                     currentPartyMembers.add(partyMembers.get(partyMembers.size()-1));
                 }

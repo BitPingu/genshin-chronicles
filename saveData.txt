@@ -6,7 +6,6 @@ Current Party
 🧝 JO 3 150 26 82 38 15 40 5 100 150 16 🗡 Wooden Sword 14 👕 Worn Shirt 7
 🧚 Robin 3 97 29 27 26 17 40 4 100 97 29 🥍 Wooden Staff 4 👗 Worn Dress 4
 👨 Claude 1 50 25 15 19 5 0 4 0 50 25 🏹 Wooden Bow 5 👕 Leather Shirt 14
-👨 Claude 1 50 25 15 19 5 0 4 0 50 25 🏹 Wooden Bow 5 👕 Leather Shirt 14
 Inventory
 🗺 Map 1
 World Data
