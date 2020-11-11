@@ -55,6 +55,31 @@ public class Party extends Character {
         {
             do
             {
+                clearScreen();
+
+                //Print Enemy battle info
+                System.out.println("Enemy:");
+                System.out.println(entity.getName());
+                System.out.println("HP: " + entity.getHealth() + "/" + entity.getCurrentHealth());
+                System.out.println("MP: " + entity.getMp() + "/" + entity.getCurrentMp());
+
+                //Print Party Members' battle info
+                System.out.println("\nTeam:");
+                for (int k = 0; k < partyMembers.size(); k++) {
+                    System.out.format("%-15s", partyMembers.get(k).getName());
+                }
+                System.out.println();
+                for (int k = 0; k < partyMembers.size(); k++) {
+                    System.out.format("%-15s", "HP: " + partyMembers.get(k).getHealth() + "/"
+                            + partyMembers.get(k).getCurrentHealth());
+                }
+                System.out.println();
+                for (int k = 0; k < partyMembers.size(); k++) {
+                    System.out.format("%-15s", "MP: " + partyMembers.get(k).getMp() + "/"
+                            + partyMembers.get(k).getCurrentMp());
+                }
+                System.out.println("\n");
+                
                 System.out.println("What will " + name + " do?");
                 System.out.println("1) Attack");
                 System.out.println("2) Special");
@@ -110,6 +135,7 @@ public class Party extends Character {
                                     }
 
                                     Thread.sleep(1000);  
+                                    flag = true;
                                     break;
 
                                 //Nosferatu
@@ -141,18 +167,19 @@ public class Party extends Character {
                                     }
 
                                     Thread.sleep(1000);
+                                    flag = true;
                                     break;
 
                                 //error handle - there should be nothing here
                                 default:
                                     break;
-                            }
-
-                            flag = true;
+                            }   
                         }
                         else
                         {
+                            clearScreen();
                             System.out.println("You are out of mp, you cant use your special");
+                            Thread.sleep(1000);
                         }
                         break;
 
@@ -163,7 +190,6 @@ public class Party extends Character {
                 }
             } while (!flag);   
         }
-        
 
         return entity.currentHealth == 0;
 
@@ -223,7 +249,7 @@ public class Party extends Character {
      * TThis method will let used for fight
      */
     @Override
-    public String useSpecialMoves()
+    public String useSpecialMoves() throws InterruptedException
     {
         //declaring local variabels
         int choice;
@@ -233,25 +259,31 @@ public class Party extends Character {
         {
             for (int i = 0; i < moveSet.size(); i++)
             {
-            System.out.println((i +1) +") " + moveSet.get(i));
+                System.out.println((i +1) +") " + moveSet.get(i));
             }
-            
+            System.out.println("0) Back");
             System.out.println("What special do you want to use?");
             System.out.print("special: ");
+            
             //if user uses a number
             if (scanN.hasNextInt()) 
             {
                 choice = scanN.nextInt();
                 //if user tried to pick a nonExistant dice
-                if (choice > (moveSet.size())) 
+                if (choice > (moveSet.size()) && choice != 0) 
                 {
+                    clearScreen();
                     System.out.println("Please input a dice");
+                    Thread.sleep(1000);
                 }
                 //player picks dice
                 else
                 {
                     switch(choice)
                     {
+                        case 0:
+                            clearScreen();
+                            return "";
                         //Physic
                         case 1:
                             if ((currentMp - 5) > 0)
@@ -261,7 +293,9 @@ public class Party extends Character {
                             }
                             else
                             {
+                                clearScreen();
                                 System.out.println("You dont have enough mp");
+                                Thread.sleep(1000);
                                 break;
                             }
                             
@@ -274,7 +308,9 @@ public class Party extends Character {
                             }
                             else
                             {
+                                clearScreen();
                                 System.out.println("You dont have enough mp");
+                                Thread.sleep(1000);
                                 break;
                             }
                     } 

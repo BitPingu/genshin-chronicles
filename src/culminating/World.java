@@ -185,8 +185,9 @@ public class World {
      **************************/
     public void start() throws InterruptedException, UnsupportedAudioFileException, IOException, LineUnavailableException {
 
-        player = new Player("\uD83E\uDDDD Traveller", 1, 128, 15, 36, 5, 5, 0, 4, 0, 128, 15, "\uD83E\uDD1B Mighty Fists 3", armor[0][0], false);
-        healer = new Party("\uD83E\uDDDA Girl", 1, 85, 20, 15, 12, 5, 0, 3, 0, 85, 20, weapons[1][0], armor[1][0], false);
+        
+        player = new Player("\uD83E\uDDDD Traveller", 1, 128, 15, 13, 5, 5, 0, 4, 0, 128, 15, "\uD83E\uDD1B Mighty Fists 3", armor[0][0], false);
+        healer = new Party("\uD83E\uDDDA Girl", 1, 85, 20, 15, 0, 5, 0, 3, 0, 85, 20, weapons[1][0], armor[1][0], false);
         
         partyMembers.add(player);
 
@@ -1002,12 +1003,12 @@ public class World {
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
             //System.out.format("%-50s", "Def: " + partyMembers.get(i).getDefence());
-            System.out.print("Def: " + partyMembers.get(i).getDefence() + "\t\t");
+            System.out.print("Def: " + partyMembers.get(i).getDefence() + "\t\t\t");
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
             //System.out.format("%-50s", "Spd: " + partyMembers.get(i).getSpeed());
-            System.out.print("Spd: " + partyMembers.get(i).getSpeed() + "\t\t");
+            System.out.print("Spd: " + partyMembers.get(i).getSpeed() + "\t\t\t");
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
@@ -1099,33 +1100,7 @@ public class World {
         {
             //Loops through each Party Members' turn
             for (int j = 0; j < currentPartyMembers.size(); j++) 
-            {
-
-                clearScreen();
-
-                //Print Enemy battle info
-                System.out.println("Enemy:");
-                System.out.println(enemy.getName());
-                System.out.println("HP: " + enemy.getHealth() + "/" + enemy.getCurrentHealth());
-                System.out.println("MP: " + enemy.getMp() + "/" + enemy.getCurrentMp());
-
-                //Print Party Members' battle info
-                System.out.println("\nTeam:");
-                for (int k = 0; k < currentPartyMembers.size(); k++) {
-                    System.out.format("%-15s", currentPartyMembers.get(k).getName());
-                }
-                System.out.println();
-                for (int k = 0; k < currentPartyMembers.size(); k++) {
-                    System.out.format("%-15s", "HP: " + currentPartyMembers.get(k).getHealth() + "/"
-                            + currentPartyMembers.get(k).getCurrentHealth());
-                }
-                System.out.println();
-                for (int k = 0; k < currentPartyMembers.size(); k++) {
-                    System.out.format("%-15s", "MP: " + currentPartyMembers.get(k).getMp() + "/"
-                            + currentPartyMembers.get(k).getCurrentMp());
-                }
-                System.out.println("\n");
-                
+            {                
                 //If one of the Party Members defeats the enemy
                 if (currentPartyMembers.get(j).fight(currentPartyMembers, enemy)) 
                 {
@@ -1157,8 +1132,7 @@ public class World {
                     {
                         currentPartyMembers.get(j).strength -= currentPartyMembers.get(0).getSpecialAtk();
                         currentPartyMembers.get(j).defence -= currentPartyMembers.get(0).getSpecialDef();
-//                        partyMembers.get(j).setStrength(partyMembers.get(j).getStrength() - partyMembers.get(0).getSpecialAtk());
-//                        partyMembers.get(j).setDefence(partyMembers.get(j).getDefence() - partyMembers.get(0).getSpecialDef());
+
                     }
                 }
 
@@ -1168,13 +1142,14 @@ public class World {
                 {
                     currentPartyMembers.get(j).gainExpMoney(enemy);
                     currentPartyMembers.get(j).checkLvl();
-                    System.out.println();
+                    System.out.println("");
                 }
                 Thread.sleep(2000);
+                clearScreen();
                 break;
             }
             
-            //If a Party Member dies
+            //If a Main player dies
             if (enemy.fight(currentPartyMembers, currentPartyMembers.get(0))) {
                 if (enemyType.equals("\uD83D\uDC32 Dragon")) 
                 {
@@ -1201,7 +1176,9 @@ public class World {
                     clip.stop();
                     music("village.wav");
                     break;
-                } else {
+                } 
+                else 
+                {
                     System.out.println("Oh no you've died!");
                     System.exit(0);
                 }
@@ -1815,7 +1792,7 @@ public class World {
      **************************/
     public void clearScreen()
     {
-        for (int i = 0; i < 25; i++) 
+        for (int i = 0; i < 40; i++) 
         {
             System.out.println("");    
         }

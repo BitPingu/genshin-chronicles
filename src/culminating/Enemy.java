@@ -145,80 +145,97 @@ public class Enemy extends Character {
         Random random = new Random();
 
         int damage, target;
+        boolean flag = false;
 
-        switch (random.nextInt(5) + 1) {
+        do
+        {
+            switch (random.nextInt(5) + 1) 
+            {
 
-            //enemy attack - will attack one person at a time
-            case 1:     
-            case 2:
-            case 3:
-            case 4:
-                //targets which member you have
-                target = random.nextInt(partyMembers.size());
-                
-                //damage calculation
-                damage = (strength + random.nextInt(8) + 1 
-                        - partyMembers.get(target).defence);
-                
-                //damage cant go tonegative(else they will heal)
-                if (damage < 0) 
-                {
-                    damage = 0;
-                }
-                
-                //damages the target
-                partyMembers.get(target).currentHealth -= (damage);
-                
-                //makes sure the target is not negative hp
-                if (partyMembers.get(target).currentHealth < 0)
-                {
-                    System.out.println(partyMembers.get(target).getName() + " has fallen!");
-                    partyMembers.get(target).currentHealth = 0;
-                }
-                
-                System.out.println("\n" + name + " is attacking " 
-                        + partyMembers.get(target).name + ".");
-                Thread.sleep(1000);
-                System.out.println(name + " dealt " + damage + " damage!");
-                Thread.sleep(1000);
-                break;
+                //enemy attack - will attack one person at a time
+                case 1:     
+                case 2:
+                case 3:
+                case 4:
 
-            //enemy special - attacks everyone
-            case 5:
-                if ((currentMp - 5) >= 0) 
-                {
-                    currentMp -= 5;
-                    System.out.println("\n" + name + " uses a special!");
-                    Thread.sleep(1000);
-
-                    //damages everyone
-                    for (int i = 0; i < partyMembers.size(); i++)
+                    //targets which member you have, makes sure that it targets alive members
+                    do
                     {
-                        damage = ((level * 20) + strength) - partyMembers.get(i).defence;
+                        target = random.nextInt(partyMembers.size());
 
-                        if (damage < 0) 
-                        {
-                            damage = 0;
-                        }
+                        //damage calculation
+                        damage = (strength + random.nextInt(25) + 5 
+                                - partyMembers.get(target).defence);   
+                    } while (!partyMembers.get(target).getState());
 
-                        partyMembers.get(i).currentHealth -= (damage);
-                        System.out.println(name + " dealt " + damage + " damage to " 
-                                + partyMembers.get(i).getName() + "!");
-
-                        //fallen message
-                        if (partyMembers.get(i).currentHealth <= 0)
-                        {
-                            System.out.println(partyMembers.get(i).getName() + " has fallen!");
-                            partyMembers.get(i).currentHealth = 0;
-                        }
-                        Thread.sleep(1000);
+                    //damage cant go tonegative(else they will heal)
+                    if (damage < 0) 
+                    {
+                        damage = 0;
                     }
-                }
-                
-                
-                break;
 
-        }
+                    //damages the target
+                    partyMembers.get(target).currentHealth -= (damage);
+                    
+                    System.out.println("\n" + name + " is attacking " 
+                            + partyMembers.get(target).name + ".");
+                    Thread.sleep(1000);
+                    System.out.println(name + " dealt " + damage + " damage!");
+                    Thread.sleep(1000);
+                    
+                    //makes sure the target is not negative hp
+                    if (partyMembers.get(target).currentHealth <= 0)
+                    {
+                        System.out.println(partyMembers.get(target).getName() + " has fallen!");
+                        partyMembers.get(target).currentHealth = 0;
+                        partyMembers.get(target).state = false;
+                    }
+
+                    flag = true;
+                    break;
+
+                //enemy special - attacks everyone
+                case 5:
+                    if ((currentMp - 5) >= 0) 
+                    {
+                        currentMp -= 5;
+                        System.out.println("\n" + name + " uses a special!");
+                        Thread.sleep(1000);
+
+                        //damages everyone
+                        for (int i = 0; i < partyMembers.size(); i++)
+                        {
+                            damage = ((level * 20) + strength) - partyMembers.get(i).defence;
+
+                            if (damage < 0) 
+                            {
+                                damage = 0;
+                            }
+
+                            //only hits those that are alive
+                            if (partyMembers.get(i).getState())
+                            {
+                                partyMembers.get(i).currentHealth -= (damage);
+                                System.out.println(name + " dealt " + damage + " damage to " 
+                                        + partyMembers.get(i).getName() + "!");  
+
+                                //fallen message
+                                if (partyMembers.get(i).currentHealth <= 0)
+                                {
+                                    System.out.println(partyMembers.get(i).getName() + " has fallen!");
+                                    partyMembers.get(i).currentHealth = 0;
+                                }
+
+                                Thread.sleep(1000);
+                            }                        
+                        }
+                        flag = true;
+                    }
+                    break;
+            }
+        } while (!flag);
+        
+        
 
         return entity.currentHealth == 0;
 

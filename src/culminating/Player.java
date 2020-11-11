@@ -88,6 +88,31 @@ public class Player extends Character {
         
         do
         {
+            clearScreen();
+
+            //Print Enemy battle info
+            System.out.println("Enemy:");
+            System.out.println(entity.getName());
+            System.out.println("HP: " + entity.getHealth() + "/" + entity.getCurrentHealth());
+            System.out.println("MP: " + entity.getMp() + "/" + entity.getCurrentMp());
+
+            //Print Party Members' battle info
+            System.out.println("\nTeam:");
+            for (int k = 0; k < partyMembers.size(); k++) {
+                System.out.format("%-15s", partyMembers.get(k).getName());
+            }
+            System.out.println();
+            for (int k = 0; k < partyMembers.size(); k++) {
+                System.out.format("%-15s", "HP: " + partyMembers.get(k).getHealth() + "/"
+                        + partyMembers.get(k).getCurrentHealth());
+            }
+            System.out.println();
+            for (int k = 0; k < partyMembers.size(); k++) {
+                System.out.format("%-15s", "MP: " + partyMembers.get(k).getMp() + "/"
+                        + partyMembers.get(k).getCurrentMp());
+            }
+            System.out.println("\n");
+            
             //displays user choice
             System.out.println("What will " + name + " do?");
             System.out.println("1) Attack");
@@ -142,6 +167,7 @@ public class Player extends Character {
                                 //makes sure that the enemy does not go below 0
                                 if (entity.currentHealth < 0)
                                     entity.currentHealth = 0;  
+                                flag = true;
                                 break;
                                 
                             //combat rally
@@ -162,6 +188,7 @@ public class Player extends Character {
                                     Thread.sleep(1000);
                                     partyMembers.get(i).strength += specialAtk;
                                     partyMembers.get(i).defence += specialDef; 
+                                    flag = true;
                                 }
                                 break;
                                 
@@ -169,8 +196,6 @@ public class Player extends Character {
                             default:
                                 break;
                         }
-       
-                        flag = true;
                     }
                     else
                     {
@@ -238,7 +263,7 @@ public class Player extends Character {
     }//end of attack
     
     @Override
-    public String useSpecialMoves()
+    public String useSpecialMoves() throws InterruptedException
     {
         //declaring local variabels
         int choice;
@@ -246,55 +271,67 @@ public class Player extends Character {
         //error handle
         do 
         {
+            clearScreen();
             for (int i = 0; i < moveSet.size(); i++)
             {
-            System.out.println((i +1) +") " + moveSet.get(i));
+                System.out.println((i +1) +") " + moveSet.get(i));
             }
-            
+            System.out.println("0) Back");
             System.out.println("What special do you want to use?");
             System.out.print("special: ");
+            
             //if user uses a number
             if (scanN.hasNextInt()) 
             {
                 choice = scanN.nextInt();
                 //if user tried to pick a nonExistant dice
-                if (choice > (moveSet.size())) 
+                if (choice > (moveSet.size()) && choice != 0) 
                 {
-                    System.out.println("Please input a dice.");
+                    clearScreen();
+                    System.out.println("Please input a Special.");
+                    Thread.sleep(1000);
                 }
                 //player picks dice
                 else
                 {
                     switch(choice)
                     {
+                        case 0:
+                            clearScreen();
+                            return "";
                         case 1:
-                            if ((currentMp - 5) > 0)
+                            if ((currentMp - 5) >= 0)
                             {
                                 currentMp -= 5;
                                 return moveSet.get(choice - 1);
                             }
                             else
                             {
+                                clearScreen();
                                 System.out.println("You don't have enough mp.");
+                                Thread.sleep(1000);
                                 break;
                             }
                             
                         case 2:
-                            if ((currentMp - 15) > 0 && !special)
+                            if ((currentMp - 15) >= 0 && !special)
                             {
                                 currentMp -= 15;
                                 return moveSet.get(choice - 1);
                             }
                             else if(special)
                             {
+                                clearScreen();
                                 System.out.println("You already have a buff.");
+                                Thread.sleep(1000);
                             }
                             else
                             {
+                                clearScreen();
                                 System.out.println("You don't have enough mp.");
+                                Thread.sleep(1000);
                                 break;
                             }
-
                     } 
 
                 }
@@ -312,8 +349,8 @@ public class Player extends Character {
      * Method Name: printInventory
      * Method Description: Display the player's inventory
      **************************/
-    public void printInventory() {
-
+    public void printInventory() 
+    {
         //Prints out what the user owns (sorted)
         System.out.println(name + "'s Inventory\n");
         for (int i=0; i<inventory.size(); i++) {
@@ -463,6 +500,7 @@ public class Player extends Character {
         //level up based on level * 20
         if (getExp() >= (getLevel() * 20))
         {
+            clearScreen();
             System.out.println("Level up! " + getName());
             setExp(0);
             

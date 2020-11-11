@@ -30,6 +30,7 @@ public class Character {
         weapon = w;
         armor = a;
         inCurrentParty = ic;
+        state = true;
         calcEquipment(w, a);
     }
 
@@ -117,6 +118,10 @@ public class Character {
     {
         return specialDef;
     }
+    public boolean getState()
+    {
+        return state;
+    }
 
     public boolean getInCurrentParty() {
         return inCurrentParty;
@@ -174,6 +179,10 @@ public class Character {
 
     public void setDices(int di) {
         dices = di;
+    }
+    
+    public void setState(boolean s) {
+        state = s;
     }
 
     public void setMoney(int m) {
@@ -260,7 +269,7 @@ public class Character {
      * checkSpecialMoves
      * This method is a way to show when part members and players will gain a special move(and possibly enemies)
      */
-    public String useSpecialMoves()
+    public String useSpecialMoves() throws InterruptedException
     {
         return null;
     }//end of checkSpecialMoves
@@ -270,5 +279,17 @@ public class Character {
                 exp + " " +  dices + " " +  money + " " + currentHealth + " " + currentMp + " " + weapon + " " + armor +
                 " " + inCurrentParty;
     }
+    
+    /*************************
+     * Method Name: clearScreen
+     * Method Description: Clear screen for world.
+     **************************/
+    public void clearScreen()
+    {
+        for (int i = 0; i < 40; i++) 
+        {
+            System.out.println("");    
+        }
+    }//end of clearScreen
     
 }//end of class
