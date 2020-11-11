@@ -20,7 +20,8 @@ public class World {
     private Clip clip;
 
     private ArrayList<Character> partyMembers = new ArrayList<>();
-    private Character[] currentPartyMembers = new Character[3];
+    private ArrayList<Character> currentPartyMembers = new ArrayList<>();
+    //private Character[] currentPartyMembers = new Character[3];
     
     //name, level, hp, mp, str, def, spd, exp, dice
     private Character player;
@@ -186,8 +187,13 @@ public class World {
 
         player = new Player("\uD83E\uDDDD Traveller", 1, 128, 15, 36, 5, 5, 0, 4, 0, "", armor[0][0]);
         healer = new Party("\uD83E\uDDDA Girl", 1, 85, 20, 15, 12, 5, 0, 3, 0, weapons[1][0], armor[1][0]);
-        rogue = new Party("\uD83D\uDC69 Keqing", 1, 70, 20, 15, 12, 5, 0, 3, 0, "", "");
+        
         partyMembers.add(player);
+        //adds to current party if its not already maxed
+        if (partyMembers.size() != 3)
+        {
+            currentPartyMembers.add(partyMembers.get(partyMembers.size()-1));
+        }
 
         world.get(0).set(2, "\uD83E\uDDDA");//Fairy
         world.get(0).set(3, "\uD83D\uDC79");//Ogre
@@ -243,8 +249,6 @@ public class World {
         System.out.println(healer.getName() + ": Onwards!");
         Thread.sleep(1000);
         finishTutorial = true;
-        
-        partyMembers.add(rogue);    //temperary character
 
         //Replace with grass
         world.get(row).set(column-1, "\uD83D\uDFE9");
@@ -982,55 +986,69 @@ public class World {
         //Prints the party members and what they have
         System.out.println("In Your Party\n");
         for (int i=0; i<partyMembers.size(); i++) {
-            System.out.format("%-30s", partyMembers.get(i).getName());
+            //System.out.format("%-50s", partyMembers.get(i).getName());
+            System.out.print(partyMembers.get(i).getName() + "\t\t");
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
-            System.out.format("%-30s", "Lvl: " + partyMembers.get(i).getLevel());
+            //System.out.format("%-50s", "Lvl: " + partyMembers.get(i).getLevel());
+            System.out.print("Lvl: " + partyMembers.get(i).getLevel() + "\t\t");
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
-            System.out.format("%-30s", "HP: " + partyMembers.get(i).getHealth());
+            //System.out.format("%-50s", "HP: " + partyMembers.get(i).getHealth());
+            System.out.print("HP: " + partyMembers.get(i).getHealth() + "\t\t");
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
-            System.out.format("%-30s", "MP: " + partyMembers.get(i).getMp());
+            //System.out.format("%-50s", "MP: " + partyMembers.get(i).getMp());
+            System.out.print("MP: " + partyMembers.get(i).getMp() + "\t\t");
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
-            System.out.format("%-30s", "Atk: " + partyMembers.get(i).getStrength());
+            //System.out.format("%-50s", "Atk: " + partyMembers.get(i).getStrength());
+            System.out.print("Atk: " + partyMembers.get(i).getStrength() + "\t\t");
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
-            System.out.format("%-30s", "Def: " + partyMembers.get(i).getDefence());
+            //System.out.format("%-50s", "Def: " + partyMembers.get(i).getDefence());
+            System.out.print("Def: " + partyMembers.get(i).getDefence() + "\t\t");
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
-            System.out.format("%-30s", "Spd: " + partyMembers.get(i).getSpeed());
+            //System.out.format("%-50s", "Spd: " + partyMembers.get(i).getSpeed());
+            System.out.print("Spd: " + partyMembers.get(i).getSpeed() + "\t\t");
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
-            System.out.format("%-30s", "Exp: " + (partyMembers.get(i).getLevel() * 20) + "/" + partyMembers.get(i).getExp());
+            //System.out.format("%-50s", "Exp: " + (partyMembers.get(i).getLevel() * 20) + "/" + partyMembers.get(i).getExp());
+            System.out.print("Exp: " + (partyMembers.get(i).getLevel() * 20) + "/" + partyMembers.get(i).getExp() + "\t\t");
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
-            System.out.format("%-30s", "Dices: " + partyMembers.get(i).getDices());
+           // System.out.format("%-50s", "Dices: " + partyMembers.get(i).getDices());
+            System.out.print("Dices: " + partyMembers.get(i).getDices() + "\t\t");
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
-            System.out.format("%-30s", "Weapon:");
+            //System.out.format("%-50s", "Weapon:");
+            System.out.print("Weapon:\t\t");
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
-            System.out.format("%-30s", partyMembers.get(i).getWeapon());
+            //System.out.format("%-50s", partyMembers.get(i).getWeapon());
+            System.out.print(partyMembers.get(i).getWeapon() + "\t");
+            
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
-            System.out.format("%-30s", "Armor:");
+            //System.out.format("%-50s", "Armor:");
+            System.out.print("Armour:\t\t");
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
-            System.out.format("%-30s", partyMembers.get(i).getArmor());
+            //System.out.format("%-50s", partyMembers.get(i).getArmor());
+            System.out.print(partyMembers.get(i).getArmor() + "\t");
         }
         System.out.println();
 
@@ -1048,7 +1066,7 @@ public class World {
     {
         Character enemy;
         
-        enemy = new Enemy(enemyType, partyMembers.get(0).getLevel() , 0, 0, 0, 0, 0, 0, 0, 0, "", "");
+        enemy = new Enemy(enemyType, currentPartyMembers.get(0).getLevel() , 0, 0, 0, 0, 0, 0, 0, 0, "", "");
 
         boolean win = false;
 
@@ -1058,13 +1076,20 @@ public class World {
             music("battle.wav");
         }
 
+        //prints during tutorial
         if (!finishTutorial) {
             //First battle - no equipment only fists
             System.out.println(healer.getName() + ": Wait, you know how to fight?");
             Thread.sleep(1000);
             System.out.println(healer.getName() + ": Ok! I'm a Cleric, so I can heal you if you get injured.");
             Thread.sleep(1000);
+            
             partyMembers.add(healer);
+            if (partyMembers.size() <= 3)
+            {
+                currentPartyMembers.add(partyMembers.get(partyMembers.size()-1));
+            }
+            
         } else if (enemyType.equals("\uD83D\uDC32 Dragon")) {
             //First boss battle - get defeated
             System.out.println("\uD83D\uDC32 Dragon: Raaaugghhrrr!!!!");
@@ -1081,7 +1106,7 @@ public class World {
         for (int i=0;; i++)
         {
             //Loops through each Party Members' turn
-            for (int j = 0; j < partyMembers.size(); j++) 
+            for (int j = 0; j < currentPartyMembers.size(); j++) 
             {
 
                 clearScreen();
@@ -1094,23 +1119,23 @@ public class World {
 
                 //Print Party Members' battle info
                 System.out.println("\nTeam:");
-                for (int k=0; k<partyMembers.size(); k++) {
-                    System.out.format("%-15s", partyMembers.get(k).getName());
+                for (int k = 0; k < currentPartyMembers.size(); k++) {
+                    System.out.format("%-15s", currentPartyMembers.get(k).getName());
                 }
                 System.out.println();
-                for (int k=0; k<partyMembers.size(); k++) {
-                    System.out.format("%-15s", "HP: " + partyMembers.get(k).getHealth() + "/"
-                            + partyMembers.get(k).getCurrentHealth());
+                for (int k = 0; k < currentPartyMembers.size(); k++) {
+                    System.out.format("%-15s", "HP: " + currentPartyMembers.get(k).getHealth() + "/"
+                            + currentPartyMembers.get(k).getCurrentHealth());
                 }
                 System.out.println();
-                for (int k=0; k<partyMembers.size(); k++) {
-                    System.out.format("%-15s", "MP: " + partyMembers.get(k).getMp() + "/"
-                            + partyMembers.get(k).getCurrentMp());
+                for (int k = 0; k < currentPartyMembers.size(); k++) {
+                    System.out.format("%-15s", "MP: " + currentPartyMembers.get(k).getMp() + "/"
+                            + currentPartyMembers.get(k).getCurrentMp());
                 }
                 System.out.println("\n");
                 
                 //If one of the Party Members defeats the enemy
-                if (partyMembers.get(j).fight(partyMembers, enemy)) 
+                if (currentPartyMembers.get(j).fight(currentPartyMembers, enemy)) 
                 {
                     win = true;
                     break;
@@ -1123,21 +1148,23 @@ public class World {
                 System.out.println("You ran safely");
                 
                 //returns normal stats to all the party embers if stat distro is still active
-                if (partyMembers.get(0).getSpecial())
+                if (currentPartyMembers.get(0).getSpecial())
                 {
-                    partyMembers.get(0).setSpecial(false);
-                    partyMembers.get(0).setCounter(0);
+                    currentPartyMembers.get(0).setSpecial(false);
+                    currentPartyMembers.get(0).setCounter(0);
                     
                     //nuturalizes the stats for all party members
                     for (int j = 0; j < partyMembers.size(); j++)
                     {
-                        partyMembers.get(j).strength -= partyMembers.get(0).getSpecialAtk();
-                        partyMembers.get(j).defence -= partyMembers.get(0).getSpecialDef();
+                        currentPartyMembers.get(j).strength -= currentPartyMembers.get(0).getSpecialAtk();
+                        currentPartyMembers.get(j).defence -= currentPartyMembers.get(0).getSpecialDef();
 //                        partyMembers.get(j).setStrength(partyMembers.get(j).getStrength() - partyMembers.get(0).getSpecialAtk());
 //                        partyMembers.get(j).setDefence(partyMembers.get(j).getDefence() - partyMembers.get(0).getSpecialDef());
                     }
  
                 }
+                
+                Thread.sleep(1000);
                 break;
             }
             
@@ -1149,16 +1176,16 @@ public class World {
                 Thread.sleep(1000);
                 
                 //returns normal stats to all the party embers if stat distro is still active
-                if (partyMembers.get(0).getSpecial())
+                if (currentPartyMembers.get(0).getSpecial())
                 {
-                    partyMembers.get(0).setSpecial(false);
-                    partyMembers.get(0).setCounter(0);
+                    currentPartyMembers.get(0).setSpecial(false);
+                    currentPartyMembers.get(0).setCounter(0);
                     
                     //nuturalizes the stats for all party members
-                    for (int j = 0; j < partyMembers.size(); j++)
+                    for (int j = 0; j < currentPartyMembers.size(); j++)
                     {
-                        partyMembers.get(j).strength -= partyMembers.get(0).getSpecialAtk();
-                        partyMembers.get(j).defence -= partyMembers.get(0).getSpecialDef();
+                        currentPartyMembers.get(j).strength -= currentPartyMembers.get(0).getSpecialAtk();
+                        currentPartyMembers.get(j).defence -= currentPartyMembers.get(0).getSpecialDef();
 //                        partyMembers.get(j).setStrength(partyMembers.get(j).getStrength() - partyMembers.get(0).getSpecialAtk());
 //                        partyMembers.get(j).setDefence(partyMembers.get(j).getDefence() - partyMembers.get(0).getSpecialDef());
                     }
@@ -1166,10 +1193,10 @@ public class World {
 
                 //Distribute exp to all Party Members
                 System.out.println();
-                for (int j = 0; j < partyMembers.size(); j++)
+                for (int j = 0; j < currentPartyMembers.size(); j++)
                 {
-                    partyMembers.get(j).gainExpMoney(enemy);
-                    partyMembers.get(j).checkLvl();
+                    currentPartyMembers.get(j).gainExpMoney(enemy);
+                    currentPartyMembers.get(j).checkLvl();
                     System.out.println();
                 }
                 Thread.sleep(2000);
@@ -1177,8 +1204,15 @@ public class World {
             }
             
             //If a Party Member dies
-            if (enemy.fight(partyMembers, partyMembers.get(0))) {
-                if (enemyType.equals("\uD83D\uDC32 Dragon")) {
+            if (enemy.fight(currentPartyMembers, currentPartyMembers.get(0))) {
+                if (enemyType.equals("\uD83D\uDC32 Dragon")) 
+                {
+                    //restores their health after the scripted loss
+                    for (int j = 0; j < currentPartyMembers.size(); j++)
+                    {
+                        currentPartyMembers.get(j).setCurrentHealth(currentPartyMembers.get(j).getHealth());
+                    }
+                    
                     System.out.println(partyMembers.get(1).getName() + ": Huff... this is too much for us to handle...");
                     Thread.sleep(1000);
                     System.out.println("???: Hey! You guys over there! Need a hand?");
@@ -1271,6 +1305,15 @@ public class World {
                 Thread.sleep(1000);
                 System.out.println(partyMembers.get(2).getName() + ": Ok gang! Lets move!");
                 Thread.sleep(1000);
+                
+                /**************TEMPERARY****************/
+                rogue = new Party("\uD83D\uDC69 Keqing", 1, 70, 20, 15, 12, 5, 0, 3, 0, "", "");
+                partyMembers.add(rogue);    //temperary character
+                if (partyMembers.size() <= 3)
+                {
+                    currentPartyMembers.add(partyMembers.get(partyMembers.size()-1));
+                }
+                /**************TEMPERARY****************/
             }
 
             System.out.println("Floor 1");
@@ -1429,6 +1472,7 @@ public class World {
                             System.out.println("You and Robin ran towards the giant creature engulfing the village " +
                                     "into flames.");
                             Thread.sleep(1000);
+                            
                             battle("\uD83D\uDC32 Dragon");
 
                             //Claude joins
@@ -1473,7 +1517,15 @@ public class World {
                             System.out.println(archer.getName() + ": We can make preparations for now, so let me know " +
                                     "when you are ready to go out.");
                             Thread.sleep(1000);
+                            
                             partyMembers.add(archer);
+                            //adds to currentPartymembers if there are not 3 party members in it yet
+                            if (partyMembers.size() <= 3)
+                            {
+                                currentPartyMembers.add(partyMembers.get(partyMembers.size()-1));
+                            }
+                            
+                            
                             finishVillage = true;
                         }
                         break;

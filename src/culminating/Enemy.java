@@ -173,6 +173,7 @@ public class Enemy extends Character {
                 //makes sure the target is not negative hp
                 if (partyMembers.get(target).currentHealth < 0)
                 {
+                    System.out.println(partyMembers.get(target).getName() + " has fallen!");
                     partyMembers.get(target).currentHealth = 0;
                 }
                 

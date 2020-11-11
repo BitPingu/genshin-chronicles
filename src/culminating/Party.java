@@ -10,11 +10,13 @@ public class Party extends Character {
     private final Scanner keyInput = new Scanner(System.in);
     private final Scanner scanN = new Scanner(System.in);
     private final Random random = new Random();
+    private boolean state;
     
     //Constructor
     public Party(String name, int level, int hp, int mp, int str, int def, int spd, int exp, int dice, int money,
                  String weapon, String armor) {
         super(name, level, hp, mp, str, def, spd, exp, dice, money, weapon, armor);
+        state = true;
         checkSpecialMoves();
     }
 
@@ -37,129 +39,144 @@ public class Party extends Character {
         int damage = 0, heal;
         String prompt;
         boolean flag = false;
-
-        do
+        
+        //checks if partyMem can fight or not
+        if (currentHealth == 0)
         {
-            System.out.println("What will " + name + " do?");
-            System.out.println("1) Attack");
-            System.out.println("2) Special");
-            System.out.println("3) Run");
-            prompt = keyInput.nextLine();
+            state = false;
+        }
+        else
+        {
+            state = true;
+        }
 
-            switch (prompt) 
+        //alive
+        if (state)
+        {
+            do
             {
-                //attacking
-                case "1":
-                    damage = (attack(getDices()) + strength) - entity.defence;
-                    if (damage < 0) 
-                    {
-                        damage = 0;
-                    }
-                    entity.currentHealth -= (damage);
+                System.out.println("What will " + name + " do?");
+                System.out.println("1) Attack");
+                System.out.println("2) Special");
+                System.out.println("3) Run");
+                prompt = keyInput.nextLine();
 
-                    //makes sure that the enemy does not go below 0
-                    if (entity.currentHealth < 0)
-                        entity.currentHealth = 0;
-
-                    System.out.println("\n" + name + " attacks!");
-                    Thread.sleep(1000);
-                    System.out.println(name + " deals " + damage + " damage!");
-                    Thread.sleep(1000);
-                    flag = true;
-                    break;
-                    
-                //specials
-                case "2":
-                    if ((currentMp - 5) > 0)
-                    {
-                        switch(useSpecialMoves())
+                switch (prompt) 
+                {
+                    //attacking
+                    case "1":
+                        damage = (attack(getDices()) + strength) - entity.defence;
+                        if (damage < 0) 
                         {
-                            //Physic
-                            case "Physic":
-                                heal = random.nextInt(strength * 5) + strength;
-                                
-                                System.out.println("\n" + name + " used Physic!");
-                                Thread.sleep(1000);
-
-                                for (int i=0; i < partyMembers.size(); i++)
-                                {
-                                    partyMembers.get(i).currentHealth += heal;
-                                    //makes sure that the heal does not over heal
-                                    if (partyMembers.get(i).currentHealth > partyMembers.get(i).health)
-                                    {
-                                        partyMembers.get(i).currentHealth = partyMembers.get(i).health;
-                                    }
-                                    
-                                    System.out.println(name + " restored " + heal + " health to "
-                                            + partyMembers.get(i).name + ".");
-                                    Thread.sleep(1000);
-                                }
-
-                                Thread.sleep(1000);  
-                                break;
-                                
-                            //Nosferatu
-                            case "Nosferatu":                                
-                                damage = strength + random.nextInt(50) + 30;
-                                
-                                entity.currentHealth -= damage;
-                                
-                                if (entity.currentHealth < 0)
-                                    entity.currentHealth = 0;
-                                
-                                heal = damage / 5;
-                                
-                                System.out.println("\n" + name + " used Nosferatu!");
-                                Thread.sleep(1000);
-                                System.out.println(name + " deals " + damage + " damage!");
-                                Thread.sleep(1000);
-                                for (int i = 0; i < partyMembers.size(); i++)
-                                {
-                                    partyMembers.get(i).currentHealth += heal;
-                                    //makes sure that the heal does not over heal
-                                    if (partyMembers.get(i).currentHealth > partyMembers.get(i).health)
-                                    {
-                                        partyMembers.get(i).currentHealth = partyMembers.get(i).health;
-                                    }
-                                    
-                                    System.out.println(name + " restored " + heal + " health to "
-                                            + partyMembers.get(i).name + "."); 
-                                }
-                                
-                                Thread.sleep(1000);
-                                break;
-                                
-                            //error handle - there should be nothing here
-                            default:
-                                break;
+                            damage = 0;
                         }
-       
+                        entity.currentHealth -= (damage);
+
+                        //makes sure that the enemy does not go below 0
+                        if (entity.currentHealth < 0)
+                            entity.currentHealth = 0;
+
+                        System.out.println("\n" + name + " attacks!");
+                        Thread.sleep(1000);
+                        System.out.println(name + " deals " + damage + " damage!");
+                        Thread.sleep(1000);
                         flag = true;
-                    }
-                    else
-                    {
-                        System.out.println("You are out of mp, you cant use your special");
-                    }
-                    break;
-                
-                //running away
-                case "3":
-                    if (speed > (random.nextInt(entity.speed) + 2)) 
-                    {
-                        return true; 
-                    }
-                    else
-                    {
-                        System.out.println("You tripped while trying to run");
-                        Thread.sleep(1000); 
-                        flag = true;
-                    }
-                //error handle
-                default:
-                    System.out.println("Please enter a command");
-                    break;
-            }
-        } while (!flag);
+                        break;
+
+                    //specials
+                    case "2":
+                        if ((currentMp - 5) > 0)
+                        {
+                            switch(useSpecialMoves())
+                            {
+                                //Physic
+                                case "Physic":
+                                    heal = random.nextInt(strength * 5) + strength;
+
+                                    System.out.println("\n" + name + " used Physic!");
+                                    Thread.sleep(1000);
+
+                                    for (int i=0; i < partyMembers.size(); i++)
+                                    {
+                                        partyMembers.get(i).currentHealth += heal;
+                                        //makes sure that the heal does not over heal
+                                        if (partyMembers.get(i).currentHealth > partyMembers.get(i).health)
+                                        {
+                                            partyMembers.get(i).currentHealth = partyMembers.get(i).health;
+                                        }
+
+                                        System.out.println(name + " restored " + heal + " health to "
+                                                + partyMembers.get(i).name + ".");
+                                        Thread.sleep(1000);
+                                    }
+
+                                    Thread.sleep(1000);  
+                                    break;
+
+                                //Nosferatu
+                                case "Nosferatu":                                
+                                    damage = strength + random.nextInt(50) + 30;
+
+                                    entity.currentHealth -= damage;
+
+                                    if (entity.currentHealth < 0)
+                                        entity.currentHealth = 0;
+
+                                    heal = damage / 5;
+
+                                    System.out.println("\n" + name + " used Nosferatu!");
+                                    Thread.sleep(1000);
+                                    System.out.println(name + " deals " + damage + " damage!");
+                                    Thread.sleep(1000);
+                                    for (int i = 0; i < partyMembers.size(); i++)
+                                    {
+                                        partyMembers.get(i).currentHealth += heal;
+                                        //makes sure that the heal does not over heal
+                                        if (partyMembers.get(i).currentHealth > partyMembers.get(i).health)
+                                        {
+                                            partyMembers.get(i).currentHealth = partyMembers.get(i).health;
+                                        }
+
+                                        System.out.println(name + " restored " + heal + " health to "
+                                                + partyMembers.get(i).name + "."); 
+                                    }
+
+                                    Thread.sleep(1000);
+                                    break;
+
+                                //error handle - there should be nothing here
+                                default:
+                                    break;
+                            }
+
+                            flag = true;
+                        }
+                        else
+                        {
+                            System.out.println("You are out of mp, you cant use your special");
+                        }
+                        break;
+
+                    //running away
+                    case "3":
+                        if (speed > (random.nextInt(entity.speed) + 2)) 
+                        {
+                            return true; 
+                        }
+                        else
+                        {
+                            System.out.println("You tripped while trying to run");
+                            Thread.sleep(1000); 
+                            flag = true;
+                        }
+                    //error handle
+                    default:
+                        System.out.println("Please enter a command");
+                        break;
+                }
+            } while (!flag);   
+        }
+        
 
         return entity.currentHealth == 0;
 

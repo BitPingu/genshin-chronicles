@@ -12,12 +12,13 @@ public class Player extends Character {
     private final Scanner scanN = new Scanner(System.in);
     private final Random random = new Random();
     private int counter, specialAtk, specialDef;
-    private boolean special = false;
+    private boolean special = false, state;
 
     //Constructor
     public Player(String name, int level, int hp, int mp, int str, int def, int spd, int exp, int dice, int money,
                   String weapon, String armor) {
         super(name, level, hp, mp, str, def, spd, exp, dice, money, weapon, armor);
+        state = true;
         checkSpecialMoves();
     }
 
@@ -185,7 +186,8 @@ public class Player extends Character {
                     }
                     else
                     {
-                        System.out.println("Couldn't get away!");
+                        System.out.println("You tripped while trying to run");
+                            Thread.sleep(1000);
                         flag = true;
                     }
                 

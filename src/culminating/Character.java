@@ -10,6 +10,7 @@ public class Character {
     protected int level, health, strength, defence, speed, exp, mp, currentHealth, currentMp, dices, money, specialDef,
             specialAtk;
     protected String name, weapon, armor;
+    protected boolean state;
 
     //Constructor
     public Character(String n, int l, int h, int m, int s, int d, int sp, int ep, int di, int mo, String w,
