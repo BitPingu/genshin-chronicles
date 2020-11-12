@@ -2113,10 +2113,16 @@ public class World {
         if (confirm.equalsIgnoreCase("y")) {
             System.out.println(partyMembers.get(character).getName() + " equipped the " + item);
             Thread.sleep(1000);
+
+            //Dequip old and equip new
             if (!armor) {
+                partyMembers.get(character).calcWeapon(partyMembers.get(character).getWeapon(), false);
                 partyMembers.get(character).setWeapon(item);
+                partyMembers.get(character).calcWeapon(partyMembers.get(character).getWeapon(), true);
             } else {
+                partyMembers.get(character).calcArmor(partyMembers.get(character).getArmor(), false);
                 partyMembers.get(character).setArmor(item);
+                partyMembers.get(character).calcArmor(partyMembers.get(character).getArmor(), true);
             }
         }
 

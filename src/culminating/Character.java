@@ -31,7 +31,8 @@ public class Character {
         armor = a;
         inCurrentParty = ic;
         state = true;
-        calcEquipment(w, a);
+        calcWeapon(w, true);
+        calcArmor(a, true);
     }
 
     public Character(String n, int l, String w, String a) {
@@ -231,15 +232,30 @@ public class Character {
 
     /**************************
      * calcEquipment
-     * This method calculates and adds stats based on equipment
+     * This method calculates and adds stats based on weapon
      * @param w - weapon
+     **************************/
+    public void calcWeapon (String w, boolean equip) {
+        String[] tokens = w.split(" ");
+        if (equip) {
+            strength += Integer.parseInt(tokens[3]);
+        } else {
+            strength -= Integer.parseInt(tokens[3]);
+        }
+    }
+
+    /**************************
+     * calcUnequip
+     * This method calculates and adds stats based on armor
      * @param a - armor
      **************************/
-    public void calcEquipment (String w, String a) {
-        String[] tokens1 = w.split(" ");
-        strength += Integer.parseInt(tokens1[3]);
-        String[] tokens2 = a.split(" ");
-        defence += Integer.parseInt(tokens2[3]);
+    public void calcArmor (String a, boolean equip) {
+        String[] tokens = a.split(" ");
+        if (equip) {
+            defence += Integer.parseInt(tokens[3]);
+        } else {
+            defence -= Integer.parseInt(tokens[3]);
+        }
     }
     
     /**************************

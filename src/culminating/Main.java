@@ -48,9 +48,10 @@ public class Main {
 
         //Scanner objects and string
         Scanner keyInput = new Scanner(System.in);
-        Scanner checkSave = new Scanner(file);
         String prompt, confirm = null;
-        finishGame = Boolean.parseBoolean(fileRead.nextLine());
+        if (fileRead.hasNext()) {
+            finishGame = Boolean.parseBoolean(fileRead.nextLine());
+        }
 
         do {
 
@@ -82,12 +83,12 @@ public class Main {
 
             //Print selection menu
             System.out.println("1) New Game");
-            if (checkSave.hasNext()) {
+            if (fileRead.hasNext()) {
                 System.out.println("2) Continue");
             }
             prompt = keyInput.nextLine();
 
-            if (prompt.equals("1") && checkSave.hasNext()) {
+            if (prompt.equals("1") && fileRead.hasNext()) {
                 //Confirm overwriting previous save
                 do {
                     System.out.println("Existing save data found. Are you sure you want to overwrite? (y/n)");
@@ -95,8 +96,8 @@ public class Main {
                 } while (!confirm.equalsIgnoreCase("y") && !confirm.equalsIgnoreCase("n"));
             }
 
-        } while ((!prompt.equals("1") || checkSave.hasNext()) && (!prompt.equals("1") || !confirm.equalsIgnoreCase("y")) &&
-                (!prompt.equals("2") || !checkSave.hasNext()));
+        } while ((!prompt.equals("1") || fileRead.hasNext()) && (!prompt.equals("1") || !confirm.equalsIgnoreCase("y")) &&
+                (!prompt.equals("2") || !fileRead.hasNext()));
 
         //Go to user selection
         switch (prompt) {
