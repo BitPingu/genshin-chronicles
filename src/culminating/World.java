@@ -1438,19 +1438,16 @@ public class World {
 
             //Check if village is already visited
             for (int i=0; i<villagesVisited.size(); i++) {
-
                 if (villagesVisited.get(i).contains(xPos + "," + yPos)) {
                     //Retrieve available quests for specific village
                     quests = villagesVisited.get(i);
                     visitedVillage = true;
                     break;
                 }
-
             }
 
             //If new village
             if (!visitedVillage) {
-
                 //Add to villages visited
                 villagesVisited.add(new ArrayList<>());
                 villagesVisited.get(villagesVisited.size()-1).add(xPos + "," + yPos);
@@ -1461,7 +1458,6 @@ public class World {
                     villagesVisited.get(villagesVisited.size()-1).add(quest());
                 }
                 quests = villagesVisited.get(villagesVisited.size()-1);
-
             }
 
             //If first village (continue story)
@@ -1625,15 +1621,29 @@ public class World {
                     case "2":
                         if (finishVillage) {
                             do {
-                                //Visit the Store (purchase equipment)
+                                //Visit the Store
                                 System.out.println("Store Clerk: Hey there! How may I help ya?");
-                                System.out.println("1) Weapons and Armor");
+                                System.out.println("1) Purchase Loot Box");
                                 System.out.println("2) Hire Mercenaries");
                                 System.out.println("3) See ya!");
                                 prompt = keyInput.nextLine();
 
                                 switch (prompt) {
                                     case "1":
+                                        do {
+                                            System.out.println("Purchase Loot Bot for \uD83D\uDCB0 $200? (y/n)");
+                                            prompt = keyInput.nextLine();
+                                        } while (!prompt.equalsIgnoreCase("y") && !prompt.equalsIgnoreCase("n"));
+
+                                        if (prompt.equalsIgnoreCase("y")) {
+                                            if ((partyMembers.get(0).getMoney() - 200) < 0) {
+                                                System.out.println("You don't have enough \uD83D\uDCB0 Money");
+                                                Thread.sleep(1000);
+                                            } else {
+                                                partyMembers.get(0).setMoney(partyMembers.get(0).getMoney() - 200);
+                                                reward("lootbox");
+                                            }
+                                        }
                                         break;
                                     case "2":
                                         do {
@@ -1997,14 +2007,16 @@ public class World {
         }
 
         //Earn money and exp
-        System.out.println(partyMembers.get(0).getName() + " " + obtain + " \uD83D\uDCB0 $" + earnedMoney + "!");
-        Thread.sleep(1000);
-        if (method.equals("quest")) {
-            for (int j = 0; j < currentPartyMembers.size(); j++) {
-                System.out.println(partyMembers.get(j).getName() + " earned " + earnedExp + " Exp!");
-                Thread.sleep(1000);
-                currentPartyMembers.get(j).gainExpMoney(earnedExp, earnedMoney);
-                currentPartyMembers.get(j).checkLvl();
+        if (!method.equals("lootbox")) {
+            System.out.println(partyMembers.get(0).getName() + " " + obtain + " \uD83D\uDCB0 $" + earnedMoney + "!");
+            Thread.sleep(1000);
+            if (method.equals("quest")) {
+                for (int j = 0; j < currentPartyMembers.size(); j++) {
+                    System.out.println(partyMembers.get(j).getName() + " earned " + earnedExp + " Exp!");
+                    Thread.sleep(1000);
+                    currentPartyMembers.get(j).gainExpMoney(earnedExp, earnedMoney);
+                    currentPartyMembers.get(j).checkLvl();
+                }
             }
         }
 
@@ -2066,6 +2078,9 @@ public class World {
                     System.out.println("2) " + partyMembers.get(2).getName());
                     character = Integer.parseInt(keyInput.nextLine());
                 } while (character < 1 || character > 2);
+                if (character == 1) {
+                    character = 0;
+                }
             } else if (partyMembers.size() > 3) {
                 do {
                     System.out.println("Who should you give " + item + " to?");
@@ -2073,6 +2088,9 @@ public class World {
                     System.out.println("2) " + partyMembers.get(3).getName());
                     character = Integer.parseInt(keyInput.nextLine());
                 } while (character < 1 || character > 2);
+                if (character == 2) {
+                    character = 3;
+                }
             } else {
                 character = 1;
             }
