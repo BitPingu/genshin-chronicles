@@ -209,11 +209,6 @@ public class Character {
         return 0;
     }
     
-    public int diceTotal(int diceTotal) throws InterruptedException
-    {
-        return 0;
-    }
-    
     public void printInventory() {
 
     }
@@ -250,7 +245,6 @@ public class Character {
     /**************************
      * gainExpMoney
      * This method is a way to distubute the exp
-     * @param entity 
      **************************/
     public void gainExpMoney(int ex, int mo)
     {

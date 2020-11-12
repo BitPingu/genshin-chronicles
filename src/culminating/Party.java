@@ -35,7 +35,7 @@ public class Party extends Character {
     public boolean fight(ArrayList<Character> partyMembers, Character entity) throws InterruptedException {
 
         //Variables in fight
-        int damage, heal;
+        int damage = 0, heal;
         String prompt;
         boolean flag = false;
         
@@ -135,6 +135,7 @@ public class Party extends Character {
                                 }
 
                                 Thread.sleep(1000);  
+                                
                                 flag = true;
                                 break;
 
@@ -167,6 +168,7 @@ public class Party extends Character {
                                 }
 
                                 Thread.sleep(1000);
+                                
                                 flag = true;
                                 break;
 
@@ -193,12 +195,13 @@ public class Party extends Character {
                                     entity.currentHealth = 0;
 
                                 Thread.sleep(1000);  
+                                
                                 flag = true;
                                 break;
 
                             //Final Gambit
                             case "Final Gambit":                                
-                                damage = (health - currentHealth) + strength;
+                                damage = (health - currentHealth) * (strength / 4);
 
                                 entity.currentHealth -= damage;
 
@@ -213,6 +216,7 @@ public class Party extends Character {
                                 
 
                                 Thread.sleep(1000);
+                                
                                 flag = true;
                                 break;
 
@@ -220,51 +224,58 @@ public class Party extends Character {
 
                             //Leap of Faith"
                             case "Leap of Faith":
-                                damage = (health - currentHealth) + strength;
+                                ArrayList<Integer> dice = new ArrayList<>();
+        
+                                //shows how many dices the player can use
+                                for (int i = 0; i < getDices(); i++)
+                                {
+                                    dice.add(random.nextInt(6) + 1);
+                                    System.out.println("DICE [" + (i + 1) + "]: " + dice.get(i));
+                                    damage += dice.get(i);
 
-                                System.out.println("\n" + name + " used Leap of Faith!");
-                                Thread.sleep(1000);
+                                }
 
+                                System.out.println("Total: " + damage);
                                 
-
-                                Thread.sleep(1000);  
-                                flag = true;
-                                break;
-
-                            //Assassinate
-                            case "Assassinate":          
-                                //one to 100
-                                int killChance = random.nextInt(100) + 1;
-
-                                
+                                entity.currentHealth -= damage;
 
                                 if (entity.currentHealth < 0)
                                     entity.currentHealth = 0;
 
-                               
-
-                                System.out.println("\n" + name + " used Nosferatu!");
-                                Thread.sleep(1000);
-                                System.out.println(name + " deals " + " damage!");
+                                System.out.println("\n" + name + " used Leap of Faith!");
                                 Thread.sleep(1000);
                                 
-
-                                Thread.sleep(1000);
+                                System.out.println(name + " deals " + damage + " damage!");
+                                Thread.sleep(1000);  
+                                
                                 flag = true;
                                 break;
 
+                            //Assassinate
+                            case "Assassinate": 
+                                System.out.println("\n" + name + " used Assassinate!");
+                                Thread.sleep(1000);       
+                                
+                                //one to 100
+                                if ((speed / 4) >= ((random.nextInt(100) + 1) + entity.speed))
+                                {
+                                    System.out.println(name + " deals " + entity.currentHealth +" damage!"); 
+                                    entity.currentHealth = 0;    
+                                }
+                                else
+                                {
+                                    System.out.println(name + " missed");
+                                }
+                               
+                                Thread.sleep(1000);
+                                flag = true;
+                                break;
 
                             //error handle - there should be nothing here
                             default:
                                 break;
                         }   
-                        
-//                        else
-//                        {
-//                            clearScreen();
-//                            System.out.println("You are out of mp, you cant use your special");
-//                            Thread.sleep(1000);
-//                        }
+
                         break;
 
                     //error handle
@@ -327,56 +338,7 @@ public class Party extends Character {
         } while (true);
 
     }//end of attack
-    
-    /***********************
-     * diceTotal 
-     * This method is specifically made for Ke
-     * @param diceTotal - how many dices the character has
-     * @return - returns damage output
-     ***********************/
-    @Override
-    public int diceTotal(int diceTotal)
-    {
-        //declaring local variables
-        int choice;
-        ArrayList<Integer> dice = new ArrayList<>();
-        
-        //error trap
-        do 
-        {
-            //shows how many dices the player can use
-            for (int i = 0; i < diceTotal; i++)
-            {
-                dice.add(random.nextInt(6) + 1);
-                System.out.println("DICE [" + (i + 1) + "]: " + dice.get(i));
-            }
-            System.out.println("What dice do you want to use?");
-            System.out.print("Dice: ");
-            //if user uses a number
-            if (scanN.hasNextInt()) 
-            {
-                choice = scanN.nextInt();
-                //if user tried to pick a nonExistant dice
-                if (choice > dice.size()) 
-                {
-                    System.out.println("Please input a dice");
-                }
-                //player picks dice
-                else
-                {
-                    return dice.get(choice-1);
-                }
-            }
-            //id user picks anytghing but a number
-            else
-            {
-                scanN.nextLine();
-                System.out.println("Please input a dice");
-            }
-        } while (true);
-
-    }//end of attack
-    
+      
     /**
      * useSpecialMove
      * TThis method will let used for fight
