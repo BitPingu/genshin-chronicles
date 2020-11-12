@@ -15,7 +15,7 @@ public class Enemy extends Character {
         {
             //zombie
             case "\uD83E\uDDDF Zombie":
-                this.health = (level * 38) + 40;
+                this.health = (level * 38) + 100;
                 this.mp = (level * 5) + 10;
                 this.strength = (level * 5) + 5;
                 this.defence = (level * 5) + 5;
@@ -27,7 +27,7 @@ public class Enemy extends Character {
 
             //Goblin
             case "\uD83D\uDC7A Goblin":
-                this.health = (level * 25) + 33;
+                this.health = (level * 25) + 80;
                 this.mp = (level * 5) + 10;
                 this.strength = (level * 5) + 5;
                 this.defence = (level * 5) + 5;
@@ -39,10 +39,10 @@ public class Enemy extends Character {
 
             //Ogre
             case "\uD83D\uDC79 Ogre":
-                this.health = (level * 30) + 90;
+                this.health = (level * 30) + 120;
                 this.mp = (level * 5) + 10;
                 this.strength = (level * 5) + 5;
-                this.defence = (level * 5) + 5;
+                this.defence = (level * 8) + 5;
                 this.speed = (level * 3) + 3;
                 this.exp = (level * 10) + 10;
                 this.money = (level * 5) + 15;
@@ -51,7 +51,7 @@ public class Enemy extends Character {
 
             //Ghost
             case "\uD83D\uDC7B Ghost":
-                this.health = (level * 23) + 23;
+                this.health = (level * 23) + 169;
                 this.mp = (level * 5) + 10;
                 this.strength = (level * 5) + 5;
                 this.defence = (level * 5) + 5;
@@ -63,7 +63,7 @@ public class Enemy extends Character {
 
             //Alien
             case "\uD83D\uDC7D Alien":
-                this.health = (level * 40) + 61;
+                this.health = (level * 40) + 90;
                 this.mp = (level * 5) + 10;
                 this.strength = (level * 5) + 5;
                 this.defence = (level * 5) + 5;
@@ -75,7 +75,7 @@ public class Enemy extends Character {
 
             //Octopus
             case "\uD83D\uDC19 Octopus":
-                this.health = (level * 22) + 22;
+                this.health = (level * 22) + 69;
                 this.mp = (level * 5) + 10;
                 this.strength = (level * 5) + 5;
                 this.defence = (level * 5) + 5;
@@ -99,7 +99,7 @@ public class Enemy extends Character {
 
             //Golem
             case "\uD83E\uDD16 Golem":
-                this.health = (level * 65) + 120;
+                this.health = (level * 65) + 150;
                 this.mp = (level * 5) + 10;
                 this.strength = (level * 5) + 5;
                 this.defence = (level * 5) + 5;
@@ -111,11 +111,11 @@ public class Enemy extends Character {
 
             //Dragon
             case "\uD83D\uDC32 Dragon":
-                this.health = (level * 100) + 200;
+                this.health = (level * 200) + 500;
                 this.mp = (level * 25) + 20;
                 this.strength = (level * 25) + 10;
-                this.defence = (level * 15) + 5;
-                this.speed = (level * 100) + 2;
+                this.defence = (level * 15) + 10;
+                this.speed = (level * 40) + 2;
                 this.exp = (level * 100) + 10;
                 this.money = (level * 100) + 15;
 

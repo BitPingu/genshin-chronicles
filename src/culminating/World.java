@@ -197,8 +197,8 @@ public class World {
 
         String name, connectedName;
 
-        player = new Player("\uD83E\uDDDD Traveller", 1, 128, 15, 36, 5, 5, 0, 4, 0, 128, 15, "\uD83E\uDD1B Mighty Fists 3", armor[0][0], false);
-        healer = new Party("\uD83E\uDDDA Girl", 1, 85, 20, 15, 12, 5, 0, 3, 0, 85, 20, weapons[1][0], armor[1][0], false);
+        player = new Player("\uD83E\uDDDD Traveller", 1, 128, 15, 42, 12, 5, 0, 4, 0, 128, 15, "\uD83E\uDD1B Mighty Fists 3", armor[0][0], false);
+        healer = new Party("\uD83E\uDDDA Girl", 1, 85, 25, 30, 12, 8, 0, 3, 0, 70, 25, weapons[1][0], armor[1][0], false);
         
         partyMembers.add(player);
 
@@ -1038,69 +1038,69 @@ public class World {
             //Prints the party members and what they have
             System.out.println("In Your Party\n");
             for (int i=0; i<currentPartyMembers.size(); i++) {
-                System.out.format("%-20s", currentPartyMembers.get(i).getName());
-                //System.out.print(partyMembers.get(i).getName() + "\t\t\t");
+                //System.out.format("%-20s", currentPartyMembers.get(i).getName());
+                System.out.print(currentPartyMembers.get(i).getName() + "\t\t");
             }
             System.out.println();
             for (int i=0; i<currentPartyMembers.size(); i++) {
-                System.out.format("%-20s", "Lvl: " + currentPartyMembers.get(i).getLevel());
-                //System.out.print("Lvl: " + partyMembers.get(i).getLevel() + "\t\t\t");
+                //System.out.format("%-20s", "Lvl: " + currentPartyMembers.get(i).getLevel());
+                System.out.print("Lvl: " + currentPartyMembers.get(i).getLevel() + "\t\t");
             }
             System.out.println();
             for (int i=0; i<currentPartyMembers.size(); i++) {
-                System.out.format("%-20s", "HP: " + currentPartyMembers.get(i).getCurrentHealth() + "/" + currentPartyMembers.get(i).getHealth());
-                //System.out.print("HP: " + partyMembers.get(i).getCurrentHealth() + "/" + partyMembers.get(i).getHealth() + "\t\t\t");
+                //System.out.format("%-20s", "HP: " + currentPartyMembers.get(i).getCurrentHealth() + "/" + currentPartyMembers.get(i).getHealth());
+                System.out.print("HP: " + currentPartyMembers.get(i).getCurrentHealth() + "/" + currentPartyMembers.get(i).getHealth() + "\t\t");
             }
             System.out.println();
             for (int i=0; i<currentPartyMembers.size(); i++) {
-                System.out.format("%-20s", "MP: " + currentPartyMembers.get(i).getCurrentMp() + "/" + currentPartyMembers.get(i).getMp());
-                //System.out.print("MP: " + partyMembers.get(i).getCurrentMp() + "/" + partyMembers.get(i).getMp() + "\t\t\t");
+                //System.out.format("%-20s", "MP: " + currentPartyMembers.get(i).getCurrentMp() + "/" + currentPartyMembers.get(i).getMp());
+                System.out.print("MP: " + currentPartyMembers.get(i).getCurrentMp() + "/" + currentPartyMembers.get(i).getMp() + "\t\t");
             }
             System.out.println();
             for (int i=0; i<currentPartyMembers.size(); i++) {
-                System.out.format("%-20s", "Atk: " + currentPartyMembers.get(i).getStrength());
-                //System.out.print("Atk: " + partyMembers.get(i).getStrength() + "\t\t\t");
+                //System.out.format("%-20s", "Atk: " + currentPartyMembers.get(i).getStrength());
+                System.out.print("Atk: " + currentPartyMembers.get(i).getStrength() + "\t\t");
             }
             System.out.println();
             for (int i=0; i<currentPartyMembers.size(); i++) {
-                System.out.format("%-20s", "Def: " + currentPartyMembers.get(i).getDefence());
-                //System.out.print("Def: " + partyMembers.get(i).getDefence() + "\t\t\t");
+                //System.out.format("%-20s", "Def: " + currentPartyMembers.get(i).getDefence());
+                System.out.print("Def: " + currentPartyMembers.get(i).getDefence() + "\t\t");
             }
             System.out.println();
             for (int i=0; i<currentPartyMembers.size(); i++) {
-                System.out.format("%-20s", "Spd: " + currentPartyMembers.get(i).getSpeed());
-                //System.out.print("Spd: " + partyMembers.get(i).getSpeed() + "\t\t\t");
+                //System.out.format("%-20s", "Spd: " + currentPartyMembers.get(i).getSpeed());
+                System.out.print("Spd: " + currentPartyMembers.get(i).getSpeed() + "\t\t");
             }
             System.out.println();
             for (int i=0; i<currentPartyMembers.size(); i++) {
-                System.out.format("%-20s", "Exp: " + currentPartyMembers.get(i).getExp() + "/" + (currentPartyMembers.get(i).getLevel() * 20));
-                //System.out.print("Exp: " + partyMembers.get(i).getExp() + "/" + (partyMembers.get(i).getLevel() * 20) + "\t\t\t");
+                //System.out.format("%-20s", "Exp: " + currentPartyMembers.get(i).getExp() + "/" + (currentPartyMembers.get(i).getLevel() * 20));
+                System.out.print("Exp: " + currentPartyMembers.get(i).getExp() + "/" + (currentPartyMembers.get(i).getLevel() * 20) + "\t\t");
             }
             System.out.println();
             for (int i=0; i<currentPartyMembers.size(); i++) {
-                System.out.format("%-20s", "Dices: " + currentPartyMembers.get(i).getDices());
-                //System.out.print("Dices: " + partyMembers.get(i).getDices() + "\t\t\t");
+                //System.out.format("%-20s", "Dices: " + currentPartyMembers.get(i).getDices());
+                System.out.print("Dices: " + currentPartyMembers.get(i).getDices() + "\t\t");
             }
             System.out.println();
             for (int i=0; i<currentPartyMembers.size(); i++) {
-                System.out.format("%-20s", "Weapon:");
-                //System.out.print("Weapon:\t\t\t");
+                //System.out.format("%-20s", "Weapon:");
+                System.out.print("Weapon:\t\t");
             }
             System.out.println();
             for (int i=0; i<currentPartyMembers.size(); i++) {
-                System.out.format("%-20s", currentPartyMembers.get(i).getWeapon());
-                //System.out.print(partyMembers.get(i).getWeapon() + "\t\t");
+                //System.out.format("%-20s", currentPartyMembers.get(i).getWeapon());
+                System.out.print(currentPartyMembers.get(i).getWeapon() + "\t");
 
             }
             System.out.println();
             for (int i=0; i<currentPartyMembers.size(); i++) {
-                System.out.format("%-20s", "Armor:");
-                //System.out.print("Armour:\t\t\t");
+                //System.out.format("%-20s", "Armor:");
+                System.out.print("Armour:\t\t");
             }
             System.out.println();
             for (int i=0; i<currentPartyMembers.size(); i++) {
-                System.out.format("%-20s", currentPartyMembers.get(i).getArmor());
-                //System.out.print(partyMembers.get(i).getArmor() + "\t\t");
+                //System.out.format("%-20s", currentPartyMembers.get(i).getArmor());
+                System.out.print(currentPartyMembers.get(i).getArmor() + "\t");
             }
             System.out.println();
 
@@ -1613,7 +1613,7 @@ public class World {
                             battle("\uD83D\uDC32 Dragon");
 
                             //Claude joins
-                            archer = new Party("\uD83D\uDC68 Claude", 1, 50, 25, 10, 5, 5, 0, 4, 0, 50, 25, weapons[2][0], armor[0][1], false);
+                            archer = new Party("\uD83D\uDC68 Claude", 1, 105, 20, 35, 15, 5, 0, 4, 0, 105, 20, weapons[2][0], armor[0][1], false);
                             partyMembers.add(archer);
                             //adds to currentPartymembers if there are not 3 party members in it yet
                             if (partyMembers.size() <= 3)
@@ -1711,7 +1711,7 @@ public class World {
                                                 if ((partyMembers.get(0).getMoney() - 1000) < 0) {
                                                     System.out.println("You don't have enough \uD83D\uDCB0 Money");
                                                 } else {
-                                                    rogue = new Party("\uD83D\uDC69 Keqing", 1, 70, 20, 15, 12, 5, 0, 3, 0, 70, 20, weapons[0][2], armor[1][2], false);
+                                                    rogue = new Party("\uD83D\uDC69 Keqing", 1, 120, 25, 40, 18, 20, 0, 5, 0, 120, 25, weapons[0][2], armor[1][2], false);
                                                     partyMembers.add(rogue);
                                                     System.out.println(rogue.getName() + " joined your party!");
                                                     System.out.println(rogue.getName() + ": I'll be at your service.");

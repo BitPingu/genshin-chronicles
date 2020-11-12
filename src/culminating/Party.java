@@ -231,11 +231,13 @@ public class Party extends Character {
                                 {
                                     dice.add(random.nextInt(6) + 1);
                                     System.out.println("DICE [" + (i + 1) + "]: " + dice.get(i));
+                                    Thread.sleep(1000);
                                     damage += dice.get(i);
 
                                 }
-
                                 System.out.println("Total: " + damage);
+                                
+                                damage += strength;
                                 
                                 entity.currentHealth -= damage;
 
@@ -433,32 +435,32 @@ public class Party extends Character {
         //Robin
         if (name.equals("\uD83E\uDDDA Robin"))
         {
-            hpRate = random.nextInt(10) + 5;
-            mpRate = random.nextInt(15) + 5;
-            strRate = random.nextInt(8) + 3;
-            defRate = random.nextInt(8) + 3;
-            spdRate = random.nextInt(9) + 4;
-            diceLimit = 5;
+            hpRate = random.nextInt(175 - 65) + 65; //65 - 175
+            mpRate = random.nextInt(25 - 10) + 10; //10 - 25
+            strRate = random.nextInt(20 - 15) + 15; //15 - 20 
+            defRate = random.nextInt(26 - 14) + 14; //14 - 26
+            spdRate = random.nextInt(45 - 15) + 15; //15 - 45
+            diceLimit = 6;
         }
         //Claude
         if (name.equals("\uD83D\uDC68 Claude"))
         {
-            hpRate = random.nextInt(10) + 5;
-            mpRate = random.nextInt(15) + 5;
-            strRate = random.nextInt(8) + 3;
-            defRate = random.nextInt(8) + 3;
-            spdRate = random.nextInt(9) + 4;
-            diceLimit = 5;
+            hpRate = random.nextInt(100 - 55) + 55; //55 - 100
+            mpRate = random.nextInt(20 - 5) + 5; //5 - 20
+            strRate = random.nextInt(23 - 15) + 15; //14 - 23
+            defRate = random.nextInt(24 - 16) + 16; // 16 - 24
+            spdRate = random.nextInt(50 - 20) + 20;// 20 - 50
+            diceLimit = 8;
         }
         //Keqing
         if (name.equals("\uD83D\uDC69 Keqing"))
         {
-            hpRate = random.nextInt(10) + 5;
-            mpRate = random.nextInt(15) + 5;
-            strRate = random.nextInt(8) + 3;
-            defRate = random.nextInt(8) + 3;
-            spdRate = random.nextInt(9) + 4;
-            diceLimit = 5;
+            hpRate = random.nextInt(105 - 70) + 70; //70 - 105
+            mpRate = random.nextInt(20 - 10) + 10; // 10 - 20
+            strRate = random.nextInt(20 - 16) + 16; //16 - 20
+            defRate = random.nextInt(8) + 3; //16 - 22
+            spdRate = random.nextInt(65 - 30) + 30; //30 - 65
+            diceLimit = 12;
         }
 
         //level up based on level * 20

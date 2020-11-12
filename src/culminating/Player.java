@@ -504,33 +504,33 @@ public class Player extends Character {
             
             //shows new heatlh
             System.out.print("HP: " + health + " -> ");
-            health += random.nextInt(15) + 5;
+            health += random.nextInt(125 - 75) + 75; //  75 - 125
             System.out.println(health);
             currentHealth = health;
             
             //shows new MP
             System.out.print("MP: " + mp + " -> ");
-            mp += random.nextInt(6) + 2;
+            mp += random.nextInt(15 - 8) + 8; // 8-15
             System.out.println(mp);
             currentMp = mp;
             
             //shows new strength
             System.out.print("Atk: " + strength + " -> ");
-            strength += random.nextInt(17) + 5;
+            strength += random.nextInt(25 -18) + 18; //18-25
             System.out.println(strength);
             
             //shows new defence
             System.out.print("Def: " + defence + " -> ");
-            defence += random.nextInt(15) + 3;
+            defence += random.nextInt(29 - 17) + 17; //17-29
             System.out.println(defence);
             
             //shows new speed
             System.out.print("Spd: " + speed + " -> ");
-            speed += random.nextInt(8) + 2;
+            speed += random.nextInt(55 - 22) + 22; //22 - 55
             System.out.println(speed);
             
-            //shows new dices
-            if ((level % 2) == 0 && dices != 6)
+            //shows new dices, dice max for user, 9
+            if ((level % 2) == 0 && dices != 9)
             {
                 System.out.print("Dices: " + dices + " -> ");
                 dices++;
