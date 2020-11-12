@@ -93,6 +93,7 @@ public class Player extends Character {
             //Print Enemy battle info
             System.out.println("Enemy:");
             System.out.println(entity.getName());
+            System.out.println("Lvl: " + entity.getLevel());
             System.out.println("HP: " + entity.getCurrentHealth() + "/" + entity.getHealth());
             System.out.println("MP: " + entity.getCurrentMp() + "/" + entity.getMp());
 
@@ -100,6 +101,10 @@ public class Player extends Character {
             System.out.println("\nTeam:");
             for (int k = 0; k < partyMembers.size(); k++) {
                 System.out.format("%-15s", partyMembers.get(k).getName());
+            }
+            System.out.println();
+            for (int k = 0; k < partyMembers.size(); k++) {
+                System.out.format("%-15s", "Lvl: " + partyMembers.get(k).getLevel());
             }
             System.out.println();
             for (int k = 0; k < partyMembers.size(); k++) {
@@ -226,7 +231,7 @@ public class Player extends Character {
             //shows how many dices the player can use
             for (int i = 0; i < diceTotal; i++)
             {
-                dice.add(random.nextInt(8) + 1);
+                dice.add(random.nextInt(15) + 1);
                 System.out.println("DICE [" + (i + 1) + "]: " + dice.get(i));
             }
             System.out.println("What dice do you want to use?");

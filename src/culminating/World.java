@@ -217,7 +217,7 @@ public class World {
         //Start of the game - waking up and saving person
         System.out.println("\nYou wake up on a grassy field to the sound of a girl screaming.");
         Thread.sleep(1000);
-        System.out.println(healer.getName() + ": Someone please help me!");
+        System.out.println("\uD83E\uDDDA Girl: Someone please help me!");
         Thread.sleep(1000);
         music("overworld.wav");
         navigate();
@@ -1039,7 +1039,7 @@ public class World {
             System.out.println("In Your Party\n");
             for (int i=0; i<currentPartyMembers.size(); i++) {
                 //System.out.format("%-20s", currentPartyMembers.get(i).getName());
-                System.out.print(currentPartyMembers.get(i).getName() + "\t\t");
+                System.out.print(partyMembers.get(i).getName() + "\t\t");
             }
             System.out.println();
             for (int i=0; i<currentPartyMembers.size(); i++) {

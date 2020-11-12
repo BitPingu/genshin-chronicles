@@ -15,10 +15,10 @@ public class Enemy extends Character {
         {
             //zombie
             case "\uD83E\uDDDF Zombie":
-                this.health = (level * 38) + 100;
+                this.health = (level * 58) + 100;
                 this.mp = (level * 5) + 10;
-                this.strength = (level * 5) + 5;
-                this.defence = (level * 5) + 5;
+                this.strength = (level * 15) + 10;
+                this.defence = (level * 8) + 10;
                 this.speed = (level * 3) + 2;
                 this.exp = (level * 10) + 10;
                 this.money = (level * 5) + 15;
@@ -27,9 +27,9 @@ public class Enemy extends Character {
 
             //Goblin
             case "\uD83D\uDC7A Goblin":
-                this.health = (level * 25) + 80;
+                this.health = (level * 47) + 80;
                 this.mp = (level * 5) + 10;
-                this.strength = (level * 5) + 5;
+                this.strength = (level * 10) + 10;
                 this.defence = (level * 5) + 5;
                 this.speed = (level * 3) + 2;
                 this.exp = (level * 10) + 10;
@@ -41,8 +41,8 @@ public class Enemy extends Character {
             case "\uD83D\uDC79 Ogre":
                 this.health = (level * 30) + 120;
                 this.mp = (level * 5) + 10;
-                this.strength = (level * 5) + 5;
-                this.defence = (level * 8) + 5;
+                this.strength = (level * 25) + 10;
+                this.defence = (level * 15) + 10;
                 this.speed = (level * 3) + 3;
                 this.exp = (level * 10) + 10;
                 this.money = (level * 5) + 15;
@@ -51,9 +51,9 @@ public class Enemy extends Character {
 
             //Ghost
             case "\uD83D\uDC7B Ghost":
-                this.health = (level * 23) + 169;
+                this.health = (level * 20) + 169;
                 this.mp = (level * 5) + 10;
-                this.strength = (level * 5) + 5;
+                this.strength = (level * 5) + 25;
                 this.defence = (level * 5) + 5;
                 this.speed = (level * 3) + 2;
                 this.exp = (level * 10) + 10;
@@ -75,10 +75,10 @@ public class Enemy extends Character {
 
             //Octopus
             case "\uD83D\uDC19 Octopus":
-                this.health = (level * 22) + 69;
+                this.health = (level * 69) + 88;
                 this.mp = (level * 5) + 10;
-                this.strength = (level * 5) + 5;
-                this.defence = (level * 5) + 5;
+                this.strength = (level * 8) + 8;
+                this.defence = (level * 8) + 8;
                 this.speed = (level * 3) + 2;
                 this.exp = (level * 10) + 10;
                 this.money = (level * 5) + 15;
@@ -101,7 +101,7 @@ public class Enemy extends Character {
             case "\uD83E\uDD16 Golem":
                 this.health = (level * 65) + 150;
                 this.mp = (level * 5) + 10;
-                this.strength = (level * 5) + 5;
+                this.strength = (level * 5) + 10;
                 this.defence = (level * 5) + 5;
                 this.speed = (level * 3) + 2;
                 this.exp = (level * 10) + 10;
@@ -124,7 +124,6 @@ public class Enemy extends Character {
 
         currentHealth = this.health;
         currentMp = this.mp;
-
     }
 
     //Accessors
@@ -165,7 +164,7 @@ public class Enemy extends Character {
                         target = random.nextInt(partyMembers.size());
 
                         //damage calculation
-                        damage = (strength + random.nextInt(25) + 5 
+                        damage = (strength + random.nextInt(40-15) + 15 
                                 - partyMembers.get(target).defence);   
                     } while (!partyMembers.get(target).getState());
 
@@ -190,6 +189,7 @@ public class Enemy extends Character {
                         System.out.println(partyMembers.get(target).getName() + " has fallen!");
                         partyMembers.get(target).currentHealth = 0;
                         partyMembers.get(target).state = false;
+                        Thread.sleep(1000);
                     }
 
                     flag = true;
@@ -225,6 +225,8 @@ public class Enemy extends Character {
                                 {
                                     System.out.println(partyMembers.get(i).getName() + " has fallen!");
                                     partyMembers.get(i).currentHealth = 0;
+                                    partyMembers.get(i).state = false;
+                                    Thread.sleep(1000);
                                 }
 
                                 Thread.sleep(1000);
