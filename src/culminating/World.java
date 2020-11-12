@@ -223,7 +223,7 @@ public class World {
         navigate();
 
         //After first battle - meeting the waifu and setting the name
-        System.out.println(healer.getName() + ": Thanks for saving me! My name is Robin. What is yours?");
+        System.out.println(healer.getName() + ": Thanks for saving me! My name is \uD83E\uDDDA Robin What is yours?");
         Thread.sleep(1000);
         healer.setName("\uD83E\uDDDA Robin");
         System.out.println(player.getName() + ": ...");
@@ -287,7 +287,7 @@ public class World {
 
     /*************************
      * Method Name: navigate
-     * Method Description: Allows the player to explore the world using the asdw keys.
+     * Method Description: Allows the player to explore the world using the wasd keys.
      **************************/
     public void navigate() throws InterruptedException, UnsupportedAudioFileException, IOException, 
             LineUnavailableException {
@@ -670,7 +670,7 @@ public class World {
                 }
             }
 
-            //Spawn enemies and/or items when moving and no starting area or village in FOV
+            //Spawn enemies and/or items when there are no significant areas in FOV
             if (finishTutorial && ("a".equals(movement) || "s".equals(movement) || "d".equals(movement) ||
                     "w".equals(movement)) && !safe) {
 
@@ -1026,80 +1026,131 @@ public class World {
 
     /*************************
      * Method Name: party
-     * Method Description: Displays your party members.
+     * Method Description: Displays your party members and allow swapping.
      **************************/
-    public void party() {
-        //Prints the party members and what they have
-        System.out.println("In Your Party\n");
-        for (int i=0; i<partyMembers.size(); i++) {
-            //System.out.format("%-50s", partyMembers.get(i).getName());
-            System.out.print(partyMembers.get(i).getName() + "\t\t\t");
-        }
-        System.out.println();
-        for (int i=0; i<partyMembers.size(); i++) {
-            //System.out.format("%-50s", "Lvl: " + partyMembers.get(i).getLevel());
-            System.out.print("Lvl: " + partyMembers.get(i).getLevel() + "\t\t\t");
-        }
-        System.out.println();
-        for (int i=0; i<partyMembers.size(); i++) {
-            //System.out.format("%-50s", "HP: " + partyMembers.get(i).getHealth());
-            System.out.print("HP: " + partyMembers.get(i).getCurrentHealth() + "/" + partyMembers.get(i).getHealth() + "\t\t\t");
-        }
-        System.out.println();
-        for (int i=0; i<partyMembers.size(); i++) {
-            //System.out.format("%-50s", "MP: " + partyMembers.get(i).getMp());
-            System.out.print("MP: " + partyMembers.get(i).getCurrentMp() + "/" + partyMembers.get(i).getMp() + "\t\t\t");
-        }
-        System.out.println();
-        for (int i=0; i<partyMembers.size(); i++) {
-            //System.out.format("%-50s", "Atk: " + partyMembers.get(i).getStrength());
-            System.out.print("Atk: " + partyMembers.get(i).getStrength() + "\t\t\t");
-        }
-        System.out.println();
-        for (int i=0; i<partyMembers.size(); i++) {
-            //System.out.format("%-50s", "Def: " + partyMembers.get(i).getDefence());
-            System.out.print("Def: " + partyMembers.get(i).getDefence() + "\t\t\t");
-        }
-        System.out.println();
-        for (int i=0; i<partyMembers.size(); i++) {
-            //System.out.format("%-50s", "Spd: " + partyMembers.get(i).getSpeed());
-            System.out.print("Spd: " + partyMembers.get(i).getSpeed() + "\t\t\t");
-        }
-        System.out.println();
-        for (int i=0; i<partyMembers.size(); i++) {
-            //System.out.format("%-50s", "Exp: " + (partyMembers.get(i).getLevel() * 20) + "/" + partyMembers.get(i).getExp());
-            System.out.print("Exp: " + (partyMembers.get(i).getLevel() * 20) + "/" + partyMembers.get(i).getExp() + "\t\t\t");
-        }
-        System.out.println();
-        for (int i=0; i<partyMembers.size(); i++) {
-           // System.out.format("%-50s", "Dices: " + partyMembers.get(i).getDices());
-            System.out.print("Dices: " + partyMembers.get(i).getDices() + "\t\t\t");
-        }
-        System.out.println();
-        for (int i=0; i<partyMembers.size(); i++) {
-            //System.out.format("%-50s", "Weapon:");
-            System.out.print("Weapon:\t\t\t");
-        }
-        System.out.println();
-        for (int i=0; i<partyMembers.size(); i++) {
-            //System.out.format("%-50s", partyMembers.get(i).getWeapon());
-            System.out.print(partyMembers.get(i).getWeapon() + "\t\t");
-            
-        }
-        System.out.println();
-        for (int i=0; i<partyMembers.size(); i++) {
-            //System.out.format("%-50s", "Armor:");
-            System.out.print("Armour:\t\t\t");
-        }
-        System.out.println();
-        for (int i=0; i<partyMembers.size(); i++) {
-            //System.out.format("%-50s", partyMembers.get(i).getArmor());
-            System.out.print(partyMembers.get(i).getArmor() + "\t\t");
-        }
-        System.out.println();
+    public void party() throws InterruptedException {
 
-        System.out.println("\nType anything to exit.");
-        keyInput.nextLine();
+        String prompt;
+        int memberAdd, memberReplace;
+
+        do {
+
+            //Prints the party members and what they have
+            System.out.println("In Your Party\n");
+            for (int i=0; i<currentPartyMembers.size(); i++) {
+                System.out.format("%-20s", currentPartyMembers.get(i).getName());
+                //System.out.print(partyMembers.get(i).getName() + "\t\t\t");
+            }
+            System.out.println();
+            for (int i=0; i<currentPartyMembers.size(); i++) {
+                System.out.format("%-20s", "Lvl: " + currentPartyMembers.get(i).getLevel());
+                //System.out.print("Lvl: " + partyMembers.get(i).getLevel() + "\t\t\t");
+            }
+            System.out.println();
+            for (int i=0; i<currentPartyMembers.size(); i++) {
+                System.out.format("%-20s", "HP: " + currentPartyMembers.get(i).getCurrentHealth() + "/" + currentPartyMembers.get(i).getHealth());
+                //System.out.print("HP: " + partyMembers.get(i).getCurrentHealth() + "/" + partyMembers.get(i).getHealth() + "\t\t\t");
+            }
+            System.out.println();
+            for (int i=0; i<currentPartyMembers.size(); i++) {
+                System.out.format("%-20s", "MP: " + currentPartyMembers.get(i).getCurrentMp() + "/" + currentPartyMembers.get(i).getMp());
+                //System.out.print("MP: " + partyMembers.get(i).getCurrentMp() + "/" + partyMembers.get(i).getMp() + "\t\t\t");
+            }
+            System.out.println();
+            for (int i=0; i<currentPartyMembers.size(); i++) {
+                System.out.format("%-20s", "Atk: " + currentPartyMembers.get(i).getStrength());
+                //System.out.print("Atk: " + partyMembers.get(i).getStrength() + "\t\t\t");
+            }
+            System.out.println();
+            for (int i=0; i<currentPartyMembers.size(); i++) {
+                System.out.format("%-20s", "Def: " + currentPartyMembers.get(i).getDefence());
+                //System.out.print("Def: " + partyMembers.get(i).getDefence() + "\t\t\t");
+            }
+            System.out.println();
+            for (int i=0; i<currentPartyMembers.size(); i++) {
+                System.out.format("%-20s", "Spd: " + currentPartyMembers.get(i).getSpeed());
+                //System.out.print("Spd: " + partyMembers.get(i).getSpeed() + "\t\t\t");
+            }
+            System.out.println();
+            for (int i=0; i<currentPartyMembers.size(); i++) {
+                System.out.format("%-20s", "Exp: " + currentPartyMembers.get(i).getExp() + "/" + (currentPartyMembers.get(i).getLevel() * 20));
+                //System.out.print("Exp: " + partyMembers.get(i).getExp() + "/" + (partyMembers.get(i).getLevel() * 20) + "\t\t\t");
+            }
+            System.out.println();
+            for (int i=0; i<currentPartyMembers.size(); i++) {
+                System.out.format("%-20s", "Dices: " + currentPartyMembers.get(i).getDices());
+                //System.out.print("Dices: " + partyMembers.get(i).getDices() + "\t\t\t");
+            }
+            System.out.println();
+            for (int i=0; i<currentPartyMembers.size(); i++) {
+                System.out.format("%-20s", "Weapon:");
+                //System.out.print("Weapon:\t\t\t");
+            }
+            System.out.println();
+            for (int i=0; i<currentPartyMembers.size(); i++) {
+                System.out.format("%-20s", currentPartyMembers.get(i).getWeapon());
+                //System.out.print(partyMembers.get(i).getWeapon() + "\t\t");
+
+            }
+            System.out.println();
+            for (int i=0; i<currentPartyMembers.size(); i++) {
+                System.out.format("%-20s", "Armor:");
+                //System.out.print("Armour:\t\t\t");
+            }
+            System.out.println();
+            for (int i=0; i<currentPartyMembers.size(); i++) {
+                System.out.format("%-20s", currentPartyMembers.get(i).getArmor());
+                //System.out.print(partyMembers.get(i).getArmor() + "\t\t");
+            }
+            System.out.println();
+
+            System.out.println("\n1) Swap Party Members");
+            System.out.println("Type 0 to return.");
+            prompt = keyInput.nextLine();
+
+            if (prompt.equals("1")) {
+
+                if (partyMembers.size() < 4) {
+                    System.out.println("You don't have any other party members.");
+                    Thread.sleep(1000);
+                } else {
+                    System.out.println("Select a party member to add.");
+                    while (true) {
+                        for (int i = 1; i < partyMembers.size(); i++) {
+                            if (!partyMembers.get(i).getInCurrentParty()) {
+                                System.out.println(i + ") " + partyMembers.get(i).getName());
+                            }
+                        }
+                        memberAdd = Integer.parseInt(keyInput.nextLine());
+                        if (memberAdd > 0 && memberAdd < partyMembers.size() && !partyMembers.get(memberAdd).inCurrentParty) {
+                            break;
+                        }
+                    }
+
+                    System.out.println("Select a party member to replace.");
+                    while (true) {
+                        for (int i = 1; i < currentPartyMembers.size(); i++) {
+                            System.out.println(i + ") " + currentPartyMembers.get(i).getName());
+                        }
+                        memberReplace = Integer.parseInt(keyInput.nextLine());
+                        if (memberReplace > 0 && memberReplace < currentPartyMembers.size()) {
+                            break;
+                        }
+                    }
+
+                    System.out.println(currentPartyMembers.get(memberReplace).getName() + " switched with " + partyMembers.get(memberAdd).getName());
+                    Thread.sleep(1000);
+
+                    currentPartyMembers.get(memberReplace).setInCurrentParty(false);
+                    currentPartyMembers.set(memberReplace, partyMembers.get(memberAdd));
+                    currentPartyMembers.get(memberReplace).setInCurrentParty(true);
+
+                }
+
+            }
+
+        } while (!prompt.equals("0"));
+
     }
 
     /*************************
@@ -1507,7 +1558,7 @@ public class World {
                     case "1":
                         //Rest at Inn (recover health of all party members)
                         if (!finishVillage) {
-                            System.out.println("You and Robin went to the local Inn.");
+                            System.out.println("You and \uD83E\uDDDA Robin went to the local Inn.");
                             Thread.sleep(1000);
                             System.out.println(partyMembers.get(1).getName() + ": Here is an Inn!");
                             Thread.sleep(1000);
@@ -1524,7 +1575,7 @@ public class World {
 
                         if (prompt.equalsIgnoreCase("y")) {
                             if (!finishVillage) {
-                                System.out.print("You and Robin rested at the Inn. ");
+                                System.out.print("You and \uD83E\uDDDA Robin rested at the Inn. ");
                                 for (int j = 0; j < partyMembers.size(); j++) {
                                     partyMembers.get(j).setCurrentHealth(partyMembers.get(j).getHealth());
                                 }
@@ -1545,7 +1596,7 @@ public class World {
                         if (!finishVillage) {
                             clip.stop();
                             music("boss.wav");
-                            System.out.println("The next day, you and Robin wake up to the sound of screaming.");
+                            System.out.println("The next day, you and \uD83E\uDDDA Robin wake up to the sound of screaming.");
                             Thread.sleep(1000);
                             System.out.println(partyMembers.get(1).getName() + ": What's going on?!");
                             Thread.sleep(1000);
@@ -1556,7 +1607,7 @@ public class World {
                             System.out.println(partyMembers.get(1).getName() + ": " + partyMembers.get(0).getName() +
                                     "! Lets go!");
                             Thread.sleep(1000);
-                            System.out.println("You and Robin ran towards the giant creature engulfing the village " +
+                            System.out.println("You and \uD83E\uDDDA Robin ran towards the giant creature engulfing the village " +
                                     "into flames.");
                             Thread.sleep(1000);
                             battle("\uD83D\uDC32 Dragon");
@@ -2297,7 +2348,7 @@ public class World {
      * Method Name: save
      * Method Description: Saves the progress of the game.
      **************************/
-    public static void save(boolean finishGame, ArrayList<Character> p, ArrayList<Character> c,
+    public void save(boolean finishGame, ArrayList<Character> p, ArrayList<Character> c,
                             ArrayList<ArrayList<String>> in, ArrayList<ArrayList<String>> w,
                             ArrayList<ArrayList<String>> m, ArrayList<ArrayList<String>> v, int row, int column,
                             int xPos, int yPos, int dx, int dy, boolean finishTutorial, boolean finishVillage,

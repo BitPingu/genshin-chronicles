@@ -119,6 +119,7 @@ public class Character {
     {
         return specialDef;
     }
+
     public boolean getState()
     {
         return state;
