@@ -201,7 +201,7 @@ public class Party extends Character {
 
                             //Final Gambit
                             case "Final Gambit":                                
-                                damage = (health - currentHealth) * (strength / 4);
+                                damage = ((health + strength) - currentHealth) * (strength / 4);
 
                                 entity.currentHealth -= damage;
 
