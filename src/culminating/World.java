@@ -35,11 +35,11 @@ public class World {
     private boolean finishGame, finishTutorial, finishVillage, finishDungeon, towerSpawn;
     private final String[][] weapons = {
             {"\uD83D\uDDE1 Wooden Sword 14", "\uD83D\uDDE1 Iron Sword 21", "\uD83D\uDDE1 Diamond Sword 28",
-                    "\uD83D\uDDE1 Master Sword 35", "\uD83D\uDDE1 Monado 42"},
+                    "\uD83D\uDDE1 Master Sword 35", "\uD83D\uDDE1 True Monado 42"},
             {"\uD83E\uDD4D Wooden Staff 4", "\uD83E\uDD4D Amethyst Staff 8", "\uD83E\uDD4D Ruby Staff 12",
-                    "\uD83E\uDD4D Caduceus Staff 16", "\uD83E\uDD4D Thyrsus 20"},
+                    "\uD83E\uDD4D Caduceus Staff 16", "\uD83E\uDD4D True Thyrsus 20"},
             {"\uD83C\uDFF9 Wooden Bow 5", "\uD83C\uDFF9 Silver Bow 10", "\uD83C\uDFF9 Golden Bow 15",
-                    "\uD83C\uDFF9 Light Bow 20", "\uD83C\uDFF9 Failnaught 25"}
+                    "\uD83C\uDFF9 Light Bow 20", "\uD83C\uDFF9 True Failnaught 25"}
     };
     private final String[][] armor = {
             {"\uD83D\uDC55 Worn Shirt 7", "\uD83D\uDC55 Leather Shirt 14", "\uD83C\uDFBD Iron Armor 21",
@@ -1043,12 +1043,12 @@ public class World {
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
             //System.out.format("%-50s", "HP: " + partyMembers.get(i).getHealth());
-            System.out.print("HP: " + partyMembers.get(i).getHealth() + "/" + partyMembers.get(i).getCurrentHealth() + "\t\t\t");
+            System.out.print("HP: " + partyMembers.get(i).getCurrentHealth() + "/" + partyMembers.get(i).getHealth() + "\t\t\t");
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
             //System.out.format("%-50s", "MP: " + partyMembers.get(i).getMp());
-            System.out.print("MP: " + partyMembers.get(i).getMp() + "/" + partyMembers.get(i).getCurrentMp() + "\t\t\t");
+            System.out.print("MP: " + partyMembers.get(i).getCurrentMp() + "/" + partyMembers.get(i).getMp() + "\t\t\t");
         }
         System.out.println();
         for (int i=0; i<partyMembers.size(); i++) {
@@ -1306,16 +1306,13 @@ public class World {
                 Thread.sleep(1000);
                 System.out.println(partyMembers.get(2).getName() + ": Ok gang! Lets move!");
                 Thread.sleep(1000);
-                
-                /**************TEMPERARY****************/
-                //rogue = new Party("\uD83D\uDC69 Keqing", 1, 70, 20, 15, 12, 5, 0, 3, 0, "", "");
-                //partyMembers.add(rogue);    //temperary character
+
                 if (partyMembers.size() < 3)
                 {
                     currentPartyMembers.add(partyMembers.get(partyMembers.size()-1));
                     currentPartyMembers.get(partyMembers.size()-1).setInCurrentParty(true);
                 }
-                /**************TEMPERARY****************/
+
             }
 
             System.out.println("Floor 1");
@@ -1500,7 +1497,7 @@ public class World {
 
                 //User prompt inside village
                 System.out.println("\nWelcome to village.");
-                System.out.println("1) Rest at Inn");//pay 50
+                System.out.println("1) Rest at Inn");
                 if (finishVillage) {
                     System.out.println("2) Visit the Store");
                     System.out.println("3) Talk to Villagers");
@@ -1524,7 +1521,7 @@ public class World {
                             prompt = "y";
                         } else {
                             do {
-                                System.out.println("Pay 50 rupees to rest at Inn? (y/n)");
+                                System.out.println("Pay \uD83D\uDCB0 $100 to rest at Inn? (y/n)");
                                 prompt = keyInput.nextLine();
                             } while (!prompt.equalsIgnoreCase("y") && !prompt.equalsIgnoreCase("n"));
                         }
@@ -1532,12 +1529,21 @@ public class World {
                         if (prompt.equalsIgnoreCase("y")) {
                             if (!finishVillage) {
                                 System.out.print("You and Robin rested at the Inn. ");
+                                for (int j = 0; j < partyMembers.size(); j++) {
+                                    partyMembers.get(j).setCurrentHealth(partyMembers.get(j).getHealth());
+                                }
+                            } else {
+                                if ((partyMembers.get(0).getMoney() - 100) < 0) {
+                                    System.out.println("You don't have enough \uD83D\uDCB0 Money");
+                                } else {
+                                    System.out.println("You and your team's health are fully restored!");
+                                    partyMembers.get(0).setMoney(partyMembers.get(0).getMoney() - 100);
+                                    for (int j = 0; j < partyMembers.size(); j++) {
+                                        partyMembers.get(j).setCurrentHealth(partyMembers.get(j).getHealth());
+                                    }
+                                }
                             }
-                            System.out.println("You and your team's health are fully restored!");
                             Thread.sleep(1000);
-                            for (int j = 0; j < partyMembers.size(); j++) {
-                                partyMembers.get(j).setHealth(partyMembers.get(j).getHealth());
-                            }
                         }
 
                         if (!finishVillage) {
@@ -1618,12 +1624,45 @@ public class World {
 
                     case "2":
                         if (finishVillage) {
-                            //Visit the Store (purchase equipment)
-                            System.out.println("Store Clerk: Hey there! How may I help ya?");
-                            System.out.println("1) Weapons and Armor");
-                            System.out.println("2) Items");
-                            System.out.println("3) See ya!");
-                            prompt = keyInput.nextLine();
+                            do {
+                                //Visit the Store (purchase equipment)
+                                System.out.println("Store Clerk: Hey there! How may I help ya?");
+                                System.out.println("1) Weapons and Armor");
+                                System.out.println("2) Hire Mercenaries");
+                                System.out.println("3) See ya!");
+                                prompt = keyInput.nextLine();
+
+                                switch (prompt) {
+                                    case "1":
+                                        break;
+                                    case "2":
+                                        do {
+                                            if (partyMembers.size() < 4) {
+                                                System.out.println("Choose a mercenary to hire.");
+                                                System.out.println("1) \uD83D\uDC69 Keqing - $1000");
+                                            } else {
+                                                System.out.println("There are no available mercenaries.");
+                                            }
+                                            System.out.println("Type 0 to return.");
+                                            prompt = keyInput.nextLine();
+
+                                            if (prompt.equals("1") && partyMembers.size() < 4) {
+                                                if ((partyMembers.get(0).getMoney() - 1000) < 0) {
+                                                    System.out.println("You don't have enough \uD83D\uDCB0 Money");
+                                                } else {
+                                                    rogue = new Party("\uD83D\uDC69 Keqing", 1, 70, 20, 15, 12, 5, 0, 3, 0, 70, 20, weapons[0][2], armor[1][2], false);
+                                                    partyMembers.add(rogue);
+                                                    System.out.println(rogue.getName() + " joined your party!");
+                                                    System.out.println(rogue.getName() + ": I'll be at your service.");
+                                                }
+                                                Thread.sleep(1000);
+                                            }
+                                        } while (!prompt.equals("0"));
+                                        break;
+                                }
+
+                            } while (!prompt.equals("3"));
+
                             System.out.println("Store Clerk: Come back soon!");
                             Thread.sleep(1000);
                         }
@@ -1990,56 +2029,39 @@ public class World {
         int character = 0;
         boolean armor = false;
 
-        if (!item.equals(weapons[0][4]) && !item.equals(weapons[1][4]) && !item.equals(weapons[2][4])) {
-
-            //Determine weapon/armor type
-            switch (tokens[2]) {
-                case "Sword":
-                    character = 0;
-                    break;
-                case "Staff":
-                    character = 1;
-                    break;
-                case "Bow":
-                    character = 2;
-                    break;
-                case "Shirt":
-                case "Armor":
-                case "Tunic":
-                    gender = "male";
-                    armor = true;
-                    break;
-                case "Dress":
-                case "Robes":
-                case "Cloak":
-                    gender = "female";
-                    armor = true;
-                    break;
-
-            }
-
-        } else {
-
-            //Determine mythical weapon
-            switch (tokens[1]) {
-                case "Monado":
-                    character = 0;
-                    break;
-                case "Thyrsus":
-                    character = 1;
-                    break;
-                case "Failnaught":
-                    character = 2;
-                    break;
-            }
-
+        //Determine weapon/armor type
+        switch (tokens[2]) {
+            case "Sword":
+            case "Monado":
+                character = 0;
+                break;
+            case "Staff":
+            case "Thyrsus":
+                character = 1;
+                break;
+            case "Bow":
+            case "Failnaught":
+                character = 2;
+                break;
+            case "Shirt":
+            case "Armor":
+            case "Tunic":
+                gender = "male";
+                armor = true;
+                break;
+            case "Dress":
+            case "Robes":
+            case "Cloak":
+                gender = "female";
+                armor = true;
+                break;
         }
 
         //Determine weapon or armor
         if (armor) {
-            System.out.println("Who should you give " + item + " to?");
             if (gender.equals("male")) {
                 do {
+                    System.out.println("Who should you give " + item + " to?");
                     System.out.println("1) " + partyMembers.get(0).getName());
                     System.out.println("2) " + partyMembers.get(2).getName());
                     character = Integer.parseInt(keyInput.nextLine());
@@ -2051,6 +2073,8 @@ public class World {
                     System.out.println("2) " + partyMembers.get(3).getName());
                     character = Integer.parseInt(keyInput.nextLine());
                 } while (character < 1 || character > 2);
+            } else {
+                character = 1;
             }
             System.out.println(partyMembers.get(character).getName() + " currently has " +
                     partyMembers.get(character).getArmor() +

@@ -1,8 +1,9 @@
 true
 Party Data
-🧝 Des 7 203 37 309 157 32 0 6 1210 203 37 🗡 Wooden Sword 14 👕 Worn Shirt 7 true
-🧚 Robin 7 131 88 112 108 50 0 5 1210 131 88 🥍 Wooden Staff 4 👗 Worn Dress 4 true
-👨 Claude 6 108 91 113 243 50 0 5 1190 108 91 🏹 Failnaught 25 👕 Leather Shirt 14 true
+🧝 Des 7 203 37 323 164 32 0 6 1001 11 37 🗡 Wooden Sword 14 👕 Worn Shirt 7 true
+🧚 Robin 7 131 88 116 112 50 0 5 1210 11 88 🥍 Wooden Staff 4 👗 Worn Dress 4 true
+👨 Claude 6 108 91 138 257 50 0 5 1190 11 91 🏹 True Failnaught 25 👕 Leather Shirt 14 true
+👩 Keqing 1 70 20 43 24 5 0 3 0 70 20 🗡 Diamond Sword 28 👘 Monk Robes 12 false
 Inventory
 🍎 Apples 20
 🍒 Berries 21
