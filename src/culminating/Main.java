@@ -33,6 +33,7 @@ public class Main {
 
     public static World world;
     public static Clip clip;
+    public static boolean finishGame;
 
     public static void main(String[] args) throws InterruptedException, IOException, UnsupportedAudioFileException, LineUnavailableException {
 
@@ -49,7 +50,7 @@ public class Main {
         Scanner keyInput = new Scanner(System.in);
         Scanner checkSave = new Scanner(file);
         String prompt, confirm = null;
-        boolean finishGame = Boolean.parseBoolean(fileRead.nextLine());
+        finishGame = Boolean.parseBoolean(fileRead.nextLine());
 
         do {
 
@@ -276,8 +277,8 @@ public class Main {
         fileRead.close();
 
         //Load save data
-        world = new World(loadParty, loadCurrentParty, loadInventory, loadWorld, loadMap, loadVillages, row, column,
-                xPos, yPos, dragonX, dragonY, finishTutorial, finishVillage, finishDungeon, towerSpawn);
+        world = new World(finishGame, loadParty, loadCurrentParty, loadInventory, loadWorld, loadMap, loadVillages,
+                row, column, xPos, yPos, dragonX, dragonY, finishTutorial, finishVillage, finishDungeon, towerSpawn);
 
     }
 

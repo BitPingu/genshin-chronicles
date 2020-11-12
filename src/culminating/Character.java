@@ -208,7 +208,7 @@ public class Character {
     {
         return 0;
     }
-    
+
     public void printInventory() {
 
     }
@@ -245,6 +245,8 @@ public class Character {
     /**************************
      * gainExpMoney
      * This method is a way to distubute the exp
+     * @param ex - exp
+     * @param mo - money
      **************************/
     public void gainExpMoney(int ex, int mo)
     {

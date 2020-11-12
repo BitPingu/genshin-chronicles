@@ -55,9 +55,10 @@ public class World {
         initWorld();
     }
 
-    public World(ArrayList<Character> p, ArrayList<Character> cp, ArrayList<ArrayList<String>> in,
+    public World(boolean fg, ArrayList<Character> p, ArrayList<Character> cp, ArrayList<ArrayList<String>> in,
                  ArrayList<ArrayList<String>> w, ArrayList<ArrayList<String>> m, ArrayList<ArrayList<String>> v, int r,
                  int c, int x, int y, int dx, int dy, boolean f, boolean fv, boolean fd, boolean t) {
+        finishGame = fg;
         partyMembers = p;
         currentPartyMembers = cp;
         partyMembers.get(0).setInventory(in);
@@ -309,7 +310,7 @@ public class World {
             System.out.println("Player: " + partyMembers.get(0).getName());
             System.out.println("Level: " + partyMembers.get(0).getLevel());
             System.out.println("Exp: " + partyMembers.get(0).getExp());
-            System.out.println("Money: " + partyMembers.get(0).getMoney());
+            System.out.println("\uD83D\uDCB0 Money: $" + partyMembers.get(0).getMoney());
             System.out.println("[wasd]: Move");
             if (finishTutorial) {
                 System.out.println("[e]: Party");
@@ -1493,7 +1494,7 @@ public class World {
                 System.out.println("Player: " + partyMembers.get(0).getName());
                 System.out.println("Level: " + partyMembers.get(0).getLevel());
                 System.out.println("Exp: " + partyMembers.get(0).getExp());
-                System.out.println("Money: " + partyMembers.get(0).getMoney());
+                System.out.println("\uD83D\uDCB0 Money: $" + partyMembers.get(0).getMoney());
                 System.out.println("[e]: Party");
                 System.out.println("[i]: Inventory");
 
@@ -1835,60 +1836,252 @@ public class World {
      **************************/
     public void reward(String method) throws InterruptedException {
 
-        int earnedMoney, itemChance;
-        String itemGet, obtain;
+        //Variables in reward
+        int earnedMoney, earnedExp = 0, itemChance;
+        String itemGet = null, obtain;
 
+        //Determine method of obtaining
         if (method.equals("chest")) {
             obtain = "found";
         } else {
             obtain = "received";
         }
 
+        //Determine money, exp, and item
         earnedMoney = random.nextInt(500) + 100;
-
+        if (method.equals("quest")) {
+            earnedExp = random.nextInt(250) + 100;
+        }
         itemChance = random.nextInt(100) + 1;
 
+        //Choose item
         if (itemChance <= 50) {
             //Common Items
-            itemGet = weapons[0][0];
-            itemGet = weapons[1][0];
-            itemGet = weapons[2][0];
-            itemGet = armor[0][0];
-            itemGet = armor[1][0];
+            itemChance = random.nextInt(5) + 1;
+            switch (itemChance) {
+                case 1:
+                    itemGet = weapons[0][0];
+                    break;
+                case 2:
+                    itemGet = weapons[1][0];
+                    break;
+                case 3:
+                    itemGet = weapons[2][0];
+                    break;
+                case 4:
+                    itemGet = armor[0][0];
+                    break;
+                case 5:
+                    itemGet = armor[1][0];
+                    break;
+            }
         } else if (itemChance <= 75) {
             //Uncommon Items
-            itemGet = weapons[0][1];
-            itemGet = weapons[1][1];
-            itemGet = weapons[2][1];
-            itemGet = armor[0][1];
-            itemGet = armor[1][1];
+            itemChance = random.nextInt(5) + 1;
+            switch (itemChance) {
+                case 1:
+                    itemGet = weapons[0][1];
+                    break;
+                case 2:
+                    itemGet = weapons[1][1];
+                    break;
+                case 3:
+                    itemGet = weapons[2][1];
+                    break;
+                case 4:
+                    itemGet = armor[0][1];
+                    break;
+                case 5:
+                    itemGet = armor[1][1];
+                    break;
+            }
         } else if (itemChance <= 90) {
             //Rare Items
-            itemGet = weapons[0][2];
-            itemGet = weapons[1][2];
-            itemGet = weapons[2][2];
-            itemGet = armor[0][2];
-            itemGet = armor[1][2];
+            itemChance = random.nextInt(5) + 1;
+            switch (itemChance) {
+                case 1:
+                    itemGet = weapons[0][2];
+                    break;
+                case 2:
+                    itemGet = weapons[1][2];
+                    break;
+                case 3:
+                    itemGet = weapons[2][2];
+                    break;
+                case 4:
+                    itemGet = armor[0][2];
+                    break;
+                case 5:
+                    itemGet = armor[1][2];
+                    break;
+            }
         } else if (itemChance <= 97) {
             //Legendary Items
-            itemGet = weapons[0][3];
-            itemGet = weapons[1][3];
-            itemGet = weapons[2][3];
-            itemGet = armor[0][3];
-            itemGet = armor[1][3];
+            itemChance = random.nextInt(5) + 1;
+            switch (itemChance) {
+                case 1:
+                    itemGet = weapons[0][3];
+                    break;
+                case 2:
+                    itemGet = weapons[1][3];
+                    break;
+                case 3:
+                    itemGet = weapons[2][3];
+                    break;
+                case 4:
+                    itemGet = armor[0][3];
+                    break;
+                case 5:
+                    itemGet = armor[1][3];
+                    break;
+            }
         } else {
             //Mythical Items
-            itemGet = weapons[0][4];
-            itemGet = weapons[1][4];
-            itemGet = weapons[2][4];
-            itemGet = armor[0][4];
-            itemGet = armor[1][4];
+            itemChance = random.nextInt(5) + 1;
+            switch (itemChance) {
+                case 1:
+                    itemGet = weapons[0][4];
+                    break;
+                case 2:
+                    itemGet = weapons[1][4];
+                    break;
+                case 3:
+                    itemGet = weapons[2][4];
+                    break;
+                case 4:
+                    itemGet = armor[0][4];
+                    break;
+                case 5:
+                    itemGet = armor[1][4];
+                    break;
+            }
         }
 
-        System.out.println(partyMembers.get(0).getName() + " " + obtain + earnedMoney);
+        //Earn money and exp
+        System.out.println(partyMembers.get(0).getName() + " " + obtain + " \uD83D\uDCB0 $" + earnedMoney + "!");
+        Thread.sleep(1000);
+        if (method.equals("quest")) {
+            for (int j = 0; j < currentPartyMembers.size(); j++) {
+                System.out.println(partyMembers.get(j).getName() + " earned " + earnedExp + " Exp!");
+                Thread.sleep(1000);
+                currentPartyMembers.get(j).gainExpMoney(earnedExp, earnedMoney);
+                currentPartyMembers.get(j).checkLvl();
+            }
+        }
+
+        //Earn item
+        System.out.println(partyMembers.get(0).getName() + " " + obtain + " " + itemGet + "!");
         Thread.sleep(1000);
 
+        //Call equip method
+        equip(itemGet);
+
     }
+
+    /*************************
+     * Method Name: equip
+     * Method Description: Sets equipment for party members.
+     **************************/
+    public void equip(String item) throws InterruptedException {
+
+        //Variables in equip
+        String[] tokens = item.split(" ");
+        String gender = null, confirm;
+        int character = 0;
+        boolean armor = false;
+
+        if (!item.equals(weapons[0][4]) && !item.equals(weapons[1][4]) && !item.equals(weapons[2][4])) {
+
+            //Determine weapon/armor type
+            switch (tokens[2]) {
+                case "Sword":
+                    character = 0;
+                    break;
+                case "Staff":
+                    character = 1;
+                    break;
+                case "Bow":
+                    character = 2;
+                    break;
+                case "Shirt":
+                case "Armor":
+                case "Tunic":
+                    gender = "male";
+                    armor = true;
+                    break;
+                case "Dress":
+                case "Robes":
+                case "Cloak":
+                    gender = "female";
+                    armor = true;
+                    break;
+
+            }
+
+        } else {
+
+            //Determine mythical weapon
+            switch (tokens[1]) {
+                case "Monado":
+                    character = 0;
+                    break;
+                case "Thyrsus":
+                    character = 1;
+                    break;
+                case "Failnaught":
+                    character = 2;
+                    break;
+            }
+
+        }
+
+        //Determine weapon or armor
+        if (armor) {
+            System.out.println("Who should you give " + item + " to?");
+            if (gender.equals("male")) {
+                do {
+                    System.out.println("1) " + partyMembers.get(0).getName());
+                    System.out.println("2) " + partyMembers.get(2).getName());
+                    character = Integer.parseInt(keyInput.nextLine());
+                } while (character < 1 || character > 2);
+            } else if (partyMembers.size() > 3) {
+                do {
+                    System.out.println("Who should you give " + item + " to?");
+                    System.out.println("1) " + partyMembers.get(1).getName());
+                    System.out.println("2) " + partyMembers.get(3).getName());
+                    character = Integer.parseInt(keyInput.nextLine());
+                } while (character < 1 || character > 2);
+            }
+            System.out.println(partyMembers.get(character).getName() + " currently has " +
+                    partyMembers.get(character).getArmor() +
+                    " equipped.");
+        } else {
+            System.out.println(partyMembers.get(character).getName() + " currently has " +
+                    partyMembers.get(character).getWeapon() +
+                    " equipped.");
+        }
+
+        //Confirm replacement of current weapon/armor
+        do {
+            System.out.println("Would you like to replace it with " + item + "? (y/n)");
+            confirm = keyInput.nextLine();
+        } while (!confirm.equalsIgnoreCase("y") && !confirm.equalsIgnoreCase("n"));
+
+        //Replace weapon/armor
+        if (confirm.equalsIgnoreCase("y")) {
+            System.out.println(partyMembers.get(character).getName() + " equipped the " + item);
+            Thread.sleep(1000);
+            if (!armor) {
+                partyMembers.get(character).setWeapon(item);
+            } else {
+                partyMembers.get(character).setArmor(item);
+            }
+        }
+
+        clearScreen();
+
+    }
+
 
     /*************************
      * Method Name: end
