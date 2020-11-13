@@ -35,7 +35,8 @@ public class Main {
     public static Clip clip;
     public static boolean finishGame;
 
-    public static void main(String[] args) throws InterruptedException, IOException, UnsupportedAudioFileException, LineUnavailableException {
+    public static void main(String[] args) throws InterruptedException, IOException, UnsupportedAudioFileException, 
+            LineUnavailableException {
 
         //Check if file exists
         if (!file.exists()) {

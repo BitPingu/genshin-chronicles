@@ -50,7 +50,7 @@ public class Party extends Character {
         {
             do
             {
-                clearScreen();
+                Main.clearScreen();
 
                 //Print Enemy battle info
                 System.out.println("Enemy:");
@@ -85,6 +85,7 @@ public class Party extends Character {
                 {
                     //attacking
                     case "1":
+                        Main.clearScreen();
                         damage = (attack(getDices()) + strength) - entity.defence;
                         if (damage < 0) 
                         {
@@ -105,7 +106,7 @@ public class Party extends Character {
 
                     //specials
                     case "2":
-                        clearScreen();
+                        Main.clearScreen();
                         switch(useSpecialMoves())
                         {
                             //Robins specials
@@ -175,7 +176,7 @@ public class Party extends Character {
                             case "Thunder Bullet":
                                 System.out.println("Choose your first dice");
                                 damage = attack(getDices());
-                                clearScreen();
+                                Main.clearScreen();
 
                                 System.out.println("Choose your Second dice");
                                 damage += (attack(getDices()) + strength);
@@ -366,17 +367,17 @@ public class Party extends Character {
                 //if user tried to pick a nonExistant dice
                 if (choice > (moveSet.size()) && choice != 0) 
                 {
-                    clearScreen();
+                    Main.clearScreen();
                     System.out.println("Please input a Special");
                     Thread.sleep(1000);
                 }
                 //player picks dice
                 else
                 {
+                    Main.clearScreen();
                     switch(choice)
                     {
                         case 0:
-                            clearScreen();
                             return "";
                         //part Members first special
                         case 1:
@@ -387,7 +388,6 @@ public class Party extends Character {
                             }
                             else
                             {
-                                clearScreen();
                                 System.out.println("You dont have enough mp");
                                 Thread.sleep(1000);
                                 break;
@@ -402,7 +402,6 @@ public class Party extends Character {
                             }
                             else
                             {
-                                clearScreen();
                                 System.out.println("You dont have enough mp");
                                 Thread.sleep(1000);
                                 break;
@@ -519,50 +518,52 @@ public class Party extends Character {
     @Override
     public void checkSpecialMoves()
     {
-        //Robin or Girl
-        if (name.equals("\uD83E\uDDDA Robin") || name.equals("\uD83E\uDDDA Girl"))
+        switch(name)
         {
-            //makes sure that the user has Physic
-            if (!moveSet.contains("Physic"))
-            {
-                moveSet.add("Physic");
-            }
+            //Robin or Girl
+            case "\uD83E\uDDDA Robin":
+            case "\uD83E\uDDDA Girl":
+                //makes sure that the user has Physic
+                if (!moveSet.contains("Physic"))
+                {
+                    moveSet.add("Physic");
+                }
 
-            //Party Members second special
-            if (level >= 8 && !moveSet.contains("Nosferatu"))
-            {
-                moveSet.add("Nosferatu");
-            }
+                //Party Members second special
+                if (level >= 8 && !moveSet.contains("Nosferatu"))
+                {
+                    moveSet.add("Nosferatu");
+                }
+                break;
+            //Claude 
+            case "\uD83D\uDC68 Claude":
+                //makes sure that the user has Thunder Bullet
+                if (!moveSet.contains("Thunder Bullet"))
+                {
+                    moveSet.add("Thunder Bullet");
+                }
+
+                //Party Members second special
+                if (level >= 8 && !moveSet.contains("Final Gambit"))
+                {
+                    moveSet.add("Final Gambit");
+                }
+                break;
+            //Keqing
+            case "\uD83D\uDC69 Keqing":
+                //makes sure that the user has Leap Of Faith
+                if (!moveSet.contains("Leap of Faith"))
+                {
+                    moveSet.add("Leap of Faith");
+                }
+
+                //Party Members second special
+                if (level >= 8 && !moveSet.contains("Assassinate"))
+                {
+                    moveSet.add("Assassinate");
+                }
+                break;
         }
-        //Claude
-        if (name.equals("\uD83D\uDC68 Claude"))
-        {
-            //makes sure that the user has Thunder Bullet
-            if (!moveSet.contains("Thunder Bullet"))
-            {
-                moveSet.add("Thunder Bullet");
-            }
-
-            //Party Members second special
-            if (level >= 8 && !moveSet.contains("Final Gambit"))
-            {
-                moveSet.add("Final Gambit");
-            }
-        }
-        //Keqing
-        if (name.equals("\uD83D\uDC69 Keqing"))
-        {
-            //makes sure that the user has Leap Of Faith
-            if (!moveSet.contains("Leap of Faith"))
-            {
-                moveSet.add("Leap of Faith");
-            }
-
-            //Party Members second special
-            if (level >= 8 && !moveSet.contains("Assassinate"))
-            {
-                moveSet.add("Assassinate");
-            }
-        }  
+ 
     }//end of checkSpecialMoves
 }//end of class

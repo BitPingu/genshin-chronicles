@@ -215,7 +215,8 @@ public class Character {
 
     }
 
-    public boolean checkInventory(ArrayList<ArrayList<String>> inventory, String item, int amount) throws InterruptedException {
+    public boolean checkInventory(ArrayList<ArrayList<String>> inventory, String item, int amount) 
+            throws InterruptedException {
         return false;
     }
 
@@ -297,18 +298,6 @@ public class Character {
         return name + " " + level + " " +  health + " " +  mp + " " +  strength + " " +  defence + " " +  speed + " " +
                 exp + " " +  dices + " " +  money + " " + currentHealth + " " + currentMp + " " + weapon + " " + armor +
                 " " + inCurrentParty;
-    }
-    
-    /*************************
-     * Method Name: clearScreen
-     * Method Description: Clear screen for world.
-     **************************/
-    public void clearScreen()
-    {
-        for (int i = 0; i < 40; i++) 
-        {
-            System.out.println("");    
-        }
-    }//end of clearScreen
+    }//end of toString
     
 }//end of class

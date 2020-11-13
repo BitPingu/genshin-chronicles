@@ -1152,68 +1152,58 @@ public class World {
             //Prints the party members and what they have
             System.out.println("In Your Party\n");
             for (int i=0; i<currentPartyMembers.size(); i++) {
-                //System.out.format("%-20s", currentPartyMembers.get(i).getName());
                 System.out.print(currentPartyMembers.get(i).getName() + "\t\t");
             }
             System.out.println();
             for (int i=0; i<currentPartyMembers.size(); i++) {
-                //System.out.format("%-20s", "Lvl: " + currentPartyMembers.get(i).getLevel());
                 System.out.print("Lvl: " + currentPartyMembers.get(i).getLevel() + "\t\t");
             }
             System.out.println();
             for (int i=0; i<currentPartyMembers.size(); i++) {
-                //System.out.format("%-20s", "HP: " + currentPartyMembers.get(i).getCurrentHealth() + "/" + currentPartyMembers.get(i).getHealth());
-                System.out.print("HP: " + currentPartyMembers.get(i).getCurrentHealth() + "/" + currentPartyMembers.get(i).getHealth() + "\t\t");
+                System.out.print("HP: " + currentPartyMembers.get(i).getCurrentHealth() + "/" 
+                        + currentPartyMembers.get(i).getHealth() + "\t\t");
             }
             System.out.println();
             for (int i=0; i<currentPartyMembers.size(); i++) {
-                //System.out.format("%-20s", "MP: " + currentPartyMembers.get(i).getCurrentMp() + "/" + currentPartyMembers.get(i).getMp());
-                System.out.print("MP: " + currentPartyMembers.get(i).getCurrentMp() + "/" + currentPartyMembers.get(i).getMp() + "\t\t");
+                System.out.print("MP: " + currentPartyMembers.get(i).getCurrentMp() + "/" 
+                        + currentPartyMembers.get(i).getMp() + "\t\t");
             }
             System.out.println();
             for (int i=0; i<currentPartyMembers.size(); i++) {
-                //System.out.format("%-20s", "Atk: " + currentPartyMembers.get(i).getStrength());
                 System.out.print("Atk: " + currentPartyMembers.get(i).getStrength() + "\t\t");
             }
             System.out.println();
             for (int i=0; i<currentPartyMembers.size(); i++) {
-                //System.out.format("%-20s", "Def: " + currentPartyMembers.get(i).getDefence());
                 System.out.print("Def: " + currentPartyMembers.get(i).getDefence() + "\t\t");
             }
             System.out.println();
             for (int i=0; i<currentPartyMembers.size(); i++) {
-                //System.out.format("%-20s", "Spd: " + currentPartyMembers.get(i).getSpeed());
                 System.out.print("Spd: " + currentPartyMembers.get(i).getSpeed() + "\t\t");
             }
             System.out.println();
             for (int i=0; i<currentPartyMembers.size(); i++) {
-                //System.out.format("%-20s", "Exp: " + currentPartyMembers.get(i).getExp() + "/" + (currentPartyMembers.get(i).getLevel() * 20));
-                System.out.print("Exp: " + currentPartyMembers.get(i).getExp() + "/" + (currentPartyMembers.get(i).getLevel() * 20) + "\t\t");
+                System.out.print("Exp: " + currentPartyMembers.get(i).getExp() + "/" 
+                        + (currentPartyMembers.get(i).getLevel() * 20) + "\t\t");
             }
             System.out.println();
             for (int i=0; i<currentPartyMembers.size(); i++) {
-                //System.out.format("%-20s", "Dices: " + currentPartyMembers.get(i).getDices());
                 System.out.print("Dices: " + currentPartyMembers.get(i).getDices() + "\t\t");
             }
             System.out.println();
             for (int i=0; i<currentPartyMembers.size(); i++) {
-                //System.out.format("%-20s", "Weapon:");
                 System.out.print("Weapon:\t\t");
             }
             System.out.println();
             for (int i=0; i<currentPartyMembers.size(); i++) {
-                //System.out.format("%-20s", currentPartyMembers.get(i).getWeapon());
                 System.out.print(currentPartyMembers.get(i).getWeapon() + "\t");
 
             }
             System.out.println();
             for (int i=0; i<currentPartyMembers.size(); i++) {
-                //System.out.format("%-20s", "Armor:");
                 System.out.print("Armour:\t\t");
             }
             System.out.println();
             for (int i=0; i<currentPartyMembers.size(); i++) {
-                //System.out.format("%-20s", currentPartyMembers.get(i).getArmor());
                 System.out.print(currentPartyMembers.get(i).getArmor() + "\t");
             }
             System.out.println();
@@ -1279,6 +1269,13 @@ public class World {
         //Create enemy object based on type
         Character enemy = new Enemy(enemyType, currentPartyMembers.get(0).getLevel(), weapons[0][0], armor[0][0]);
 
+        //if user is way lower than the average level we gave it, we make it a bit harder
+        if (enemyType.equals("\uD83D\uDC32 Dragon") && currentPartyMembers.get(0).getLevel() < 10)
+        {
+            enemy.setStrength(enemy.getStrength() + 50);
+            enemy.setDefence(enemy.getDefence() + 15);
+        }
+        
         if (!enemyType.equals("\uD83D\uDC32 Dragon")) {
             //Play battle music
             Main.music("battle.wav");
@@ -1339,20 +1336,17 @@ public class World {
                     }
                 }
 
-                //Decrease stats of current party members based on equipment (unequip)
-                for (int i=0; i<currentPartyMembers.size(); i++) {
-                    currentPartyMembers.get(i).calcWeapon(currentPartyMembers.get(i).getWeapon(), false);
-                    currentPartyMembers.get(i).calcArmor(currentPartyMembers.get(i).getWeapon(), false);
-                }
-
                 //Print EXP and money
                 System.out.println("You gained " + enemy.getExp() + " EXP");
                 System.out.println("You gained \uD83D\uDCB0 $" + enemy.getMoney());
                 Thread.sleep(2000);
 
-                //Distribute EXP to all party members and reset their MP
+                //Distribute EXP to all party members and reset their MP and unequips weapon and armor stat bonus
                 System.out.println();
-                for (int j = 0; j < currentPartyMembers.size(); j++) {
+                for (int j = 0; j < currentPartyMembers.size(); j++) 
+                {
+                    currentPartyMembers.get(j).calcWeapon(currentPartyMembers.get(j).getWeapon(), false);
+                    currentPartyMembers.get(j).calcArmor(currentPartyMembers.get(j).getWeapon(), false);
                     currentPartyMembers.get(j).setCurrentMp(currentPartyMembers.get(j).getMp());
                     currentPartyMembers.get(j).gainExpMoney(enemy.getExp(), enemy.getMoney());
                     currentPartyMembers.get(j).checkLvl();
@@ -1775,7 +1769,8 @@ public class World {
                             battle("\uD83D\uDC32 Dragon");
 
                             //Claude joins
-                            partyMembers.add(new Party("\uD83D\uDC68 Claude", 1, 105, 20, 35, 15, 5, 0, 4, 0, 105, 20, weapons[2][0], armor[0][1], true));
+                            partyMembers.add(new Party("\uD83D\uDC68 Claude", 1, 105, 20, 35, 15, 5, 0, 4, 0, 105, 20, 
+                                    weapons[2][0], armor[0][1], true));
                             currentPartyMembers.add(partyMembers.get(partyMembers.size()-1));
 
                             //Restore party members' health after the scripted loss
@@ -1787,26 +1782,32 @@ public class World {
                             Thread.sleep(1500);
                             System.out.println("Villager Girl: " + partyMembers.get(2).getName() + " our hero!");
                             Thread.sleep(1500);
-                            System.out.println("Villager Man: Thank you " + partyMembers.get(2).getName() + ". You have aided us " +
+                            System.out.println("Villager Man: Thank you " + partyMembers.get(2).getName() + ". You have "
+                                    + "aided us " +
                                     "once again.");
                             Thread.sleep(1500);
-                            System.out.println(partyMembers.get(1).getName() + ": " + partyMembers.get(2).getName() + "? the hero of " +
+                            System.out.println(partyMembers.get(1).getName() + ": " + partyMembers.get(2).getName() + "?"
+                                    + " the hero of " +
                                     "the village? Is that you?");
                             Thread.sleep(1500);
-                            System.out.println(partyMembers.get(2).getName() + ": It is indeed! I must commend you guys for fighting " +
+                            System.out.println(partyMembers.get(2).getName() + ": It is indeed! I must commend you guys "
+                                    + "for fighting " +
                                     "off against the dragon.");
                             Thread.sleep(1500);
-                            System.out.println(partyMembers.get(2).getName() + ": Although a bit foolish, you managed to buy enough " +
+                            System.out.println(partyMembers.get(2).getName() + ": Although a bit foolish, you managed to"
+                                    + " buy enough " +
                                     "time for me to arrive.");
                             Thread.sleep(1500);
                             System.out.println(partyMembers.get(1).getName() + ": Thanks I guess... oh and pardon our " +
                                     "manners, my name is " + partyMembers.get(1).getName() + "! And this is " +
                                     partyMembers.get(0).getName() + ".");
                             Thread.sleep(1500);
-                            System.out.println(partyMembers.get(2).getName() + ": Nice to meet you guys. Say, I have a fond liking " +
+                            System.out.println(partyMembers.get(2).getName() + ": Nice to meet you guys. Say, I have a "
+                                    + "fond liking " +
                                     "of your courageousness and teamwork.");
                             Thread.sleep(1500);
-                            System.out.println(partyMembers.get(2).getName() + ": How about I join you guys and help muster your " +
+                            System.out.println(partyMembers.get(2).getName() + ": How about I join you guys and help "
+                                    + "muster your " +
                                     "combat skills, and together we take down the dragon!");
                             Thread.sleep(1500);
                             System.out.println(partyMembers.get(1).getName() + ": Sure! Its great to have more " +
@@ -1814,13 +1815,16 @@ public class World {
                             Thread.sleep(1500);
                             System.out.println(partyMembers.get(0).getName() + ": ...");
                             Thread.sleep(1500);
-                            System.out.println(partyMembers.get(2).getName() + ": Ah I see, so he is the generic silent protagonist " +
+                            System.out.println(partyMembers.get(2).getName() + ": Ah I see, so he is the generic silent "
+                                    + "protagonist " +
                                     "type, well no matter.");
                             Thread.sleep(1500);
-                            System.out.println(partyMembers.get(2).getName() + ": Anyways, the best way to train is to tackle on a " +
+                            System.out.println(partyMembers.get(2).getName() + ": Anyways, the best way to train is to "
+                                    + "tackle on a " +
                                     "dungeon located somewhere.");
                             Thread.sleep(1500);
-                            System.out.println(partyMembers.get(2).getName() + ": We can make preparations for now, so let me know " +
+                            System.out.println(partyMembers.get(2).getName() + ": We can make preparations for now, so "
+                                    + "let me know " +
                                     "when you are ready to go out.");
                             Thread.sleep(1500);
                             finishVillage = true;
@@ -1892,9 +1896,12 @@ public class World {
                                                     System.out.println("You don't have enough \uD83D\uDCB0 Money");
                                                 } else {
                                                     //Keqing joins
-                                                    partyMembers.add(new Party("\uD83D\uDC69 Keqing", 1, 120, 25, 40, 18, 20, 0, 5, 0, 120, 25, weapons[0][2], armor[1][2], false));
-                                                    System.out.println(partyMembers.get(3).getName() + " joined your party!");
-                                                    System.out.println(partyMembers.get(3).getName() + ": I'll be at your service.");
+                                                    partyMembers.add(new Party("\uD83D\uDC69 Keqing", 1, 120, 25, 40, 
+                                                            18, 20, 0, 5, 0, 120, 25, weapons[0][2], armor[1][2], false));
+                                                    System.out.println(partyMembers.get(3).getName() + " joined your "
+                                                            + "party!");
+                                                    System.out.println(partyMembers.get(3).getName() + ": I'll be at "
+                                                            + "your service.");
                                                 }
                                                 Thread.sleep(1500);
                                             }
@@ -2580,7 +2587,7 @@ public class World {
             }
             fileWrite.println();
         }
-
+        
         //Save Map
         fileWrite.println("Map");
         for (int i=0; i<m.size(); i++) {

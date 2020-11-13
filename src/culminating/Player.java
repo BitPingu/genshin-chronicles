@@ -100,7 +100,7 @@ public class Player extends Character {
         
         do
         {
-            clearScreen();
+            Main.clearScreen();
 
             //Print Enemy battle info
             System.out.println("Enemy:");
@@ -139,6 +139,7 @@ public class Player extends Character {
             {
                 //attack
                 case "1":
+                    Main.clearScreen();
                     damage = (attack(getDices()) + getStrength()) - entity.defence;
                     
                     if (damage < 0) 
@@ -161,55 +162,55 @@ public class Player extends Character {
                     break;
                 //special
                 case "2":
-                        switch(useSpecialMoves())
-                        {
-                            //wrath Strike
-                            case "Wrath Strike":
-                                damage = ((level * 20) + strength) - entity.defence;
+                    switch(useSpecialMoves())
+                    {
+                        //wrath Strike
+                        case "Wrath Strike":
+                            damage = ((level * 20) + strength) - entity.defence;
 
-                                if (damage < 0)
-                                {
-                                    damage = 0;
-                                }
-                        
-                                entity.currentHealth -= (damage);
-                                System.out.println("\n" + name + " used Wrath Strike!");
-                                Thread.sleep(1000);
-                                System.out.println(name + " deals " + damage + " damage!");
-                                Thread.sleep(1000);
+                            if (damage < 0)
+                            {
+                                damage = 0;
+                            }
 
-                                //makes sure that the enemy does not go below 0
-                                if (entity.currentHealth < 0)
-                                    entity.currentHealth = 0;  
+                            entity.currentHealth -= (damage);
+                            System.out.println("\n" + name + " used Wrath Strike!");
+                            Thread.sleep(1000);
+                            System.out.println(name + " deals " + damage + " damage!");
+                            Thread.sleep(1000);
+
+                            //makes sure that the enemy does not go below 0
+                            if (entity.currentHealth < 0)
+                                entity.currentHealth = 0;  
+                            flag = true;
+                            break;
+
+                        //combat rally
+                        case "Combat Rally":
+                            special = true;
+                            counter = 3;
+                            specialAtk = (strength / 4);
+                            System.out.println(specialAtk);
+                            specialDef = (defence / 4);
+                            System.out.println(specialDef);
+
+                            //gives stat buff to oeveryone in party
+                            System.out.println("\n" + name + " used Combat Rally!");
+                            Thread.sleep(1000);
+                            for (int i = 0; i < partyMembers.size(); i++)
+                            {
+                                System.out.println(partyMembers.get(i).name + "'s Strength and Defense Increased.");
+                                Thread.sleep(1000);
+                                partyMembers.get(i).strength += specialAtk;
+                                partyMembers.get(i).defence += specialDef; 
                                 flag = true;
-                                break;
-                                
-                            //combat rally
-                            case "Combat Rally":
-                                special = true;
-                                counter = 3;
-                                specialAtk = (strength / 4);
-                                System.out.println(specialAtk);
-                                specialDef = (defence / 4);
-                                System.out.println(specialDef);
-                                
-                                //gives stat buff to oeveryone in party
-                                System.out.println("\n" + name + " used Combat Rally!");
-                                Thread.sleep(1000);
-                                for (int i = 0; i < partyMembers.size(); i++)
-                                {
-                                    System.out.println(partyMembers.get(i).name + "'s Strength and Defense Increased.");
-                                    Thread.sleep(1000);
-                                    partyMembers.get(i).strength += specialAtk;
-                                    partyMembers.get(i).defence += specialDef; 
-                                    flag = true;
-                                }
-                                break;
-                                
-                            //error handle - there should be nothing here
-                            default:
-                                break;
-                        }                  
+                            }
+                            break;
+
+                        //error handle - there should be nothing here
+                        default:
+                            break;
+                    }                  
                     break;
                 
                 //Error handleing
@@ -289,7 +290,7 @@ public class Player extends Character {
         //error handle
         do 
         {
-            clearScreen();
+            Main.clearScreen();
             for (int i = 0; i < moveSet.size(); i++)
             {
                 System.out.println((i +1) +") " + moveSet.get(i) + " - " + ((i + 1) * 10));
@@ -305,18 +306,18 @@ public class Player extends Character {
                 //if user tried to pick a nonExistant dice
                 if (choice > (moveSet.size()) && choice != 0) 
                 {
-                    clearScreen();
+                    Main.clearScreen();
                     System.out.println("Please input a Special.");
                     Thread.sleep(1000);
                 }
                 //player picks dice
                 else
                 {
+                    Main.clearScreen();
                     switch(choice)
                     {
                         //if they want to exit
                         case 0:
-                            clearScreen();
                             return "";
                         
                         //players first special
@@ -328,7 +329,6 @@ public class Player extends Character {
                             }
                             else
                             {
-                                clearScreen();
                                 System.out.println("You don't have enough mp.");
                                 Thread.sleep(1000);
                                 break;
@@ -343,19 +343,16 @@ public class Player extends Character {
                             }
                             else if(special)
                             {
-                                clearScreen();
                                 System.out.println("You already have a buff.");
                                 Thread.sleep(1000);
                             }
                             else
                             {
-                                clearScreen();
                                 System.out.println("You don't have enough mp.");
                                 Thread.sleep(1000);
                                 break;
                             }
                     } 
-
                 }
             }
             //if a user picks anything but a number
@@ -429,7 +426,8 @@ public class Player extends Character {
      * @throws java.lang.InterruptedException 
      **************************/
     @Override
-    public boolean checkInventory(ArrayList<ArrayList<String>> inventory, String item, int amount) throws InterruptedException {
+    public boolean checkInventory(ArrayList<ArrayList<String>> inventory, String item, int amount) 
+            throws InterruptedException {
 
         int first = 0, middle = 0, last = inventory.size()-1;
         boolean found = false;
@@ -518,11 +516,8 @@ public class Player extends Character {
                         inventory.get(i).remove(item);
                     }
                 }
-
             }
-
         }
-
     }//end of removeInventory
     
     /*************************
@@ -535,7 +530,7 @@ public class Player extends Character {
         //level up based on level * 20
         if (getExp() >= (getLevel() * 20))
         {
-            clearScreen();
+            Main.clearScreen();
             System.out.println("Level up! " + getName());
             setExp(0);
             
@@ -604,7 +599,4 @@ public class Player extends Character {
                 moveSet.add("Combat Rally");
             }
     }//end of checkSpecialMoves
-    
-    
- 
 }//end of class

@@ -52,7 +52,7 @@ public class Enemy extends Character {
             case "\uD83D\uDC7B Ghost":
                 this.health = (level * 20) + 169;
                 this.mp = (level * 5) + 10;
-                this.strength = (level * 5) + 25;
+                this.strength = (level * 10) + 25;
                 this.defence = (level * 5) + 5;
                 this.speed = (level * 3) + 2;
                 this.exp = (level * 10) + 10;
@@ -143,7 +143,7 @@ public class Enemy extends Character {
 
         do
         {
-            clearScreen();
+            Main.clearScreen();
             switch (random.nextInt(5) + 1) 
             {
 
