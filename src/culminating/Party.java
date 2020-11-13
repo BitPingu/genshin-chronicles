@@ -19,10 +19,6 @@ public class Party extends Character {
         checkSpecialMoves();
     }
 
-    //Accessors
-
-    //Mutators
-
     /*************************
      * Method Name: fight
      * Method Description: Invoked when player initiates an enemy.
@@ -516,10 +512,10 @@ public class Party extends Character {
         }
     }//end of checkLvl
     
-    /**
-     * specialMove
+    /****************************
+     * checkSpecialMoves
      * This method is a way to show when part members and players will gain a special move(and possibly enemies)
-     */
+     ***************************/
     @Override
     public void checkSpecialMoves()
     {

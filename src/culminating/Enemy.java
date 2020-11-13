@@ -6,11 +6,10 @@ import java.util.Random;
 public class Enemy extends Character {
 
     //Constructors
-
     public Enemy(String name, int level, String weapon, String armor) {
         super(name, level, weapon, armor);
 
-        //distrobutes stats based on what enemy it is
+        //distributes stats based on what enemy it is
         switch(name)
         {
             //zombie
@@ -125,10 +124,6 @@ public class Enemy extends Character {
         currentHealth = this.health;
         currentMp = this.mp;
     }
-
-    //Accessors
-
-    //Mutators
 
     /*************************
      * Method Name: fight

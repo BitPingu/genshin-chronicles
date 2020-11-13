@@ -42,7 +42,7 @@ public class Character {
         armor = a;
     }
 
-        //Accessors
+    //Accessors
     public int getLevel() {
         return level;
     }
