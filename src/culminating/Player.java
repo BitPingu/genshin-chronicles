@@ -12,7 +12,7 @@ public class Player extends Character {
     private final Scanner scanN = new Scanner(System.in);
     private final Random random = new Random();
     private int counter, specialAtk, specialDef;
-    private boolean special = false, state;
+    private boolean special = false;
 
     //Constructor
     public Player(String name, int level, int hp, int mp, int str, int def, int spd, int exp, int dice, int money,
@@ -23,34 +23,41 @@ public class Player extends Character {
     }
 
     //Accessors
+    @Override
     public ArrayList<ArrayList<String>> getInventory() {
         return inventory;
     }
 
+    @Override
     public boolean getSpecial()
     {
         return special;
     }
+    @Override
     public int getSpecialAtk()
     {
         return specialAtk;
     }
+    @Override
     public int getSpecialDef()
     {
         return specialDef;
     }
     
     //Mutators
+    @Override
     public void setInventory (ArrayList<ArrayList<String>> i) 
     {
         inventory = i;
     }
 
+    @Override
     public void setCounter(int count)
     {
         counter = count;
     }
 
+    @Override
     public void setSpecial(boolean sp)
     {
         special = sp;
@@ -60,7 +67,12 @@ public class Player extends Character {
     /*************************
      * Method Name: fight
      * Method Description: Invoked when player initiates an enemy.
+     * @param partyMembers - party members
+     * @param entity - enemy data
+     * @return returns a boolean statement, if enemy is dead
+     * @throws java.lang.InterruptedException
      **************************/
+    @Override
     public boolean fight(ArrayList<Character> partyMembers, Character entity) throws InterruptedException {
 
         //Variables in fight
@@ -100,21 +112,20 @@ public class Player extends Character {
             //Print Party Members' battle info
             System.out.println("\nTeam:");
             for (int k = 0; k < partyMembers.size(); k++) {
-                System.out.format("%-15s", partyMembers.get(k).getName());
+                System.out.print(partyMembers.get(k).getName() + "\t\t");
             }
             System.out.println();
             for (int k = 0; k < partyMembers.size(); k++) {
-                System.out.format("%-15s", "Lvl: " + partyMembers.get(k).getLevel());
+                System.out.print("Lvl: " + partyMembers.get(k).getLevel() + "\t\t");
             }
             System.out.println();
             for (int k = 0; k < partyMembers.size(); k++) {
-                System.out.format("%-15s", "HP: " + partyMembers.get(k).getCurrentHealth() + "/"
-                        + partyMembers.get(k).getHealth());
+                System.out.print("HP: " + partyMembers.get(k).getCurrentHealth() + "/" + partyMembers.get(k).getHealth()
+                        + "\t\t");
             }
             System.out.println();
             for (int k = 0; k < partyMembers.size(); k++) {
-                System.out.format("%-15s", "MP: " + partyMembers.get(k).getCurrentMp() + "/"
-                        + partyMembers.get(k).getMp());
+                System.out.print("MP: " + partyMembers.get(k).getCurrentMp() + "/" + partyMembers.get(k).getMp() + "\t\t");
             }
             System.out.println("\n");
             
@@ -217,6 +228,7 @@ public class Player extends Character {
      * This method will show the user their available attacks
      * @param diceTotal - how many dices the character has
      * @return - returns damage output
+     * @throws java.lang.InterruptedException
      ************************/
     @Override
     public int attack(int diceTotal) throws InterruptedException
@@ -260,6 +272,12 @@ public class Player extends Character {
         } while (true);
     }//end of attack
     
+    /**
+     * useSpecialMoves
+     * This method will shows the users what moves that can use and allows the user to access that move
+     * @return returns the string value of the special
+     * @throws java.lang.InterruptedException
+     */
     @Override
     public String useSpecialMoves() throws InterruptedException
     {
@@ -294,9 +312,12 @@ public class Player extends Character {
                 {
                     switch(choice)
                     {
+                        //if they want to exit
                         case 0:
                             clearScreen();
                             return "";
+                        
+                        //players first special
                         case 1:
                             if ((currentMp - 10) >= 0)
                             {
@@ -310,7 +331,8 @@ public class Player extends Character {
                                 Thread.sleep(1000);
                                 break;
                             }
-                            
+                        
+                        //players second special
                         case 2:
                             if ((currentMp - 20) >= 0 && !special)
                             {
@@ -347,6 +369,7 @@ public class Player extends Character {
      * Method Name: printInventory
      * Method Description: Display the player's inventory
      **************************/
+    @Override
     public void printInventory() 
     {
         //Prints out what the user owns (sorted)
@@ -363,6 +386,7 @@ public class Player extends Character {
     /*************************
      * Method Name: sortInventory
      * Method Description: Sort the player's inventory using selection sort.
+     * @param inventory - player inventory
      **************************/
     public void sortInventory(ArrayList<ArrayList<String>> inventory) {
 
@@ -396,7 +420,13 @@ public class Player extends Character {
     /*************************
      * Method Name: checkInventory
      * Method Description: Check the player's inventory to find a certain item and amount using binary search.
+     * @param inventory - items that the player is holding
+     * @param item - the item name
+     * @param amount - how much they need
+     * @return returns if they have the item
+     * @throws java.lang.InterruptedException 
      **************************/
+    @Override
     public boolean checkInventory(ArrayList<ArrayList<String>> inventory, String item, int amount) throws InterruptedException {
 
         int first = 0, middle = 0, last = inventory.size()-1;
@@ -435,7 +465,9 @@ public class Player extends Character {
     /*************************
      * Method Name: addInventory
      * Method Description: Adds a new item to the player's inventory.
+     * @param item - item name
      **************************/
+    @Override
     public void addInventory(String item) {
 
         boolean newItem = true;
@@ -464,7 +496,10 @@ public class Player extends Character {
     /*************************
      * Method Name: removeInventory
      * Method Description: Removes an item from the player's inventory.
+     * @param item - item name
+     * @param amount - amount being removed
      **************************/
+    @Override
     public void removeInventory(String item, int amount) {
 
         //Look for item in inventory
@@ -549,7 +584,7 @@ public class Player extends Character {
     }//end of checkLvl
     
     /**
-     * specialMove
+     * checkSpecialMoves
      * This method is a way to show when part members and players will gain a special move(and possibly enemies)
      */
     @Override

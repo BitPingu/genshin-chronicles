@@ -109,6 +109,7 @@ public class Party extends Character {
 
                     //specials
                     case "2":
+                        clearScreen();
                         switch(useSpecialMoves())
                         {
                             //Robins specials
@@ -343,7 +344,7 @@ public class Party extends Character {
       
     /**
      * useSpecialMove
-     * TThis method will let used for fight
+     * This method will let used for fight
      */
     @Override
     public String useSpecialMoves() throws InterruptedException

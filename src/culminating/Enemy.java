@@ -111,9 +111,9 @@ public class Enemy extends Character {
 
             //Dragon
             case "\uD83D\uDC32 Dragon":
-                this.health = (level * 200) + 500;
+                this.health = (level * 200) + 1000;
                 this.mp = (level * 25) + 20;
-                this.strength = (level * 25) + 10;
+                this.strength = (level * 40) + 20;
                 this.defence = (level * 15) + 10;
                 this.speed = (level * 40) + 2;
                 this.exp = (level * 100) + 10;

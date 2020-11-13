@@ -283,9 +283,10 @@ public class Character {
     public void checkSpecialMoves()
     {
     }//end of checkSpecialMoves
+    
     /**
-     * checkSpecialMoves
-     * This method is a way to show when part members and players will gain a special move(and possibly enemies)
+     * useSpecialMoves
+     * This method will shows the users what moves that can use and allows the user to access that move
      */
     public String useSpecialMoves() throws InterruptedException
     {

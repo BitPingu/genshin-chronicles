@@ -1221,11 +1221,6 @@ public class World {
                 //Player (and Team Members) win
                 System.out.println(enemy.name + " dies!");
                 Thread.sleep(1000);
-
-                //Reset mp of current party
-                for (int j = 0; j < currentPartyMembers.size(); j++) {
-                    currentPartyMembers.get(j).setCurrentMp(currentPartyMembers.get(j).getMp());
-                }
                 
                 //returns normal stats to all the party embers if stat distro is still active
                 if (currentPartyMembers.get(0).getSpecial())
@@ -1241,15 +1236,22 @@ public class World {
 
                     }
                 }
-
+                
+                System.out.println("You gained " + enemy.getExp() + " EXP");
+                System.out.println("You gained \uD83D\uDCB0 $" + enemy.getMoney());
+                Thread.sleep(2000);
+                
                 //Distribute exp to all Party Members
                 System.out.println();
                 for (int j = 0; j < currentPartyMembers.size(); j++)
                 {
+                    //Reset mp of current party
+                    currentPartyMembers.get(j).setCurrentMp(currentPartyMembers.get(j).getMp());
                     currentPartyMembers.get(j).gainExpMoney(enemy.getExp(), enemy.getMoney());
                     currentPartyMembers.get(j).checkLvl();
                     System.out.println();
                 }
+                
                 Thread.sleep(2000);
                 clearScreen();
                 break;
