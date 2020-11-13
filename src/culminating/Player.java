@@ -525,7 +525,7 @@ public class Player extends Character {
      * THis method will check if the user can level up or not
      *************************/
     @Override
-    public void checkLvl()
+    public void checkLvl() throws InterruptedException
     {
         //level up based on level * 20
         if (getExp() >= (getLevel() * 20))
@@ -577,6 +577,9 @@ public class Player extends Character {
                 System.out.println("Dices: " + dices + " -> " + dices);
             
             checkSpecialMoves();
+            System.out.println("");
+            Thread.sleep(2000);
+            
         }
     }//end of checkLvl
     
@@ -588,15 +591,15 @@ public class Player extends Character {
     public void checkSpecialMoves()
     {
         //makes sure that the user has WraithStrike
-            if (!moveSet.contains("Wrath Strike"))
-            {
-                moveSet.add("Wrath Strike");
-            }
+        if (!moveSet.contains("Wrath Strike"))
+        {
+            moveSet.add("Wrath Strike");
+        }
 
-            //users second special
-            if (level >= 8 && !moveSet.contains("Combat Rally"))
-            {
-                moveSet.add("Combat Rally");
-            }
+        //users second special
+        if (level >= 8 && !moveSet.contains("Combat Rally"))
+        {
+            moveSet.add("Combat Rally");
+        }
     }//end of checkSpecialMoves
 }//end of class

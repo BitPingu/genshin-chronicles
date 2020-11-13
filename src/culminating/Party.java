@@ -421,9 +421,10 @@ public class Party extends Character {
     /*************************
      * checkLvl
      * This method will check if the user can level up or not
+     * @throws java.lang.InterruptedException
      *************************/
     @Override
-    public void checkLvl()
+    public void checkLvl() throws InterruptedException
     {
         //declaring base growth of each party member
         int hpRate = 0, mpRate = 0, strRate = 0, defRate = 0, spdRate = 0, diceLimit = 0;
@@ -508,6 +509,9 @@ public class Party extends Character {
                 System.out.println("Dices: " + dices + " -> " + dices);
             
             checkSpecialMoves();
+            System.out.println("");
+            Thread.sleep(2000);
+            
         }
     }//end of checkLvl
     

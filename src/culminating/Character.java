@@ -275,7 +275,11 @@ public class Character {
         money += mo;
     }
 
-    public void checkLvl()
+    /**
+     *checkLvl
+     * @throws InterruptedException
+     */
+    public void checkLvl() throws InterruptedException
     {
     }//end of checkLvl
     
