@@ -1350,9 +1350,7 @@ public class World {
                     currentPartyMembers.get(j).setCurrentMp(currentPartyMembers.get(j).getMp());
                     currentPartyMembers.get(j).gainExpMoney(enemy.getExp(), enemy.getMoney());
                     currentPartyMembers.get(j).checkLvl();
-                    System.out.println("\n");
                 }
-                Thread.sleep(2000);
 
                 if (!enemyType.equals("\uD83D\uDC32 Dragon")) {
                     //Remove enemy from map (replace it with a tree)
