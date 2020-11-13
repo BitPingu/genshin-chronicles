@@ -256,6 +256,7 @@ public class Player extends Character {
                 if (choice > dice.size()) 
                 {
                     System.out.println("Please input a dice.");
+                    Thread.sleep(1000);
                 }
                 //player picks dice
                 else
@@ -268,6 +269,7 @@ public class Player extends Character {
             {
                 scanN.nextLine();
                 System.out.println("Please input a dice.");
+                Thread.sleep(1000);
             }
         } while (true);
     }//end of attack
