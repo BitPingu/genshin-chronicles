@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /***********************************************
- * Project: The Legend of Genshin: Beginning of the World V1
+ * Project: The Legend of Genshin: Beginning of the World V2
  * Class: Main
  * Programmers: Jose Jesus II Abejo and Gavin Eugenio
  * Date: November 3, 2020
