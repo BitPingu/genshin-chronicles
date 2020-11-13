@@ -236,6 +236,7 @@ public class Character {
      * calcEquipment
      * This method calculates and adds stats based on weapon
      * @param w - weapon
+     * @param equip - their equipment
      **************************/
     public void calcWeapon (String w, boolean equip) {
         String[] tokens = w.split(" ");
@@ -250,6 +251,7 @@ public class Character {
      * calcUnequip
      * This method calculates and adds stats based on armor
      * @param a - armor
+     * @param equip - their equpment
      **************************/
     public void calcArmor (String a, boolean equip) {
         String[] tokens = a.split(" ");
@@ -288,12 +290,15 @@ public class Character {
     /**
      * useSpecialMoves
      * This method will shows the users what moves that can use and allows the user to access that move
+     * @return 
+     * @throws java.lang.InterruptedException
      */
     public String useSpecialMoves() throws InterruptedException
     {
         return null;
     }//end of checkSpecialMoves
     
+    @Override
     public String toString() {
         return name + " " + level + " " +  health + " " +  mp + " " +  strength + " " +  defence + " " +  speed + " " +
                 exp + " " +  dices + " " +  money + " " + currentHealth + " " + currentMp + " " + weapon + " " + armor +
