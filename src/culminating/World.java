@@ -251,11 +251,13 @@ public class World {
         String name, connectedName;
 
         //Player joins
-        partyMembers.add(new Player("\uD83E\uDDDD Traveller", 1, 128, 15, 42, 12, 5, 0, 4, 0, 128, 15, "\uD83E\uDD1B Mighty Fists 3", armor[0][0], true));
+        partyMembers.add(new Player("\uD83E\uDDDD Traveller", 1, 128, 15, 42, 12, 5, 0, 4, 
+                0, 128, 15, "\uD83E\uDD1B Mighty Fists 3", armor[0][0], true));
         currentPartyMembers.add(partyMembers.get(partyMembers.size()-1));
 
         //Robin joins (eventually)
-        partyMembers.add(new Party("\uD83E\uDDDA Girl", 1, 85, 25, 30, 12, 8, 0, 3, 0, 70, 25, weapons[1][0], armor[1][0], true));
+        partyMembers.add(new Party("\uD83E\uDDDA Girl", 1, 85, 25, 30, 12, 8, 0, 3, 
+                0, 70, 25, weapons[1][0], armor[1][0], true));
         currentPartyMembers.add(partyMembers.get(partyMembers.size()-1));
 
         //Robin and Ogre starting position
@@ -274,7 +276,8 @@ public class World {
 
         //After first battle - meeting the waifu and setting the name
         Main.clearScreen();
-        System.out.println(partyMembers.get(1).getName() + ": Thanks for saving me! My name is \uD83E\uDDDA Robin What is yours?");
+        System.out.println(partyMembers.get(1).getName() + ": Thanks for saving me! My name is \uD83E\uDDDA "
+                + "Robin What is yours?");
         Thread.sleep(1500);
         partyMembers.get(1).setName("\uD83E\uDDDA Robin");
         System.out.println(partyMembers.get(1).getName() + ": ...");
@@ -309,7 +312,8 @@ public class World {
         Thread.sleep(1500);
         System.out.println(partyMembers.get(0).getName() + ": ...");
         Thread.sleep(1500);
-        System.out.println(partyMembers.get(1).getName() + ": So you are saying that you just woke up and found yourself here...");
+        System.out.println(partyMembers.get(1).getName() + ": So you are saying that you just woke "
+                + "up and found yourself here...");
         Thread.sleep(1500);
         System.out.println(partyMembers.get(1).getName() + ": with no recollection of anything? That's strange...");
         Thread.sleep(1500);
@@ -1228,7 +1232,8 @@ public class World {
                             }
                         }
                         memberAdd = Integer.parseInt(keyInput.nextLine());
-                    } while (memberAdd <= 0 || memberAdd >= partyMembers.size() || partyMembers.get(memberAdd).inCurrentParty);
+                    } while (memberAdd <= 0 || memberAdd >= partyMembers.size() || 
+                            partyMembers.get(memberAdd).inCurrentParty);
 
                     //Replacing a party member
                     System.out.println("Select a party member to replace.");
@@ -1239,7 +1244,8 @@ public class World {
                         memberReplace = Integer.parseInt(keyInput.nextLine());
                     } while (memberReplace <= 0 || memberReplace >= currentPartyMembers.size());
 
-                    System.out.println(currentPartyMembers.get(memberReplace).getName() + " switched with " + partyMembers.get(memberAdd).getName());
+                    System.out.println(currentPartyMembers.get(memberReplace).getName() + " switched with " 
+                            + partyMembers.get(memberAdd).getName());
                     Thread.sleep(1000);
 
                     //Swap party members, set respective boolean values
