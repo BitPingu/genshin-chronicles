@@ -251,12 +251,12 @@ public class World {
         String name, connectedName;
 
         //Player joins
-        partyMembers.add(new Player("\uD83E\uDDDD Traveller", 1, 128, 15, 42, 12, 5, 0, 4, 
+        partyMembers.add(new Player("\uD83E\uDDDD Traveller", 1, 128, 15, 42, 12, 5, 0, 4,
                 0, 128, 15, "\uD83E\uDD1B Mighty Fists 3", armor[0][0], true));
         currentPartyMembers.add(partyMembers.get(partyMembers.size()-1));
 
         //Robin joins (eventually)
-        partyMembers.add(new Party("\uD83E\uDDDA Girl", 1, 85, 25, 30, 12, 8, 0, 3, 
+        partyMembers.add(new Party("\uD83E\uDDDA Girl", 1, 85, 25, 30, 12, 8, 0, 3,
                 0, 70, 25, weapons[1][0], armor[1][0], true));
         currentPartyMembers.add(partyMembers.get(partyMembers.size()-1));
 
@@ -282,7 +282,8 @@ public class World {
         partyMembers.get(1).setName("\uD83E\uDDDA Robin");
         System.out.println(partyMembers.get(1).getName() + ": ...");
         Thread.sleep(1500);
-        System.out.println(partyMembers.get(1).getName() + ": What?! You don't know your own name? Then I should call you...");
+        System.out.println(partyMembers.get(1).getName() + ": What?! You don't know your own name? Then I should call " +
+                "you...");
         Thread.sleep(1500);
 
         do {
@@ -581,12 +582,12 @@ public class World {
                         System.out.println("You feel an ominous aura surrounding the tower, best not to approach it.");
                         Thread.sleep(1500);
                     } else {
-                        System.out.println("You have arrived at the dragon's tower.");
+                        System.out.println("You have arrived at the \uD83D\uDC32 Dragon's tower.");
                         Thread.sleep(1500);
-                        System.out.println("Once you enter, you will be facing the dragon.");
+                        System.out.println("Once you enter, you will be facing the \uD83D\uDC32 Dragon.");
                         Thread.sleep(1500);
-                        System.out.println("It is recommended that you and your party must be well equipped and at least " +
-                                "Level 12.");
+                        System.out.println("It is recommended that you and your party must be well equipped and at " +
+                                "least Level 12.");
                         Thread.sleep(1500);
                         do {
                             System.out.println("Are you ready? (y/n)");
@@ -1164,12 +1165,12 @@ public class World {
             }
             System.out.println();
             for (int i=0; i<currentPartyMembers.size(); i++) {
-                System.out.print("HP: " + currentPartyMembers.get(i).getCurrentHealth() + "/" 
+                System.out.print("HP: " + currentPartyMembers.get(i).getCurrentHealth() + "/"
                         + currentPartyMembers.get(i).getHealth() + "\t\t");
             }
             System.out.println();
             for (int i=0; i<currentPartyMembers.size(); i++) {
-                System.out.print("MP: " + currentPartyMembers.get(i).getCurrentMp() + "/" 
+                System.out.print("MP: " + currentPartyMembers.get(i).getCurrentMp() + "/"
                         + currentPartyMembers.get(i).getMp() + "\t\t");
             }
             System.out.println();
@@ -1186,7 +1187,7 @@ public class World {
             }
             System.out.println();
             for (int i=0; i<currentPartyMembers.size(); i++) {
-                System.out.print("Exp: " + currentPartyMembers.get(i).getExp() + "/" 
+                System.out.print("Exp: " + currentPartyMembers.get(i).getExp() + "/"
                         + (currentPartyMembers.get(i).getLevel() * 20) + "\t\t");
             }
             System.out.println();
@@ -1232,7 +1233,7 @@ public class World {
                             }
                         }
                         memberAdd = Integer.parseInt(keyInput.nextLine());
-                    } while (memberAdd <= 0 || memberAdd >= partyMembers.size() || 
+                    } while (memberAdd <= 0 || memberAdd >= partyMembers.size() ||
                             partyMembers.get(memberAdd).inCurrentParty);
 
                     //Replacing a party member
@@ -1244,7 +1245,7 @@ public class World {
                         memberReplace = Integer.parseInt(keyInput.nextLine());
                     } while (memberReplace <= 0 || memberReplace >= currentPartyMembers.size());
 
-                    System.out.println(currentPartyMembers.get(memberReplace).getName() + " switched with " 
+                    System.out.println(currentPartyMembers.get(memberReplace).getName() + " switched with "
                             + partyMembers.get(memberAdd).getName());
                     Thread.sleep(1000);
 
@@ -1281,7 +1282,7 @@ public class World {
             enemy.setStrength(enemy.getStrength() + 50);
             enemy.setDefence(enemy.getDefence() + 15);
         }
-        
+
         if (!enemyType.equals("\uD83D\uDC32 Dragon")) {
             //Play battle music
             Main.music("battle.wav");
@@ -1291,7 +1292,8 @@ public class World {
             //Prints during tutorial
             System.out.println(partyMembers.get(1).getName() + ": Wait, you know how to fight?");
             Thread.sleep(1500);
-            System.out.println(partyMembers.get(1).getName() + ": Ok! I'm a Cleric, so I can heal you if you get injured.");
+            System.out.println(partyMembers.get(1).getName() + ": Ok! I'm a Cleric, so I can heal you if you get " +
+                    "injured.");
             Thread.sleep(1500);
         } else if (enemyType.equals("\uD83D\uDC32 Dragon") && !finishDungeon) {
             //Prints during events at the village
@@ -1349,7 +1351,7 @@ public class World {
 
                 //Distribute EXP to all party members and reset their MP and unequips weapon and armor stat bonus
                 System.out.println();
-                for (int j = 0; j < currentPartyMembers.size(); j++) 
+                for (int j = 0; j < currentPartyMembers.size(); j++)
                 {
                     currentPartyMembers.get(j).calcWeapon(currentPartyMembers.get(j).getWeapon(), false);
                     currentPartyMembers.get(j).calcArmor(currentPartyMembers.get(j).getWeapon(), false);
@@ -1415,7 +1417,8 @@ public class World {
      * Method Description: Displays the dungeon.
      * @return - boolean value when player dies
      **************************/
-    public boolean dungeon() throws InterruptedException, UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public boolean dungeon() throws InterruptedException, UnsupportedAudioFileException, IOException,
+            LineUnavailableException {
 
         //String variable for user prompt
         String prompt = "n";
@@ -1449,18 +1452,21 @@ public class World {
                 //Train with Claude
                 System.out.println("As you enter the dungeon, you start to hear creatures lurking behind the walls.");
                 Thread.sleep(1500);
-                System.out.println(partyMembers.get(2).getName() + ": This underground chamber is what ya call a dungeon.");
+                System.out.println(partyMembers.get(2).getName() + ": This underground chamber is what ya call a " +
+                        "dungeon.");
                 Thread.sleep(1500);
-                System.out.println(partyMembers.get(2).getName() + ": You can find these all over the world of Genshin.");
+                System.out.println(partyMembers.get(2).getName() + ": You can find these all over the world of " +
+                        "Genshin.");
                 Thread.sleep(1500);
-                System.out.println(partyMembers.get(2).getName() + ": Inside these corridors, you will be facing waves " +
-                        "of enemies non-stop.");
+                System.out.println(partyMembers.get(2).getName() + ": Inside these corridors, you will be facing " +
+                        "waves of enemies non-stop.");
                 Thread.sleep(1500);
                 System.out.println(partyMembers.get(2).getName() + ": As dangerous as it is, it is a great place to " +
                         "train.");
                 Thread.sleep(1500);
-                System.out.println(partyMembers.get(2).getName() + ": The legends say that once you reach the end, " +
-                        "you will be blessed with a gift from the Goddess.");
+                System.out.println(partyMembers.get(2).getName() + ": The legends say that once you reach the end...");
+                Thread.sleep(1500);
+                System.out.println(partyMembers.get(2).getName() + ": you will be blessed with a gift from the Goddess.");
                 Thread.sleep(1500);
                 System.out.println(partyMembers.get(2).getName() + ": But I've heard many people who attempted " +
                         "have never returned...");
@@ -1487,6 +1493,8 @@ public class World {
             }
 
             //Obtain reward at the end
+            System.out.println(partyMembers.get(0).getName() + " has completed the dungeon!");
+            Thread.sleep(1500);
             reward("quest");
 
             //Play dungeon music
@@ -1497,13 +1505,18 @@ public class World {
                 System.out.println(partyMembers.get(1).getName() + ": Huff... puff... I can't believe we got through " +
                         "all of that alive...");
                 Thread.sleep(1500);
-                System.out.println(partyMembers.get(2).getName() + ": Wow, great job guys! I have to admit I was a " +
-                        "little doubtful that you guys would've been able to make it out...");
+                System.out.println(partyMembers.get(2).getName() + ": Wow, great job guys!");
+                Thread.sleep(1500);
+                System.out.println(partyMembers.get(2).getName() + ": I have to admit I was a little doubtful that you " +
+                        "guys would've been able to make it out...");
                 Thread.sleep(1500);
                 System.out.println(partyMembers.get(2).getName() + ": But here we are!");
                 Thread.sleep(1500);
                 System.out.println(partyMembers.get(2).getName() + ": And now that I have sufficient data on your " +
-                        "combat abilities, I think you are worthy of having me in your team!");
+                        "combat abilities...");
+                Thread.sleep(1500);
+                System.out.println(partyMembers.get(2).getName() + ": I think you two are worthy of having me in your " +
+                        "team!");
                 Thread.sleep(1500);
                 System.out.println(partyMembers.get(1).getName() + ": Woah really?! Its an honor!");
                 Thread.sleep(1500);
@@ -1593,7 +1606,8 @@ public class World {
      * Method Name: village
      * Method Description: Displays the village.
      **************************/
-    public void village() throws UnsupportedAudioFileException, IOException, LineUnavailableException, InterruptedException {
+    public void village() throws UnsupportedAudioFileException, IOException, LineUnavailableException,
+            InterruptedException {
 
         //ArrayList for available quests in current village
         ArrayList<String> quests = null;
@@ -1669,7 +1683,7 @@ public class World {
                 Thread.sleep(1500);
                 System.out.println(partyMembers.get(1).getName() + ": But first we should probably rest at the Inn " +
                         "since it's getting late.");
-                Thread.sleep(1500);
+                Thread.sleep(2000);
 
             }
 
@@ -1686,7 +1700,7 @@ public class World {
                 System.out.println("[i]: Inventory");
 
                 //User prompt inside village
-                System.out.println("\nWelcome to village.");
+                System.out.println("\nWelcome to Village.");
                 System.out.println("1) Rest at Inn");
                 if (finishVillage) {
                     System.out.println("2) Visit the Store");
@@ -1745,7 +1759,7 @@ public class World {
                                     System.out.println("You and your team's health are fully restored!");
                                 }
                             }
-                            Thread.sleep(1000);
+                            Thread.sleep(2000);
                         }
 
                         if (!finishVillage) {
@@ -1754,11 +1768,12 @@ public class World {
 
                             //Continue story and play boss music
                             Main.music("boss.wav");
-                            System.out.println("The next day, you and \uD83E\uDDDA Robin wake up to the sound of screaming.");
+                            System.out.println("The next day, you and \uD83E\uDDDA Robin wake up to the sound of " +
+                                    "screaming.");
                             Thread.sleep(1500);
                             System.out.println(partyMembers.get(1).getName() + ": What's going on?!");
                             Thread.sleep(1500);
-                            System.out.println("Villager: We're being under attacked by a dragon!");
+                            System.out.println("Villager: We're being under attacked by a \uD83D\uDC32 Dragon!");
                             Thread.sleep(1500);
                             System.out.println(partyMembers.get(1).getName() + ": Oh no! We must save the villagers!");
                             Thread.sleep(1500);
@@ -1773,7 +1788,7 @@ public class World {
                             battle("\uD83D\uDC32 Dragon");
 
                             //Claude joins
-                            partyMembers.add(new Party("\uD83D\uDC68 Claude", 1, 105, 20, 35, 15, 5, 0, 4, 0, 105, 20, 
+                            partyMembers.add(new Party("\uD83D\uDC68 Claude", 1, 105, 20, 35, 15, 5, 0, 4, 0, 105, 20,
                                     weapons[2][0], armor[0][1], true));
                             currentPartyMembers.add(partyMembers.get(partyMembers.size()-1));
 
@@ -1784,19 +1799,19 @@ public class World {
 
                             System.out.println("???: You guys ok?");
                             Thread.sleep(1500);
-                            System.out.println("Villager Girl: " + partyMembers.get(2).getName() + " our hero!");
+                            System.out.println("Villager Girl: " + partyMembers.get(2).getName() + " our Hero!");
                             Thread.sleep(1500);
                             System.out.println("Villager Man: Thank you " + partyMembers.get(2).getName() + ". You have "
                                     + "aided us " +
                                     "once again.");
                             Thread.sleep(1500);
                             System.out.println(partyMembers.get(1).getName() + ": " + partyMembers.get(2).getName() + "?"
-                                    + " the hero of " +
-                                    "the village? Is that you?");
+                                    + " the Hero of " +
+                                    "the Village? Is that you?");
                             Thread.sleep(1500);
                             System.out.println(partyMembers.get(2).getName() + ": It is indeed! I must commend you guys "
                                     + "for fighting " +
-                                    "off against the dragon.");
+                                    "off against the \uD83D\uDC32 Dragon");
                             Thread.sleep(1500);
                             System.out.println(partyMembers.get(2).getName() + ": Although a bit foolish, you managed to"
                                     + " buy enough " +
@@ -1810,9 +1825,11 @@ public class World {
                                     + "fond liking " +
                                     "of your courageousness and teamwork.");
                             Thread.sleep(1500);
-                            System.out.println(partyMembers.get(2).getName() + ": How about I join you guys and help "
-                                    + "muster your " +
-                                    "combat skills, and together we take down the dragon!");
+                            System.out.println(partyMembers.get(2).getName() + ": How about I join you guys and help " +
+                                    "muster your combat skills...");
+                            Thread.sleep(1500);
+                            System.out.println(partyMembers.get(2).getName() + ": and together we take down the " +
+                                    "\uD83D\uDC32 Dragon!");
                             Thread.sleep(1500);
                             System.out.println(partyMembers.get(1).getName() + ": Sure! Its great to have more " +
                                     "companions. Right " + partyMembers.get(0).getName() + "?");
@@ -1827,10 +1844,9 @@ public class World {
                                     + "tackle on a " +
                                     "dungeon located somewhere.");
                             Thread.sleep(1500);
-                            System.out.println(partyMembers.get(2).getName() + ": We can make preparations for now, so "
-                                    + "let me know " +
-                                    "when you are ready to go out.");
-                            Thread.sleep(1500);
+                            System.out.println(partyMembers.get(2).getName() + ": We can make preparations for now, so " +
+                                    "let me know when you are ready to go out.");
+                            Thread.sleep(2000);
                             finishVillage = true;
 
                             //Restore party members' health after the scripted loss
@@ -1900,7 +1916,7 @@ public class World {
                                                     System.out.println("You don't have enough \uD83D\uDCB0 Money");
                                                 } else {
                                                     //Keqing joins
-                                                    partyMembers.add(new Party("\uD83D\uDC69 Keqing", 1, 120, 25, 40, 
+                                                    partyMembers.add(new Party("\uD83D\uDC69 Keqing", 1, 120, 25, 40,
                                                             18, 20, 0, 5, 0, 120, 25, weapons[0][2], armor[1][2], false));
                                                     System.out.println(partyMembers.get(3).getName() + " joined your "
                                                             + "party!");
@@ -1923,7 +1939,7 @@ public class World {
                             } while (!prompt.equals("3"));
 
                             System.out.println("Store Clerk: Come back soon!");
-                            Thread.sleep(1500);
+                            Thread.sleep(2000);
 
                         }
                         break;
@@ -2363,6 +2379,12 @@ public class World {
         do {
             System.out.println("Would you like to replace it with " + item + "? (y/n)");
             confirm = keyInput.nextLine();
+            if (!confirm.equalsIgnoreCase("y") && !confirm.equalsIgnoreCase("n")) {
+                //Error trap
+                System.out.println("\u001B[31mInvalid Selection\u001B[0m");
+                Thread.sleep(500);
+                Main.clearScreen();
+            }
         } while (!confirm.equalsIgnoreCase("y") && !confirm.equalsIgnoreCase("n"));
 
         //Replace weapon/armor
@@ -2388,7 +2410,8 @@ public class World {
      * Method Description: Displays the final boss and ending to the story.
      * @return - boolean value when player dies
      **************************/
-    public boolean end() throws InterruptedException, UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public boolean end() throws InterruptedException, UnsupportedAudioFileException, IOException,
+            LineUnavailableException {
 
         //Play ending music
         Main.music("theEnd.wav");
@@ -2400,12 +2423,13 @@ public class World {
         Thread.sleep(1500);
         System.out.println(partyMembers.get(2).getName() + ": Well, this is it. The final battle.");
         Thread.sleep(1500);
-        System.out.println(partyMembers.get(2).getName() + ": The dragon resides up on the top of this tower.");
+        System.out.println(partyMembers.get(2).getName() + ": The \uD83D\uDC32 Dragon resides up on the top of this " +
+                "tower.");
         Thread.sleep(1500);
         System.out.println(partyMembers.get(1).getName() + ": Woah, look down there! We are so high up! I've never " +
                 "even realized we made it to the top!");
         Thread.sleep(1500);
-        System.out.println(partyMembers.get(1).getName() + ": So... where exactly is the dragon?");
+        System.out.println(partyMembers.get(1).getName() + ": So... where exactly is the \uD83D\uDC32 Dragon?");
         Thread.sleep(1500);
         System.out.println("You suddenly feel an ominous presence quickly approaching.");
         Thread.sleep(1500);
@@ -2443,13 +2467,16 @@ public class World {
         System.out.println(partyMembers.get(1).getName() + ": We definitely wouldn't have done it without the help of " +
                         partyMembers.get(0).getName() + "!");
         Thread.sleep(1500);
-        System.out.println(partyMembers.get(2).getName() + ": Yes... " + partyMembers.get(0).getName() + "... I must " +
-                "owe you my sincerest and deepest gratitude...");
+        System.out.println(partyMembers.get(2).getName() + ": Yes... " + partyMembers.get(0).getName());
+        Thread.sleep(1500);
+        System.out.println(partyMembers.get(2).getName() + "I must owe you my sincerest and deepest gratitude...");
         Thread.sleep(1500);
         System.out.println(partyMembers.get(2).getName() + ": That creature has haunted us for many years...");
         Thread.sleep(1500);
         System.out.println(partyMembers.get(2).getName() + ": We wouldn't have gotten this far if it weren't for your " +
-                "relentless courage and leadership.");
+                "relentless courage...");
+        Thread.sleep(1500);
+        System.out.println(partyMembers.get(2).getName() + ": and leadership.");
         Thread.sleep(1500);
         System.out.println(partyMembers.get(2).getName() + ": And now, we can finally live our lives in peace...");
         Thread.sleep(1500);
@@ -2458,8 +2485,9 @@ public class World {
 
         System.out.println("And so, " + partyMembers.get(0).getName() + " and his team went on as heroes of Genshin.");
         Thread.sleep(1500);
-        System.out.println("As they continued to restore and rebuild peace and prosperity to the world and preventing " +
-                "evil from lurking ever again.");
+        System.out.println("As they continued to restore and rebuild peace and prosperity to the world...");
+        Thread.sleep(1500);
+        System.out.println("and preventing evil from lurking ever again.");
         Thread.sleep(1500);
         System.out.println("The End.");
         Thread.sleep(5000);
@@ -2530,7 +2558,7 @@ public class World {
         System.out.println("\nYou have beaten the game and unlocked a special title screen!");
         Thread.sleep(1500);
         System.out.println("You can continue playing on your save file as much as you'd like until you start a new game.");
-        System.out.println("(Type Anything");
+        System.out.println("(Type Anything to Continue)");
         keyInput.nextLine();
         finishGame = true;
 
@@ -2539,7 +2567,6 @@ public class World {
                 map, villagesVisited, row, column, xPos, yPos, dragonX, dragonY, finishTutorial,
                 finishVillage, finishDungeon, towerSpawn);
         System.out.println("Game auto saved successfully.");
-        Thread.sleep(2000);
 
         //Return to navigation (then afterwards Main to end program)
         return true;
@@ -2591,7 +2618,7 @@ public class World {
             }
             fileWrite.println();
         }
-        
+
         //Save Map
         fileWrite.println("Map");
         for (int i=0; i<m.size(); i++) {
