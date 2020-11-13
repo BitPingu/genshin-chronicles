@@ -130,7 +130,7 @@ public class Enemy extends Character {
      * Method Description: Invoked when player initiates an enemy
      * @param partyMembers - current party members
      * @param entity - user/players
-     * @return 
+     * @return - if player character is at 0 hp, becomes true;
      * @throws java.lang.InterruptedException 
      **************************/
     @Override

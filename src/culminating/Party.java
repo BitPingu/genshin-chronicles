@@ -24,7 +24,7 @@ public class Party extends Character {
      * Method Description: Invoked when player initiates an enemy.
      * @param partyMembers - party members
      * @param entity - player(redundant but for overriding)
-     * @return - if player character is at 0 hp, becomes true;
+     * @return - if enemy character is at 0 hp, becomes true;
      * @throws java.lang.InterruptedException
      **************************/
     @Override
