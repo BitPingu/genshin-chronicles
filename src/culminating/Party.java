@@ -201,7 +201,7 @@ public class Party extends Character {
 
                             //Final Gambit
                             case "Final Gambit":                                
-                                damage = ((health + strength) - currentHealth) * (strength / 4);
+                                damage = ((health + strength) - currentHealth) + (strength / 2);
 
                                 entity.currentHealth -= damage;
 
@@ -214,7 +214,7 @@ public class Party extends Character {
                                 System.out.println(name + " deals " + damage + " damage!");
                                 Thread.sleep(1000);
                                 
-
+                                currentHealth = 1;
                                 Thread.sleep(1000);
                                 
                                 flag = true;
