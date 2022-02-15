@@ -65,6 +65,10 @@ public class Party extends Character {
                 }
                 System.out.println();
                 for (int k = 0; k < partyMembers.size(); k++) {
+                    System.out.format("%-15s", "Lvl: " + partyMembers.get(k).getLevel());
+                }
+                System.out.println();
+                for (int k = 0; k < partyMembers.size(); k++) {
                     System.out.format("%-15s", "HP: " + partyMembers.get(k).getCurrentHealth() + "/"
                             + partyMembers.get(k).getHealth());
                 }
@@ -85,7 +89,6 @@ public class Party extends Character {
                 {
                     //attacking
                     case "1":
-                        Main.clearScreen();
                         damage = (attack(getDices()) + strength) - entity.defence;
                         if (damage < 0) 
                         {
@@ -106,7 +109,6 @@ public class Party extends Character {
 
                     //specials
                     case "2":
-                        Main.clearScreen();
                         switch(useSpecialMoves())
                         {
                             //Robins specials
@@ -176,12 +178,11 @@ public class Party extends Character {
                             case "Thunder Bullet":
                                 System.out.println("Choose your first dice");
                                 damage = attack(getDices());
-                                Main.clearScreen();
 
                                 System.out.println("Choose your Second dice");
                                 damage += (attack(getDices()) + strength);
 
-                                System.out.println("\n" + name + " used Thunder bullet!");
+                                System.out.println("\n" + name + " used Thunder Bullet!");
                                 Thread.sleep(1000);
                                 System.out.println(name + " deals " + damage + " damage!");
                                 Thread.sleep(1000);
@@ -280,7 +281,8 @@ public class Party extends Character {
 
                     //error handle
                     default:
-                        System.out.println("Please enter a command");
+                        System.out.println("Please enter a command.");
+                        Thread.sleep(1000);
                         break;
                 }
             } while (!flag);   
@@ -297,8 +299,7 @@ public class Party extends Character {
      * @return - returns damage output
      ***********************/
     @Override
-    public int attack(int diceTotal)
-    {
+    public int attack(int diceTotal) throws InterruptedException {
         //declaring local variables
         int choice;
         ArrayList<Integer> dice = new ArrayList<>();
@@ -321,7 +322,8 @@ public class Party extends Character {
                 //if user tried to pick a nonExistant dice
                 if (choice > dice.size()) 
                 {
-                    System.out.println("Please input a dice");
+                    System.out.println("Please input a dice.");
+                    Thread.sleep(1000);
                 }
                 //player picks dice
                 else
@@ -333,7 +335,8 @@ public class Party extends Character {
             else
             {
                 scanN.nextLine();
-                System.out.println("Please input a dice");
+                System.out.println("Please input a dice.");
+                Thread.sleep(1000);
             }
         } while (true);
 
@@ -352,6 +355,7 @@ public class Party extends Character {
         //error handle
         do 
         {
+            Main.clearScreen();
             for (int i = 0; i < moveSet.size(); i++)
             {
                 System.out.println((i +1) +") " + moveSet.get(i) + " - " + ((i + 1) * 10));
@@ -367,14 +371,12 @@ public class Party extends Character {
                 //if user tried to pick a nonExistant dice
                 if (choice > (moveSet.size()) && choice != 0) 
                 {
-                    Main.clearScreen();
-                    System.out.println("Please input a Special");
+                    System.out.println("Please input a special.");
                     Thread.sleep(1000);
                 }
                 //player picks dice
                 else
                 {
-                    Main.clearScreen();
                     switch(choice)
                     {
                         case 0:
@@ -414,6 +416,7 @@ public class Party extends Character {
             {
                 scanN.nextLine();
                 System.out.println("Please input a special");
+                Thread.sleep(1000);
             }
         } while (true);
     }//end of useSpecialMove
@@ -463,6 +466,7 @@ public class Party extends Character {
         //level up based on level * 20
         if (getExp() >= (getLevel() * 20))
         {
+            Main.clearScreen();
             System.out.println("Level Up! " + getName());
             setExp(0);
             
@@ -570,4 +574,75 @@ public class Party extends Character {
         }
  
     }//end of checkSpecialMoves
+
+    /*************************
+     * updateStats
+     * This method will update stats of member depending on level
+     * @throws java.lang.InterruptedException
+     *************************/
+    @Override
+    public void updateStats() throws InterruptedException
+    {
+        for (int i=0; i<level; i++) {
+
+            //declaring base growth of each party member
+            int hpRate = 0, mpRate = 0, strRate = 0, defRate = 0, spdRate = 0, diceLimit = 0;
+
+            //Robin
+            if (name.equals("\uD83E\uDDDA Robin"))
+            {
+                hpRate = random.nextInt(175 - 65) + 65; //65 - 175
+                mpRate = random.nextInt(25 - 10) + 10; //10 - 25
+                strRate = random.nextInt(20 - 15) + 15; //15 - 20
+                defRate = random.nextInt(26 - 14) + 14; //14 - 26
+                spdRate = random.nextInt(45 - 15) + 15; //15 - 45
+                diceLimit = 6;
+            }
+            //Claude
+            if (name.equals("\uD83D\uDC68 Claude"))
+            {
+                hpRate = random.nextInt(100 - 55) + 55; //55 - 100
+                mpRate = random.nextInt(20 - 5) + 5; //5 - 20
+                strRate = random.nextInt(23 - 15) + 15; //14 - 23
+                defRate = random.nextInt(24 - 16) + 16; // 16 - 24
+                spdRate = random.nextInt(50 - 20) + 20;// 20 - 50
+                diceLimit = 8;
+            }
+            //Keqing
+            if (name.equals("\uD83D\uDC69 Keqing"))
+            {
+                hpRate = random.nextInt(105 - 70) + 70; //70 - 105
+                mpRate = random.nextInt(20 - 10) + 10; // 10 - 20
+                strRate = random.nextInt(20 - 16) + 16; //16 - 20
+                defRate = random.nextInt(8) + 3; //16 - 22
+                spdRate = random.nextInt(65 - 30) + 30; //30 - 65
+                diceLimit = 12;
+            }
+
+            //shows new heatlh
+            health += hpRate;
+            currentHealth = health;
+
+            //shows new MP
+            mp += mpRate;
+            currentMp = mp;
+
+            //shows new strength
+            strength += strRate;
+
+            //shows new defence
+            defence += defRate;
+
+            //shows new speed
+            speed += spdRate;
+
+            //shows new dices
+            if ((level % 2) == 0 && dices != diceLimit)
+            {
+                dices++;
+            }
+            checkSpecialMoves();
+
+        }
+    }//end of updateStats
 }//end of class

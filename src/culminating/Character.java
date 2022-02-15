@@ -308,5 +308,10 @@ public class Character {
                 exp + " " +  dices + " " +  money + " " + currentHealth + " " + currentMp + " " + weapon + " " + armor +
                 " " + inCurrentParty;
     }//end of toString
+
+    public void updateStats() throws InterruptedException
+    {
+
+    }//end of updateStats
     
 }//end of class

@@ -112,20 +112,21 @@ public class Player extends Character {
             //Print Party Members' battle info
             System.out.println("\nTeam:");
             for (int k = 0; k < partyMembers.size(); k++) {
-                System.out.print(partyMembers.get(k).getName() + "\t\t");
+                System.out.format("%-15s", partyMembers.get(k).getName());
             }
             System.out.println();
             for (int k = 0; k < partyMembers.size(); k++) {
-                System.out.print("Lvl: " + partyMembers.get(k).getLevel() + "\t\t");
+                System.out.format("%-15s", "Lvl: " + partyMembers.get(k).getLevel());
             }
             System.out.println();
             for (int k = 0; k < partyMembers.size(); k++) {
-                System.out.print("HP: " + partyMembers.get(k).getCurrentHealth() + "/" + partyMembers.get(k).getHealth()
-                        + "\t\t");
+                System.out.format("%-15s", "HP: " + partyMembers.get(k).getCurrentHealth() + "/"
+                        + partyMembers.get(k).getHealth());
             }
             System.out.println();
             for (int k = 0; k < partyMembers.size(); k++) {
-                System.out.print("MP: " + partyMembers.get(k).getCurrentMp() + "/" + partyMembers.get(k).getMp() + "\t\t");
+                System.out.format("%-15s", "MP: " + partyMembers.get(k).getCurrentMp() + "/"
+                        + partyMembers.get(k).getMp());
             }
             System.out.println("\n");
             
@@ -139,7 +140,6 @@ public class Player extends Character {
             {
                 //attack
                 case "1":
-                    Main.clearScreen();
                     damage = (attack(getDices()) + getStrength()) - entity.defence;
                     
                     if (damage < 0) 
@@ -190,9 +190,7 @@ public class Player extends Character {
                             special = true;
                             counter = 3;
                             specialAtk = (strength / 4);
-                            System.out.println(specialAtk);
                             specialDef = (defence / 4);
-                            System.out.println(specialDef);
 
                             //gives stat buff to oeveryone in party
                             System.out.println("\n" + name + " used Combat Rally!");
@@ -216,6 +214,7 @@ public class Player extends Character {
                 //Error handleing
                 default:
                     System.out.println("Please enter a command.");
+                    Thread.sleep(1000);
                     break;
 
             }
@@ -306,14 +305,12 @@ public class Player extends Character {
                 //if user tried to pick a nonExistant dice
                 if (choice > (moveSet.size()) && choice != 0) 
                 {
-                    Main.clearScreen();
-                    System.out.println("Please input a Special.");
+                    System.out.println("Please input a special.");
                     Thread.sleep(1000);
                 }
                 //player picks dice
                 else
                 {
-                    Main.clearScreen();
                     switch(choice)
                     {
                         //if they want to exit
@@ -360,6 +357,7 @@ public class Player extends Character {
             {
                 scanN.nextLine();
                 System.out.println("Please input a special.");
+                Thread.sleep(1000);
             }
         } while (true);
     }//end of useSpecialMove
